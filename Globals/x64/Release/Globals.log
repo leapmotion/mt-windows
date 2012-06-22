@@ -1,0 +1,20 @@
+﻿Build started 4/9/2012 3:46:13 PM.
+     1>Project "C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\Globals\Globals.vcxproj" on node 2 (rebuild target(s)).
+     1>_PrepareForClean:
+         Deleting file "x64\Release\Globals.lastbuildstate".
+       InitializeBuildStatus:
+         Creating "x64\Release\Globals.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yc"StdAfx.h" /Fp"x64\Release\Globals.pch" /Fo"x64\Release\\" /Fd"x64\Release\vc100.pdb" /Gd /TP /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\Lib.exe /OUT:"C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Release\Globals.lib" /NOLOGO /LTCG x64\Release\stdafx.obj
+         Globals.vcxproj -> C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Release\Globals.lib
+       FinalizeBuildStatus:
+         Deleting file "x64\Release\Globals.unsuccessfulbuild".
+         Touching "x64\Release\Globals.lastbuildstate".
+     1>Done Building Project "C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\Globals\Globals.vcxproj" (rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.21

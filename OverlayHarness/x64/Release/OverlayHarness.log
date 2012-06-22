@@ -1,0 +1,31 @@
+﻿Build started 6/11/2012 3:00:11 PM.
+     1>Project "C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\OverlayHarness\OverlayHarness.vcxproj" on node 3 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "x64\Release\OverlayHarness.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"x64\Release\OverlayHarness.pch" /Fo"x64\Release\\" /Fd"x64\Release\vc100.pdb" /Gd /TP /errorReport:prompt OverlayHarness.cpp
+         OverlayHarness.cpp
+       ResourceCompile:
+         All outputs are up-to-date.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Release\OverlayHarness.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:..\contrib\amd64 Gdiplus.lib Setupapi.lib Shlwapi.lib newdev.lib hid.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"x64\Release\OverlayHarness.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Release\OverlayHarness.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Release\OverlayHarness.lib" /MACHINE:X64 x64\Release\OverlayHarness.res
+         x64\Release\GdiplusInitializer.obj
+         x64\Release\OverlayHarness.obj
+         x64\Release\ResourcePng.obj
+         x64\Release\ResourceStream.obj
+         x64\Release\stdafx.obj
+         C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Release\OcuInterface.lib
+         Generating code
+         Finished generating code
+         OverlayHarness.vcxproj -> C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Release\OverlayHarness.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Release\OverlayHarness.exe;#1" /manifest x64\Release\OverlayHarness.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "x64\Release\OverlayHarness.unsuccessfulbuild".
+         Touching "x64\Release\OverlayHarness.lastbuildstate".
+     1>Done Building Project "C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\OverlayHarness\OverlayHarness.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.54

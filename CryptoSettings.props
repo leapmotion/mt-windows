@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <CertPass>En1Fm1ksp;</CertPass>
+    <XSCPath>$(SolutionDir)Resource\Certificate\VeriSign Class 3 Public Primary Certification Authority - G5.cer</XSCPath>
+    <CrossSign>1</CrossSign>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemDefinitionGroup />
+  <ItemGroup>
+    <BuildMacro Include="CertPass">
+      <Value>$(CertPass)</Value>
+    </BuildMacro>
+    <BuildMacro Include="XSCPath">
+      <Value>$(XSCPath)</Value>
+    </BuildMacro>
+    <BuildMacro Include="CrossSign">
+      <Value>$(CrossSign)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

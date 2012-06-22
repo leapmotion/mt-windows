@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="circle_icons">
+      <UniqueIdentifier>{338424d6-90df-4c0c-b4d9-9547754db6e3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="circle_icons\circle_01.png">
+      <Filter>circle_icons</Filter>
+    </None>
+    <None Include="circle_icons\circle_02.png">
+      <Filter>circle_icons</Filter>
+    </None>
+    <None Include="circle_icons\circle_03.png">
+      <Filter>circle_icons</Filter>
+    </None>
+    <None Include="circle_icons\circle_04.png">
+      <Filter>circle_icons</Filter>
+    </None>
+    <None Include="circle_icons\circle_05.png">
+      <Filter>circle_icons</Filter>
+    </None>
+    <None Include="circle_icons\circle_06.png">
+      <Filter>circle_icons</Filter>
+    </None>
+    <None Include="circle_icons\circle_07.png">
+      <Filter>circle_icons</Filter>
+    </None>
+    <None Include="circle_icons\circle_08.png">
+      <Filter>circle_icons</Filter>
+    </None>
+    <None Include="circle_icons\circle_09.png">
+      <Filter>circle_icons</Filter>
+    </None>
+    <None Include="circle_icons\circle_10.png">
+      <Filter>circle_icons</Filter>
+    </None>
+    <None Include="circle_icons\circle_11.png">
+      <Filter>circle_icons</Filter>
+    </None>
+    <None Include="circle_icons\circle_12.png">
+      <Filter>circle_icons</Filter>
+    </None>
+    <None Include="circle_icons\circle_13.png">
+      <Filter>circle_icons</Filter>
+    </None>
+    <None Include="circle_icons\circle_14.png">
+      <Filter>circle_icons</Filter>
+    </None>
+    <None Include="circle_icons\circle_15.png">
+      <Filter>circle_icons</Filter>
+    </None>
+    <None Include="circle_icons\circle_16.png">
+      <Filter>circle_icons</Filter>
+    </None>
+    <None Include="bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceStream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourcePng.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GdiplusInitializer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OverlayHarness.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceStream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourcePng.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GdiplusInitializer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="OverlayHarness.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,58 @@
+﻿Build started 4/9/2012 3:46:14 PM.
+     1>Project "C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\HidEmulator\HidEmulatorKmdf.vcxproj" on node 4 (rebuild target(s)).
+     1>_PrepareForClean:
+         Deleting file "x64\Release\HidEmulatorKmdf\HidEmulatorKmdf.lastbuildstate".
+       InitializeBuildStatus:
+         Creating "x64\Release\HidEmulatorKmdf\HidEmulatorKmdf.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       McCompile:
+         Compiling messages...
+         cmd.exe /C "C:\Users\rbedikian\AppData\Local\Temp\da53a9cab8f24960913a0ceaf4f2570d.cmd"
+         mc.exe -c -e h -h C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\HidEmulator\ -r C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\HidEmulator\ -x C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\HidEmulator\  HidEmulatorKmdfCodes.mc
+         MC: Compiling HidEmulatorKmdfCodes.mc
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /IC:\WinDDK\7600.16385.1\inc\ddk /IC:\WinDDK\7600.16385.1\inc\api /IC:\WinDDK\7600.16385.1\inc\crt /IC:\WinDDK\7600.16385.1\inc\wdf\kmdf\1.9 /Zi /nologo /W3 /WX /Ox /Ob2 /Oi /GL /D _WIN64 /D _AMD64_ /D AMD64 /D CONDITION_HANDLING=1 /D NT_INST=0 /D WIN32=100 /D _NT1X_=100 /D WINNT=1 /D _WIN32_WINNT=0x0502 /D WINVER=0x0502 /D _WIN32_IE=0x0603 /D WIN32_LEAN_AND_MEAN=1 /D DEVL=1 /D DBG=0 /D __BUILDMACHINE__=WinDDK /D _DLL=1 /D NDEBUG /D DEF_DATA_STRUCT_NAME=KEYBOARD_INPUT_DATA /D DEF_KUIR_FLT_VERSION=KUIR_KBD_VERSION /D DEF_KUIR_FLT_INTERFACE=KUIR_KBD_INTERFACE /D DEF_KUIR_COUNTER_INTERFACE=KUIR_MOU_INTERFACE /D DEF_KUIR_FLT_INTERFACE_GUID=KUIR_KBD_INTERFACE_GUID /D DEF_KUIR_PREFIX=sc_wcszKFKbd /D DEF_KUIR_KBD=1 /D DEPRECATE_DDK_FUNCTIONS=1 /D MSC_NOOPT /D NTDDI_VERSION=0x05020100 /D KMDF_MAJOR_VERSION=01 /D KMDF_MINOR_VERSION=005 /D _WINDLL /D _UNICODE /D UNICODE /GF /Gm- /MD /Zp8 /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /GR- /Yc"StdAfx.h" /Fp"x64\Release\HidEmulatorKmdf\HidEmulatorKmdf.pch" /Fo"x64\Release\HidEmulatorKmdf\\" /Fd"x64\Release\HidEmulatorKmdf\vc100.pdb" /Gz /TP /Zl /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /IC:\WinDDK\7600.16385.1\inc\ddk /IC:\WinDDK\7600.16385.1\inc\api /IC:\WinDDK\7600.16385.1\inc\crt /IC:\WinDDK\7600.16385.1\inc\wdf\kmdf\1.9 /Zi /nologo /W3 /WX /Ox /Ob2 /Oi /GL /D _WIN64 /D _AMD64_ /D AMD64 /D CONDITION_HANDLING=1 /D NT_INST=0 /D WIN32=100 /D _NT1X_=100 /D WINNT=1 /D _WIN32_WINNT=0x0502 /D WINVER=0x0502 /D _WIN32_IE=0x0603 /D WIN32_LEAN_AND_MEAN=1 /D DEVL=1 /D DBG=0 /D __BUILDMACHINE__=WinDDK /D _DLL=1 /D NDEBUG /D DEF_DATA_STRUCT_NAME=KEYBOARD_INPUT_DATA /D DEF_KUIR_FLT_VERSION=KUIR_KBD_VERSION /D DEF_KUIR_FLT_INTERFACE=KUIR_KBD_INTERFACE /D DEF_KUIR_COUNTER_INTERFACE=KUIR_MOU_INTERFACE /D DEF_KUIR_FLT_INTERFACE_GUID=KUIR_KBD_INTERFACE_GUID /D DEF_KUIR_PREFIX=sc_wcszKFKbd /D DEF_KUIR_KBD=1 /D DEPRECATE_DDK_FUNCTIONS=1 /D MSC_NOOPT /D NTDDI_VERSION=0x05020100 /D KMDF_MAJOR_VERSION=01 /D KMDF_MINOR_VERSION=005 /D _WINDLL /D _UNICODE /D UNICODE /GF /Gm- /MD /Zp8 /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /GR- /Yu"StdAfx.h" /Fp"x64\Release\HidEmulatorKmdf\HidEmulatorKmdf.pch" /Fo"x64\Release\HidEmulatorKmdf\\" /Fd"x64\Release\HidEmulatorKmdf\vc100.pdb" /Gz /TP /Zl /errorReport:prompt Emulator.cpp EmulatorContext.cpp EmulatorState.cpp HidEmulatorKmdf.cpp WdfObjectDeleter.cpp WdfObjectLock.cpp WdfRequestCompleter.cpp WdfRequestRequeuer.cpp
+         Emulator.cpp
+         EmulatorContext.cpp
+         EmulatorState.cpp
+         HidEmulatorKmdf.cpp
+         WdfObjectDeleter.cpp
+         WdfObjectLock.cpp
+         WdfRequestCompleter.cpp
+         WdfRequestRequeuer.cpp
+       ResourceCompile:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"x64\Release\HidEmulatorKmdf\HidEmulatorKmdf.res" HidEmulatorKmdf.rc 
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"x64\Release\HidEmulatorKmdf\HidEmulatorKmdfCodes.res" HidEmulatorKmdfCodes.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Release\HidEmulatorKmdf.sys" /NOLOGO /LIBPATH:C:\WinDDK\7600.16385.1\lib\Crt\amd64 /LIBPATH:C:\WinDDK\7600.16385.1\lib\wnet\amd64 /LIBPATH:C:\WinDDK\7600.16385.1\lib\wdf\kmdf\amd64\1.9 /FUNCTIONPADMIN:6 wdfdriverentry.lib wdfldr.lib BufferOverflowK.lib ntoskrnl.lib hal.lib wmilib.lib sehupd.lib nt.lib hidclass.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB /DEF:"HidEmulatorKmdf.def" /ASSEMBLYRESOURCE:C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\HidEmulator\HidEmulatorKmdfCodes.dbg /MANIFEST:NO /DEBUG /PDB:"C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Release\HidEmulatorKmdf.pdb" /SUBSYSTEM:NATIVE,"5.01" /STACK:"262144","4096" /Driver /LTCG /TLBID:1 /ENTRY:"FxDriverEntry" /RELEASE /BASE:"0x10000" /FIXED:NO /MACHINE:X64 /DLL x64\Release\HidEmulatorKmdf\HidEmulatorKmdf.res
+         x64\Release\HidEmulatorKmdf\HidEmulatorKmdfCodes.res
+         x64\Release\HidEmulatorKmdf\Emulator.obj
+         x64\Release\HidEmulatorKmdf\EmulatorContext.obj
+         x64\Release\HidEmulatorKmdf\EmulatorState.obj
+         x64\Release\HidEmulatorKmdf\HidEmulatorKmdf.obj
+         x64\Release\HidEmulatorKmdf\stdafx.obj
+         x64\Release\HidEmulatorKmdf\WdfObjectDeleter.obj
+         x64\Release\HidEmulatorKmdf\WdfObjectLock.obj
+         x64\Release\HidEmulatorKmdf\WdfRequestCompleter.obj
+         x64\Release\HidEmulatorKmdf\WdfRequestRequeuer.obj
+         C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Release\Globals.lib /align:0x80 /stub:c:\winddk\7600.16385.1\lib\wxp\stub512.com /osversion:6.1 /SECTION:INIT,d /IGNORE:4198,4010,4037,4039,4065,4070,4078,4087,4089,4221 
+            Creating library C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Release\HidEmulatorKmdf.lib and object C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Release\HidEmulatorKmdf.exp
+         Generating code
+         Finished generating code
+         HidEmulatorKmdf.vcxproj -> C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Release\HidEmulatorKmdf.sys
+       PostBuildEvent:
+         Description: Signing...
+         signtool sign -f "C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\Resource\Certificate\OcuSpec.pfx" /p "En1Fm1ksp;" "C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Release\HidEmulatorKmdf.sys"
+         :VCEnd
+         Done Adding Additional Store
+         Successfully signed: C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Release\HidEmulatorKmdf.sys
+         
+       FinalizeBuildStatus:
+         Deleting file "x64\Release\HidEmulatorKmdf\HidEmulatorKmdf.unsuccessfulbuild".
+         Touching "x64\Release\HidEmulatorKmdf\HidEmulatorKmdf.lastbuildstate".
+     1>Done Building Project "C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\HidEmulator\HidEmulatorKmdf.vcxproj" (rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:03.30

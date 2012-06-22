@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectSchemaDefinitions xmlns="http://schemas.microsoft.com/build/2009/properties" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+  <Rule
+    Name="McCompiler"
+    PageTemplate="tool"
+    DisplayName="Microsoft Message Compiler"
+    Order="200">
+    <Rule.DataSource>
+      <DataSource
+        Persistence="ProjectFile"
+        ItemType="McCompiler" />
+    </Rule.DataSource>
+    <Rule.Categories>
+      <Category
+        Name="General">
+        <Category.DisplayName>
+          <sys:String>General</sys:String>
+        </Category.DisplayName>
+      </Category>
+      <Category
+        Name="Message Text Files">
+        <Category.DisplayName>
+          <sys:String>Message Text Files</sys:String>
+        </Category.DisplayName>
+      </Category>
+      <Category
+        Name="Command Line"
+        Subtype="CommandLine">
+        <Category.DisplayName>
+          <sys:String>Command Line</sys:String>
+        </Category.DisplayName>
+      </Category>
+    </Rule.Categories>
+    
+    <!--
+      General arguments
+    -->
+
+    <BoolProperty
+      Name="CustomerBit"
+      DisplayName="Customer Bit"
+      Description="Use this argument to have the compiler set the customer bit (bit 28) in all message IDs. For information on the customer bit, see winerror.h"
+      Switch="-c" />
+
+    <StringProperty
+      Name="HFileExtension"
+      DisplayName="Header file extension"
+      Description="Use this argument to specify the extension to use for the header file. You can specify up to a three characters extension, not including the period. The default is h"
+      Switch="-e " />
+
+    <StringProperty
+      Name="HeaderOutputPath"
+      DisplayName="Header Output Path"
+      Description="Use this argument to specify the folder into which you want the compiler to place the generated header file. The default is the current directory."
+      Switch="-h " />
+
+    <StringProperty
+      Name="WarningLength"
+      DisplayName="Warning Length"
+      Description="Use this argument to have the compiler generate a warning if the any message exceeds length characters."
+      Switch="-m " />
+
+    <StringProperty
+      Name="ResourceOutputPath"
+      DisplayName="Resource Output Path"
+      Description="Use this argument to specify the folder into which you want the compiler to place the generated resource compiler script (.rc file) and the generated .bin files (binary resources) that the resource compiler script includes. The default is the current directory."
+      Switch="-r " />
+
+    <StringProperty
+      Name="OverrideBaseName"
+      DisplayName="Override Base Name"
+      Description="Use this argument to override the default base name that the compiler uses for the files that it generates. The default is to use the base name of the filename input file."
+      Switch="-z " />
+
+    <!--
+      Arguments specific to message text files
+    -->
+
+    <EnumProperty
+      Name="InputType"
+      Category="Message Text Files"
+      DisplayName="Input file encoding"
+      Description="Use this argument to specify the character encoding for the input mc file">
+      <EnumValue
+        Name="0"
+        DisplayName="Default" />
+      <EnumValue
+        Name="1"
+        DisplayName="ANSI"
+        Switch="-a" />
+      <EnumValue
+        Name="2"
+        DisplayName="Unicode"
+        Switch="-u" />
+    </EnumProperty>
+
+    <EnumProperty
+      Name="OutputType"
+      Category="Message Text Files"
+      DisplayName="Output file encoding"
+      Description="Use this argument to specify the character encoding for the output message file">
+      <EnumValue
+        Name="0"
+        DisplayName="Default" />
+      <EnumValue
+        Name="1"
+        DisplayName="ANSI"
+        Switch="-A" />
+      <EnumValue
+        Name="2"
+        DisplayName="Unicode"
+        Switch="-U" />
+    </EnumProperty>
+
+    <BoolProperty
+      Name="UseDecimal"
+      DisplayName="Decimal Outputs"
+      Category="Message Text Files"
+      Description="Use this argument to use decimal values for the Severity and Facility constants in the header file instead of hexadecimal values."
+      Switch="-d" />
+
+    <BoolProperty
+      Name="ImmediateTerminate"
+      DisplayName="Omit trailing line break"
+      Category="Message Text Files"
+      Description="Use this argument to specify that messages terminate immediately after the message body. The default is to terminate the message body with a CR/LF."
+      Switch="-d" />
+
+    <BoolProperty
+      Name="Ole2Header"
+      DisplayName="Generate Ole2 Header"
+      Category="Message Text Files"
+      Description="Use this argument to have the compiler generate an OLE2 header file using HRESULT definitions instead of status codes. Using status codes is the default."
+      Switch="-o" />
+
+    <BoolProperty
+      Name="Verbose"
+      DisplayName="Verbose output"
+      Category="Message Text Files"
+      Description="Use this argument to generate verbose output."
+      Switch="-v" />
+
+    <StringProperty
+      Name="DbgCDest"
+      DisplayName="Debug status mapping file destination"
+      Category="Message Text Files"
+      Description="Use this argument to specify the folder into which you want the compiler to place the .dbg C include file. The .dbg file maps message IDs to their symbolic names."
+      Switch="-x " />
+
+    <!--
+      Boilerplate stuff
+    -->
+
+    <DynamicEnumProperty
+    Name="McCompilerBeforeTargets"
+    Category="General"
+    EnumProvider="Targets"
+    IncludeInCommandLine="False">
+      <DynamicEnumProperty.DisplayName>
+        <sys:String>Execute Before</sys:String>
+      </DynamicEnumProperty.DisplayName>
+      <DynamicEnumProperty.Description>
+        <sys:String>Specifies the targets for the build customization to run before.</sys:String>
+      </DynamicEnumProperty.Description>
+      <DynamicEnumProperty.ProviderSettings>
+        <NameValuePair
+          Name="Exclude"
+          Value="^McCompilerBeforeTargets|^Compute" />
+      </DynamicEnumProperty.ProviderSettings>
+      <DynamicEnumProperty.DataSource>
+        <DataSource
+          Persistence="ProjectFile"
+          ItemType=""
+          HasConfigurationCondition="true" />
+      </DynamicEnumProperty.DataSource>
+    </DynamicEnumProperty>
+    <DynamicEnumProperty
+      Name="McCompilerAfterTargets"
+      Category="General"
+      EnumProvider="Targets"
+      IncludeInCommandLine="False">
+      <DynamicEnumProperty.DisplayName>
+        <sys:String>Execute After</sys:String>
+      </DynamicEnumProperty.DisplayName>
+      <DynamicEnumProperty.Description>
+        <sys:String>Specifies the targets for the build customization to run after.</sys:String>
+      </DynamicEnumProperty.Description>
+      <DynamicEnumProperty.ProviderSettings>
+        <NameValuePair
+          Name="Exclude"
+          Value="^McCompilerAfterTargets|^Compute" />
+      </DynamicEnumProperty.ProviderSettings>
+      <DynamicEnumProperty.DataSource>
+        <DataSource
+          Persistence="ProjectFile"
+          ItemType=""
+          HasConfigurationCondition="true" />
+      </DynamicEnumProperty.DataSource>
+    </DynamicEnumProperty>
+    <StringListProperty
+      Name="Outputs"
+      DisplayName="Outputs"
+      IncludeInCommandLine="False"
+      Visible="False" />
+    <StringProperty
+      Name="ExecutionDescription"
+      DisplayName="Execution Description"
+      IncludeInCommandLine="False"
+      Visible="False" />
+    <StringListProperty
+      Name="AdditionalDependencies"
+      DisplayName="Additional Dependencies"
+      IncludeInCommandLine="False"
+      Visible="False" />
+    <StringListProperty
+  Name="Inputs"
+  Category="Command Line"
+  IsRequired="true">
+      <StringListProperty.DataSource>
+        <DataSource
+           Persistence="ProjectFile"
+           ItemType="McCompiler"
+           SourceType="Item" />
+      </StringListProperty.DataSource>
+    </StringListProperty>
+    <StringProperty
+      Subtype="AdditionalOptions"
+      Name="AdditionalOptions"
+      Category="Command Line">
+      <StringProperty.DisplayName>
+        <sys:String>Additional Options</sys:String>
+      </StringProperty.DisplayName>
+      <StringProperty.Description>
+        <sys:String>Additional Options</sys:String>
+      </StringProperty.Description>
+    </StringProperty>
+  </Rule>
+  <ItemType
+    Name="McCompiler"
+    DisplayName="Microsoft Message Compiler" />
+  <FileExtension
+    Name="*.mc"
+    ContentType="McCompiler" />
+  <ContentType
+    Name="McCompiler"
+    DisplayName="Microsoft Message Compiler"
+    ItemType="McCompiler" />
+</ProjectSchemaDefinitions>

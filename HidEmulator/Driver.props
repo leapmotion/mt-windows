@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <WINDDK>C:\WinDDK\7600.16385.1\</WINDDK>
+  </PropertyGroup>
+  <PropertyGroup>
+    <IncludePath>$(WINDDK)inc\crt;$(WINDDK)inc\api;$(WINDDK)inc\ddk;$(IncludePath)</IncludePath>
+    <ExecutablePath>$(WINDDK)bin\selfsign;$(ExecutablePath)</ExecutablePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(WinDDK)inc\ddk;$(WinDDK)inc\api;$(WinDDK)inc\crt;$(WinDDK)inc\wdf\kmdf\1.9;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>BufferOverflowK.lib;ntoskrnl.lib;hal.lib;wmilib.lib;sehupd.lib;nt.lib;hidclass.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="WINDDK">
+      <Value>$(WINDDK)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

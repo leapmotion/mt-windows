@@ -1,0 +1,13 @@
+//
+// This file maps message Id values in to a text string that contains
+// the symbolic name used for the message Id.  Useful for debugging
+// output.
+//
+
+struct {
+    eHidStatus MessageId;
+    char *SymbolicName;
+} HidEmulatorKmdfCodesSymbolicNames[] = {
+ (eHidStatus) eHidInstFailure, "eHidInstFailure",
+ (eHidStatus) 0xFFFFFFFF, NULL
+};

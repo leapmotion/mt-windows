@@ -1,0 +1,30 @@
+﻿Build started 6/11/2012 3:02:23 PM.
+     1>Project "C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\TestHarness\TestHarness.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Touching "x64\Debug\TestHarness.unsuccessfulbuild".
+       ClCompile:
+         All outputs are up-to-date.
+         All outputs are up-to-date.
+       ManifestResourceCompile:
+         All outputs are up-to-date.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Debug\TestHarness.exe" /INCREMENTAL /NOLOGO /LIBPATH:..\contrib\amd64 Setupapi.lib hid.lib psapi.lib shlwapi.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"x64\Debug\TestHarness.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Debug\TestHarness.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Debug\TestHarness.lib" /MACHINE:X64 x64\Debug\TestHarness.exe.embed.manifest.res
+         x64\Debug\stdafx.obj
+         x64\Debug\TestHarness.obj
+         C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Debug\OcuInterface.lib
+     1>OcuInterface.lib(OcuImage.obj) : error LNK2019: unresolved external symbol GdipGetImageWidth referenced in function "public: unsigned int __cdecl Gdiplus::Image::GetWidth(void)" (?GetWidth@Image@Gdiplus@@QEAAIXZ)
+     1>OcuInterface.lib(OcuImage.obj) : error LNK2019: unresolved external symbol GdipGetImageHeight referenced in function "public: unsigned int __cdecl Gdiplus::Image::GetHeight(void)" (?GetHeight@Image@Gdiplus@@QEAAIXZ)
+     1>OcuInterface.lib(OcuImage.obj) : error LNK2019: unresolved external symbol GdipCreateBitmapFromFile referenced in function "public: __cdecl Gdiplus::Bitmap::Bitmap(wchar_t const *,int)" (??0Bitmap@Gdiplus@@QEAA@PEB_WH@Z)
+     1>OcuInterface.lib(OcuImage.obj) : error LNK2019: unresolved external symbol GdipCreateBitmapFromFileICM referenced in function "public: __cdecl Gdiplus::Bitmap::Bitmap(wchar_t const *,int)" (??0Bitmap@Gdiplus@@QEAA@PEB_WH@Z)
+     1>OcuInterface.lib(OcuImage.obj) : error LNK2019: unresolved external symbol GdipFree referenced in function "public: static void __cdecl Gdiplus::GdiplusBase::operator delete(void *)" (??3GdiplusBase@Gdiplus@@SAXPEAX@Z)
+     1>OcuInterface.lib(OcuImage.obj) : error LNK2019: unresolved external symbol GdipDisposeImage referenced in function "public: virtual __cdecl Gdiplus::Image::~Image(void)" (??1Image@Gdiplus@@UEAA@XZ)
+     1>OcuInterface.lib(OcuImage.obj) : error LNK2019: unresolved external symbol GdipCloneImage referenced in function "public: virtual class Gdiplus::Image * __cdecl Gdiplus::Image::Clone(void)" (?Clone@Image@Gdiplus@@UEAAPEAV12@XZ)
+     1>OcuInterface.lib(OcuImage.obj) : error LNK2019: unresolved external symbol GdipAlloc referenced in function "public: static void * __cdecl Gdiplus::GdiplusBase::operator new(unsigned __int64)" (??2GdiplusBase@Gdiplus@@SAPEAX_K@Z)
+     1>OcuInterface.lib(OcuImage.obj) : error LNK2019: unresolved external symbol GdipBitmapLockBits referenced in function "public: enum Gdiplus::Status __cdecl Gdiplus::Bitmap::LockBits(class Gdiplus::Rect const *,unsigned int,int,class Gdiplus::BitmapData *)" (?LockBits@Bitmap@Gdiplus@@QEAA?AW4Status@2@PEBVRect@2@IHPEAVBitmapData@2@@Z)
+     1>OcuInterface.lib(OcuImage.obj) : error LNK2019: unresolved external symbol GdipBitmapUnlockBits referenced in function "public: enum Gdiplus::Status __cdecl Gdiplus::Bitmap::UnlockBits(class Gdiplus::BitmapData *)" (?UnlockBits@Bitmap@Gdiplus@@QEAA?AW4Status@2@PEAVBitmapData@2@@Z)
+     1>C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Debug\TestHarness.exe : fatal error LNK1120: 10 unresolved externals
+     1>Done Building Project "C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\TestHarness\TestHarness.vcxproj" (build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.18

@@ -1,0 +1,33 @@
+//
+// This file maps message Id values in to a text string that contains
+// the symbolic name used for the message Id.  Useful for debugging
+// output.
+//
+
+struct {
+    eHidStatus MessageId;
+    char *SymbolicName;
+} InstallerCodesSymbolicNames[] = {
+ (eHidStatus) eHidInstSuccess, "eHidInstSuccess",
+ (eHidStatus) eHidInstRestartRequired, "eHidInstRestartRequired",
+ (eHidStatus) eHidInstNoDevsToUpdate, "eHidInstNoDevsToUpdate",
+ (eHidStatus) eHidInstServiceConfQueryFail, "eHidInstServiceConfQueryFail",
+ (eHidStatus) eHidInstRequiresElevation, "eHidInstRequiresElevation",
+ (eHidStatus) eHidInstNewdevNotFound, "eHidInstNewdevNotFound",
+ (eHidStatus) eHidInstNewdevEntrypointNotFound, "eHidInstNewdevEntrypointNotFound",
+ (eHidStatus) eHidInstSysClassNotFound, "eHidInstSysClassNotFound",
+ (eHidStatus) eHidInstDevCreateFail, "eHidInstDevCreateFail",
+ (eHidStatus) eHidInstDevIDAssignFail, "eHidInstDevIDAssignFail",
+ (eHidStatus) eHidInstUserCancel, "eHidInstUserCancel",
+ (eHidStatus) eHidInstSCManOpenFailed, "eHidInstSCManOpenFailed",
+ (eHidStatus) eHidInstServiceOpenFailed, "eHidInstServiceOpenFailed",
+ (eHidStatus) eHidInstServiceDeleteFailed, "eHidInstServiceDeleteFailed",
+ (eHidStatus) eHidInstTempPathCreateFail, "eHidInstTempPathCreateFail",
+ (eHidStatus) eHidInstCompatDriverFindFail, "eHidInstCompatDriverFindFail",
+ (eHidStatus) eHidInstDriverSelectFail, "eHidInstDriverSelectFail",
+ (eHidStatus) eHidInstInfoListBuildFail, "eHidInstInfoListBuildFail",
+ (eHidStatus) eHidInstCopyOEMFail, "eHidInstCopyOEMFail",
+ (eHidStatus) eHidInstInstallSelectionFailed, "eHidInstInstallSelectionFailed",
+ (eHidStatus) eHidInstUpdateFailFromNetwork, "eHidInstUpdateFailFromNetwork",
+ (eHidStatus) 0xFFFFFFFF, NULL
+};

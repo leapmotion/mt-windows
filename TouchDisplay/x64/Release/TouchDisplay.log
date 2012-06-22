@@ -1,0 +1,39 @@
+﻿Build started 4/9/2012 3:46:13 PM.
+     1>Project "C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\TouchDisplay\TouchDisplay.vcxproj" on node 5 (rebuild target(s)).
+     1>_PrepareForClean:
+         Deleting file "x64\Release\TouchDisplay.lastbuildstate".
+       InitializeBuildStatus:
+         Creating "x64\Release\TouchDisplay.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yc"StdAfx.h" /Fp"x64\Release\TouchDisplay.pch" /Fo"x64\Release\\" /Fd"x64\Release\vc100.pdb" /Gd /TP /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"x64\Release\TouchDisplay.pch" /Fo"x64\Release\\" /Fd"x64\Release\vc100.pdb" /Gd /TP /errorReport:prompt TouchDisplay.cpp TouchRepresentation.cpp
+         TouchDisplay.cpp
+         TouchRepresentation.cpp
+       ResourceCompile:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"x64\Release\TouchDisplay.res" TouchDisplay.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Release\TouchDisplay.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"x64\Release\TouchDisplay.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Release\TouchDisplay.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Release\TouchDisplay.lib" /MACHINE:X64 x64\Release\TouchDisplay.res
+         x64\Release\stdafx.obj
+         x64\Release\TouchDisplay.obj
+         x64\Release\TouchRepresentation.obj
+         Generating code
+         Finished generating code
+         TouchDisplay.vcxproj -> C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Release\TouchDisplay.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Release\TouchDisplay.exe;#1" /manifest x64\Release\TouchDisplay.exe.intermediate.manifest
+       PostBuildEvent:
+         Description: Signing...
+         signtool sign -f "C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\Resource\Certificate\OcuSpec.pfx" /p "En1Fm1ksp;" "C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Release\TouchDisplay.exe"
+         :VCEnd
+         Done Adding Additional Store
+         Successfully signed: C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Release\TouchDisplay.exe
+         
+       FinalizeBuildStatus:
+         Deleting file "x64\Release\TouchDisplay.unsuccessfulbuild".
+         Touching "x64\Release\TouchDisplay.lastbuildstate".
+     1>Done Building Project "C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\TouchDisplay\TouchDisplay.vcxproj" (rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:02.17

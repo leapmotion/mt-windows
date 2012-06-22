@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup
+    Condition="'$(McCompilerBeforeTargets)' == '' and '$(McCompilerAfterTargets)' == '' and '$(ConfigurationType)' != 'Makefile'">
+    <McCompilerBeforeTargets>BeforeClCompile</McCompilerBeforeTargets>
+    <McCompilerAfterTargets></McCompilerAfterTargets>
+  </PropertyGroup>
+  <PropertyGroup>
+    <McCompilerDependsOn Condition="'$(ConfigurationType)' != 'Makefile'">_SelectedFiles;ResolveAssemblyReferences;$(McCompilerDependsOn)</McCompilerDependsOn>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <McCompiler>
+      <CustomerBit>true</CustomerBit>
+      <TargetAssembly>$(TargetFileName)</TargetAssembly>
+      <HeaderOutputPath>$(ProjectDir)</HeaderOutputPath>
+      <ResourceOutputPath>$(ProjectDir)</ResourceOutputPath>
+      <DbgCDest>$(ProjectDir)</DbgCDest>
+
+      <HFileExtension>h</HFileExtension>
+      
+      <CommandLineTemplate>mc.exe [AllOptions] [AdditionalOptions] [Inputs]</CommandLineTemplate>
+      <Outputs>%(HeaderOutputPath)%(Filename).%(HFileExtension)</Outputs>
+      <Outputs>%(ResourceOutputPath)%(Filename).rc</Outputs>
+      <Outputs>%(DbgCDest)%(Filename).dbg</Outputs>
+      <UseDefaultComponentModules>true</UseDefaultComponentModules>
+      <ExecutionDescription>Compiling messages...</ExecutionDescription>
+    
+  </McCompiler>
+  </ItemDefinitionGroup>
+</Project>

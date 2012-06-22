@@ -1,0 +1,3 @@
+LIBRARY newdev.dll
+EXPORTS
+	InstallSelectedDriver

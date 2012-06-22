@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <PropertyPageSchema
+      Include="$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml" />
+    <AvailableItemName Include="McCompiler">
+      <Targets>McCompile</Targets>
+    </AvailableItemName>
+  </ItemGroup>
+  <PropertyGroup>
+    <ComputeLinkInputsTargets>
+      $(ComputeLinkInputsTargets);
+      ComputeMcCompilerOutput;
+    </ComputeLinkInputsTargets>
+  </PropertyGroup>
+  <UsingTask
+    TaskName="McCompiler"
+    TaskFactory="XamlTaskFactory"
+    AssemblyName="Microsoft.Build.Tasks.v4.0">
+    <Task>$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml</Task>
+  </UsingTask>
+  <Target
+    Name="McCompile"
+    BeforeTargets="$(McCompilerBeforeTargets)"
+    AfterTargets="$(McCompilerAfterTargets)"
+    Condition="'@(McCompiler)' != ''"
+    Outputs="@(McCompiler-&gt;'%(Outputs)')"
+    Inputs="@(McCompiler);@(McCompiler->'%(AdditionalDependencies)');$(MSBuildProjectFile)"
+    DependsOnTargets="$(McCompilerDependsOn)">
+    <ItemGroup Condition="'@(SelectedFiles)' != ''">
+      <McCompiler Remove="@(McCompiler)" Condition="'%(Identity)' != '@(SelectedFiles)'" />
+    </ItemGroup>
+    <ItemGroup>
+      <McCompiler_tlog Include="%(McCompiler.Outputs)" Condition="'%(McCompiler.Outputs)' != '' and '%(McCompiler.ExcludedFromBuild)' != 'true'">
+        <Source>@(McCompiler, '|')</Source>
+      </McCompiler_tlog>
+    </ItemGroup>
+    <ItemGroup>
+      <McCompiler_ComponentModules Include="@(ReferencePath)" Condition="'%(McCompiler.UseDefaultComponentModules)' == 'true'" />
+      <McCompiler_ComponentModules Include="%(McCompiler.ComponentModules)" />
+    </ItemGroup>
+    <Message
+      Importance="High"
+      Text="%(McCompiler.ExecutionDescription)" />
+    <WriteLinesToFile
+      Condition="'@(McCompiler_tlog)' != '' and '%(McCompiler_tlog.ExcludedFromBuild)' != 'true'"
+      File="$(IntDir)$(ProjectName).write.1.tlog"
+      Lines="^%(McCompiler_tlog.Source);@(McCompiler_tlog-&gt;'%(Fullpath)')"/>
+    <McCompiler
+      Condition="'@(McCompiler)' != '' and '%(McCompiler.ExcludedFromBuild)' != 'true'"
+      CommandLineTemplate="%(McCompiler.CommandLineTemplate)"
+      CustomerBit="%(McCompiler.CustomerBit)"
+      HFileExtension="%(McCompiler.HFileExtension)"
+      HeaderOutputPath="%(McCompiler.HeaderOutputPath)"
+      WarningLength="%(McCompiler.WarningLength)"
+      ResourceOutputPath="%(McCompiler.ResourceOutputPath)"
+      OverrideBaseName="%(McCompiler.OverrideBaseName)"
+      InputType="%(McCompiler.InputType)"
+      OutputType="%(McCompiler.OutputType)"
+      UseDecimal="%(McCompiler.UseDecimal)"
+      ImmediateTerminate="%(McCompiler.ImmediateTerminate)"
+      Ole2Header="%(McCompiler.Ole2Header)"
+      Verbose="%(McCompiler.Verbose)"
+      DbgCDest="%(McCompiler.DbgCDest)"
+      AdditionalOptions="%(McCompiler.AdditionalOptions)"
+      Inputs="@(McCompiler)" />
+    <ItemGroup>
+      <McCompiler_ComponentModules Remove="@(McCompiler_ComponentModules)" />
+    </ItemGroup>
+  </Target>
+  <Target
+    Name="ComputeMcCompilerOutput"
+    Condition="'@(McCompiler)' != ''">
+    <ItemGroup>
+      <_EmbedManagedResourceFile Include="@(McCompiler->Metadata('Outputs')->Distinct()->ClearMetadata())" Condition="'%(McCompiler.ExcludedFromBuild)' != 'true'"/>
+    </ItemGroup>
+  </Target>
+</Project>

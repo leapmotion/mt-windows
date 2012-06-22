@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{aa41bb4f-d699-4469-a8d3-7797e281c709}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{f009a1e1-6122-48a4-8681-90f15d0148b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{f12ff0da-5a37-4f56-ba29-41e2283ee589}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HID">
+      <UniqueIdentifier>{a7e18323-5f56-48ba-b204-a45de42f3ea9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\amd64">
+      <UniqueIdentifier>{13bbfb3a-d332-438f-b147-ab141d0ecfe5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\i386">
+      <UniqueIdentifier>{c9cc363d-0bf8-4714-8253-bb0f67d53715}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="HidEmulatorKmdfCodes.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="HidEmulatorKmdf.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Emulator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HidEmulatorKmdf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WdfObjectLock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WdfRequestCompleter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WdfRequestRequeuer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EmulatorContext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EmulatorState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WdfObjectDeleter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HidEmulatorCodes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Emulator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HID.h">
+      <Filter>HID</Filter>
+    </ClInclude>
+    <ClInclude Include="HIDReportData.h">
+      <Filter>HID</Filter>
+    </ClInclude>
+    <ClInclude Include="HIDDescriptor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StdDescriptors.h">
+      <Filter>HID</Filter>
+    </ClInclude>
+    <ClInclude Include="HidReportDescriptor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WdfObjectLock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WdfRequestRequeuer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WdfRequestCompleter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EmulatorContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EmulatorState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WdfObjectDeleter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <McCompiler Include="HidEmulatorKmdfCodes.mc">
+      <Filter>Resource Files</Filter>
+    </McCompiler>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="HidEmulatorKmdf.def">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="inf\amd64\HidEmulator.inf">
+      <Filter>Resource Files\amd64</Filter>
+    </None>
+    <None Include="inf\i386\HidEmulator.inf">
+      <Filter>Resource Files\i386</Filter>
+    </None>
+  </ItemGroup>
+</Project>

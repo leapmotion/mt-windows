@@ -1,0 +1,5 @@
+LIBRARY
+EXPORTS
+	OcuHidInstall
+	OcuHidUpdate
+	OcuHidUninstall

@@ -1,0 +1,22 @@
+﻿Build started 5/17/2012 5:18:42 PM.
+     1>Project "C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\newdev\newdev.vcxproj" on node 3 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "x64\Debug\newdev.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /Od /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"StdAfx.h" /Fp"x64\Debug\newdev.pch" /Fo"x64\Debug\\" /Fd"x64\Debug\vc100.pdb" /Gd /TP /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /Od /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"x64\Debug\newdev.pch" /Fo"x64\Debug\\" /Fd"x64\Debug\vc100.pdb" /Gd /TP /errorReport:prompt newdev.cpp
+         newdev.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\Lib.exe /OUT:"C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Debug\newdev.lib" /NOLOGO /DEF:"newdev.def" x64\Debug\newdev.obj
+         x64\Debug\stdafx.obj
+            Creating library C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Debug\newdev.lib and object C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Debug\newdev.exp
+         newdev.vcxproj -> C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\x64\Debug\newdev.lib
+       FinalizeBuildStatus:
+         Deleting file "x64\Debug\newdev.unsuccessfulbuild".
+         Touching "x64\Debug\newdev.lastbuildstate".
+     1>Done Building Project "C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\newdev\newdev.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.29

@@ -1,0 +1,14 @@
+﻿Build started 6/22/2012 3:06:03 PM.
+     1>Project "C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\HidEmulator\Signer.vcxproj" on node 2 (clean target(s)).
+     1>CoreClean:
+         if not exist C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\Debug\ goto skip
+         pushd C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\Debug\
+         if exist HidEmulator.inf del HidEmulator.inf
+         if exist HidEmulator.cat del HidEmulator.cat
+         popd
+         :skip:
+     1>Done Building Project "C:\Users\rbedikian\Desktop\Platform\InputDriverNew\source\HidEmulator\Signer.vcxproj" (clean target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.04

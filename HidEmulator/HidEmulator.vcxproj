@@ -1,0 +1,368 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{AEFF5461-5B72-4D7D-A01E-E4ADF25F6472}</ProjectGuid>
+    <RootNamespace>Ovl</RootNamespace>
+    <Keyword>Kuir</Keyword>
+    <ProjectName>HidEmulator</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="..\CustomBuild\mc.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\CryptoSettings.props" />
+    <Import Project="Driver.props" />
+    <Import Project="Driver32.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\CryptoSettings.props" />
+    <Import Project="Driver.props" />
+    <Import Project="Driver32.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\CryptoSettings.props" />
+    <Import Project="Driver.props" />
+    <Import Project="Driver64.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\CryptoSettings.props" />
+    <Import Project="Driver.props" />
+    <Import Project="Driver64.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</GenerateManifest>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</IgnoreImportLibrary>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</GenerateManifest>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</GenerateManifest>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</IgnoreImportLibrary>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</GenerateManifest>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.sys</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.sys</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.sys</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.sys</TargetExt>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <CustomBuildStep>
+      <Message>
+      </Message>
+      <Command>
+      </Command>
+      <Inputs>%(Inputs)</Inputs>
+      <Outputs>%(Outputs)</Outputs>
+    </CustomBuildStep>
+    <ClCompile>
+      <AdditionalOptions>/hotpatch %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_X86_=1;i386=1;STD_CALL;_DLL=1;CONDITION_HANDLING=1;NT_INST=0;WIN32=100;_NT1X_=100;WINNT=1;WINVER=_WIN32_WINNT_WINXP;_WIN32_IE=0x0603;WIN32_LEAN_AND_MEAN=1;DEVL=1;__BUILDMACHINE__=WinDDK;FPO=0;NTDDI_VERSION=NTDDI_WINXP;DBG=1;_WIN32_WINNT=_WIN32_WINNT_WINXP;DEF_DATA_STRUCT_NAME=KEYBOARD_INPUT_DATA;DEF_KUIR_FLT_VERSION=KUIR_KBD_VERSION;DEF_KUIR_FLT_INTERFACE=KUIR_KBD_INTERFACE;DEF_KUIR_COUNTER_INTERFACE=KUIR_MOU_INTERFACE;DEF_KUIR_FLT_INTERFACE_GUID=KUIR_KBD_INTERFACE_GUID;DEF_KUIR_PREFIX=sc_wcszKFKbd;DEF_KUIR_KBD=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <StructMemberAlignment>8Bytes</StructMemberAlignment>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CallingConvention>StdCall</CallingConvention>
+      <CompileAs>Default</CompileAs>
+      <OmitDefaultLibName>true</OmitDefaultLibName>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/functionpadmin:5 /safeseh /subsystem:native,5.01 /align:0x80 /stub:c:\winddk\7600.16385.1\lib\wxp\stub512.com /osversion:6.0 /SECTION:INIT,d /IGNORE:4198,4010,4037,4039,4065,4070,4078,4087,4089,4221 %(AdditionalOptions)</AdditionalOptions>
+      <OutputFile>$(OutDir)$(TargetName).sys</OutputFile>
+      <Version>6.0</Version>
+      <EnableUAC>false</EnableUAC>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <IgnoreEmbeddedIDL>true</IgnoreEmbeddedIDL>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>NotSet</SubSystem>
+      <StackReserveSize>262144</StackReserveSize>
+      <StackCommitSize>4096</StackCommitSize>
+      <Driver>Driver</Driver>
+      <EntryPointSymbol>GsDriverEntry%408</EntryPointSymbol>
+      <SetChecksum>true</SetChecksum>
+      <BaseAddress>0x10000</BaseAddress>
+      <RandomizedBaseAddress>
+      </RandomizedBaseAddress>
+      <FixedBaseAddress>false</FixedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <SupportUnloadOfDelayLoadedDLL>false</SupportUnloadOfDelayLoadedDLL>
+      <ImportLibrary>
+      </ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Message>Signing...</Message>
+      <Command>signtool sign -f "$(SolutionDir)Resource\Certificate\OcuSpec.pfx" /p "$(CertPass)" "$(TargetPath)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <CustomBuildStep>
+      <Message>
+      </Message>
+      <Command>
+      </Command>
+      <Inputs>%(Inputs)</Inputs>
+      <Outputs>%(Outputs)</Outputs>
+    </CustomBuildStep>
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_WIN64;_AMD64_;AMD64;CONDITION_HANDLING=1;NT_INST=0;WIN32=100;_NT1X_=100;WINNT=1;_WIN32_WINNT=0x0502;WINVER=0x0502;_WIN32_IE=0x0603;WIN32_LEAN_AND_MEAN=1;DEVL=1;DBG=1;__BUILDMACHINE__=WinDDK;_DLL=1;NDEBUG;DEF_DATA_STRUCT_NAME=KEYBOARD_INPUT_DATA;DEF_KUIR_FLT_VERSION=KUIR_KBD_VERSION;DEF_KUIR_FLT_INTERFACE=KUIR_KBD_INTERFACE;DEF_KUIR_COUNTER_INTERFACE=KUIR_MOU_INTERFACE;DEF_KUIR_FLT_INTERFACE_GUID=KUIR_KBD_INTERFACE_GUID;DEF_KUIR_PREFIX=sc_wcszKFKbd;DEF_KUIR_KBD=1;DEPRECATE_DDK_FUNCTIONS=1;MSC_NOOPT;NTDDI_VERSION=0x05020100;KMDF_MAJOR_VERSION=01;KMDF_MINOR_VERSION=005;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <StructMemberAlignment>8Bytes</StructMemberAlignment>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CallingConvention>StdCall</CallingConvention>
+      <CompileAs>Default</CompileAs>
+      <OmitDefaultLibName>true</OmitDefaultLibName>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/functionpadmin:5 /subsystem:native,5.01 /align:0x80 /stub:c:\winddk\7600.16385.1\lib\wxp\stub512.com /osversion:6.0 /SECTION:INIT,d /IGNORE:4198,4010,4037,4039,4065,4070,4078,4087,4089,4221 %(AdditionalOptions)</AdditionalOptions>
+      <OutputFile>$(OutDir)$(TargetName).sys</OutputFile>
+      <Version>6.0</Version>
+      <EnableUAC>false</EnableUAC>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <IgnoreEmbeddedIDL>true</IgnoreEmbeddedIDL>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>NotSet</SubSystem>
+      <StackReserveSize>262144</StackReserveSize>
+      <StackCommitSize>4096</StackCommitSize>
+      <Driver>Driver</Driver>
+      <EntryPointSymbol>GsDriverEntry</EntryPointSymbol>
+      <SetChecksum>true</SetChecksum>
+      <BaseAddress>0x10000</BaseAddress>
+      <RandomizedBaseAddress>
+      </RandomizedBaseAddress>
+      <FixedBaseAddress>false</FixedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <SupportUnloadOfDelayLoadedDLL>false</SupportUnloadOfDelayLoadedDLL>
+      <ImportLibrary>
+      </ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Message>Signing...</Message>
+      <Command>signtool sign -f "$(SolutionDir)Resource\Certificate\OcuSpec.pfx" /p "$(CertPass)" "$(TargetPath)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <CustomBuildStep>
+      <Message>
+      </Message>
+      <Command>
+      </Command>
+      <Inputs>%(Inputs)</Inputs>
+      <Outputs>%(Outputs)</Outputs>
+    </CustomBuildStep>
+    <ClCompile>
+      <AdditionalOptions>/hotpatch %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <PreprocessorDefinitions>_X86_=1;i386=1;STD_CALL;_DLL=1;CONDITION_HANDLING=1;NT_INST=0;WIN32=100;_NT1X_=100;WINNT=1;WINVER=_WIN32_WINNT_WINXP;_WIN32_IE=0x0603;WIN32_LEAN_AND_MEAN=1;DEVL=1;__BUILDMACHINE__=WinDDK;FPO=0;DBG=0;NTDDI_VERSION=NTDDI_WINXP;_WIN32_WINNT=_WIN32_WINNT_WINXP;DEF_DATA_STRUCT_NAME=KEYBOARD_INPUT_DATA;DEF_KUIR_FLT_VERSION=KUIR_KBD_VERSION;DEF_KUIR_FLT_INTERFACE=KUIR_KBD_INTERFACE;DEF_KUIR_COUNTER_INTERFACE=KUIR_MOU_INTERFACE;DEF_KUIR_FLT_INTERFACE_GUID=KUIR_KBD_INTERFACE_GUID;DEF_KUIR_PREFIX=sc_wcszKFKbd;DEF_KUIR_KBD=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <StructMemberAlignment>8Bytes</StructMemberAlignment>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CallingConvention>StdCall</CallingConvention>
+      <CompileAs>Default</CompileAs>
+      <OmitDefaultLibName>true</OmitDefaultLibName>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/functionpadmin:5 /safeseh /subsystem:native,5.01 /align:0x80 /stub:c:\winddk\7600.16385.1\lib\wxp\stub512.com /osversion:6.0 /SECTION:INIT,d /IGNORE:4198,4010,4037,4039,4065,4070,4078,4087,4089,4221 %(AdditionalOptions)</AdditionalOptions>
+      <OutputFile>$(OutDir)$(TargetName).sys</OutputFile>
+      <EnableUAC>false</EnableUAC>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>NotSet</SubSystem>
+      <StackReserveSize>262144</StackReserveSize>
+      <StackCommitSize>4096</StackCommitSize>
+      <Driver>Driver</Driver>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <EntryPointSymbol>GsDriverEntry%408</EntryPointSymbol>
+      <SetChecksum>true</SetChecksum>
+      <BaseAddress>0x10000</BaseAddress>
+      <RandomizedBaseAddress>
+      </RandomizedBaseAddress>
+      <FixedBaseAddress>false</FixedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>
+      </ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Message>Signing...</Message>
+      <Command>signtool sign -f "$(SolutionDir)Resource\Certificate\OcuSpec.pfx" /p "$(CertPass)" "$(TargetPath)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <CustomBuildStep>
+      <Message>
+      </Message>
+      <Command>
+      </Command>
+      <Inputs>%(Inputs)</Inputs>
+      <Outputs>%(Outputs)</Outputs>
+    </CustomBuildStep>
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <PreprocessorDefinitions>_WIN64;_AMD64_;AMD64;CONDITION_HANDLING=1;NT_INST=0;WIN32=100;_NT1X_=100;WINNT=1;_WIN32_WINNT=0x0502;WINVER=0x0502;_WIN32_IE=0x0603;WIN32_LEAN_AND_MEAN=1;DEVL=1;DBG=0;__BUILDMACHINE__=WinDDK;_DLL=1;NDEBUG;DEF_DATA_STRUCT_NAME=KEYBOARD_INPUT_DATA;DEF_KUIR_FLT_VERSION=KUIR_KBD_VERSION;DEF_KUIR_FLT_INTERFACE=KUIR_KBD_INTERFACE;DEF_KUIR_COUNTER_INTERFACE=KUIR_MOU_INTERFACE;DEF_KUIR_FLT_INTERFACE_GUID=KUIR_KBD_INTERFACE_GUID;DEF_KUIR_PREFIX=sc_wcszKFKbd;DEF_KUIR_KBD=1;DEPRECATE_DDK_FUNCTIONS=1;MSC_NOOPT;NTDDI_VERSION=0x05020100;KMDF_MAJOR_VERSION=01;KMDF_MINOR_VERSION=005;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <StructMemberAlignment>8Bytes</StructMemberAlignment>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CallingConvention>StdCall</CallingConvention>
+      <CompileAs>Default</CompileAs>
+      <OmitDefaultLibName>true</OmitDefaultLibName>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/functionpadmin:5 /subsystem:native,5.01 /align:0x80 /stub:c:\winddk\7600.16385.1\lib\wxp\stub512.com /osversion:6.0 /SECTION:INIT,d /IGNORE:4198,4010,4037,4039,4065,4070,4078,4087,4089,4221 %(AdditionalOptions)</AdditionalOptions>
+      <OutputFile>$(OutDir)$(TargetName).sys</OutputFile>
+      <EnableUAC>false</EnableUAC>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>NotSet</SubSystem>
+      <StackReserveSize>262144</StackReserveSize>
+      <StackCommitSize>4096</StackCommitSize>
+      <Driver>Driver</Driver>
+      <EnableCOMDATFolding>
+      </EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <EntryPointSymbol>GsDriverEntry</EntryPointSymbol>
+      <SetChecksum>true</SetChecksum>
+      <BaseAddress>0x10000</BaseAddress>
+      <RandomizedBaseAddress>
+      </RandomizedBaseAddress>
+      <FixedBaseAddress>false</FixedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>
+      </ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Message>Signing...</Message>
+      <Command>signtool sign -f "$(SolutionDir)Resource\Certificate\OcuSpec.pfx" /p "$(CertPass)" "$(TargetPath)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ResourceCompile Include="HidEmulator.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="HidEmulator.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="HidEmulatorCodes.h" />
+    <ClInclude Include="stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Globals\Globals.vcxproj">
+      <Project>{ec3ca5d5-6e6a-4ee3-82d1-0776b6027b4b}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\CustomBuild\mc.targets" />
+  </ImportGroup>
+</Project>
