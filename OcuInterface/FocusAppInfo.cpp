@@ -35,7 +35,7 @@ eHidStatus CFocusAppInfo::Update(void)
 	// Title window acquisition:
 	m_windowTitle.resize(MAX_PATH);
 	m_windowTitle.resize(
-		GetWindowText(
+		GetWindowTextW(
 			m_hFocus,
 			&m_windowTitle[0],
 			MAX_PATH
@@ -44,7 +44,7 @@ eHidStatus CFocusAppInfo::Update(void)
 
 	// Owner path acquisition:
 	HANDLE hProcess = OpenProcess(
-		PROCESS_VM_READ | PROCESS_QUERY_INFORMATION,
+		PROCESS_VM_READ | PROCESS_QUERY_LIMITED_INFORMATION,
 		false,
 		m_pid
 	);
@@ -56,9 +56,8 @@ eHidStatus CFocusAppInfo::Update(void)
 		// Resize the path according to the number of returned characters
 		m_ownerExePath.resize(
 			// Get the module name of the process we just opened
-			GetModuleFileNameExW(
+			GetProcessImageFileNameW(
 				hProcess,
-				nullptr,
 				&m_ownerExePath[0],
 				MAX_PATH
 			)
@@ -68,7 +67,7 @@ eHidStatus CFocusAppInfo::Update(void)
 		CloseHandle(hProcess);
 
 		// Extract just the process name:
-		m_ownerExeName = PathFindFileName(m_ownerExePath.c_str());
+		m_ownerExeName = PathFindFileNameW(m_ownerExePath.c_str());
 	}
 
 	return eHidIntrSuccess;

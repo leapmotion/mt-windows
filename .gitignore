@@ -1,0 +1,7 @@
+*.swp
+*.log
+*.dbg
+*.opensdf
+*.sdf
+Release/
+Debug/
