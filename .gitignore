@@ -5,3 +5,4 @@
 *.sdf
 Release/
 Debug/
+*.suo
