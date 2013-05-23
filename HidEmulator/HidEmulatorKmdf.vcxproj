@@ -27,25 +27,25 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>Driver</ConfigurationType>
     <PlatformToolset>WindowsKernelModeDriver8.0</PlatformToolset>
+    <DriverType>KMDF</DriverType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Driver</ConfigurationType>
-    <CharacterSet>NotSet</CharacterSet>
     <PlatformToolset>WindowsKernelModeDriver8.0</PlatformToolset>
+    <DriverType>KMDF</DriverType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>Driver</ConfigurationType>
     <PlatformToolset>WindowsKernelModeDriver8.0</PlatformToolset>
+    <DriverType>KMDF</DriverType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>Driver</ConfigurationType>
     <PlatformToolset>WindowsKernelModeDriver8.0</PlatformToolset>
+    <DriverType>KMDF</DriverType>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -70,12 +70,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
-    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</GenerateManifest>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</IgnoreImportLibrary>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</GenerateManifest>
-    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
-    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</GenerateManifest>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</IgnoreImportLibrary>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</GenerateManifest>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.sys</TargetExt>
@@ -85,9 +81,7 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <TargetExt>.sys</TargetExt>
-  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <CustomBuildStep>
       <Message>
@@ -98,56 +92,18 @@
       <Outputs>%(Outputs)</Outputs>
     </CustomBuildStep>
     <ClCompile>
-      <AdditionalOptions>/hotpatch %(AdditionalOptions)</AdditionalOptions>
-      <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_X86_=1;i386=1;STD_CALL;_DLL=1;CONDITION_HANDLING=1;NT_INST=0;WIN32=100;_NT1X_=100;WINNT=1;WINVER=_WIN32_WINNT_WINXP;_WIN32_IE=0x0603;WIN32_LEAN_AND_MEAN=1;DEVL=1;__BUILDMACHINE__=WinDDK;FPO=0;KMDF_MAJOR_VERSION=1;KMDF_MINOR_VERSION=9;KMDF_MAJOR_VERSION_STRING=01;KMDF_MINOR_VERSION_STRING=009</PreprocessorDefinitions>
-      <StringPooling>true</StringPooling>
-      <MinimalRebuild>false</MinimalRebuild>
       <ExceptionHandling>
       </ExceptionHandling>
-      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <StructMemberAlignment>8Bytes</StructMemberAlignment>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <TreatWarningAsError>true</TreatWarningAsError>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <CompileAs>Default</CompileAs>
-      <OmitDefaultLibName>true</OmitDefaultLibName>
-      <CallingConvention>StdCall</CallingConvention>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
-      <AdditionalOptions>/align:0x80 /stub:c:\winddk\7600.16385.1\lib\wxp\stub512.com /osversion:6.1 /SECTION:INIT,d /IGNORE:4198,4010,4037,4039,4065,4070,4078,4087,4089,4221 /MERGE:_PAGE=PAGE /MERGE:_TEXT=.text %(AdditionalOptions)</AdditionalOptions>
-      <OutputFile>$(OutDir)$(TargetName).sys</OutputFile>
-      <Version>6.1</Version>
-      <EnableUAC>false</EnableUAC>
-      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
-      <IgnoreEmbeddedIDL>true</IgnoreEmbeddedIDL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Native</SubSystem>
-      <StackReserveSize>262144</StackReserveSize>
-      <StackCommitSize>4096</StackCommitSize>
-      <Driver>Driver</Driver>
-      <EntryPointSymbol>FxDriverEntry@8</EntryPointSymbol>
-      <SetChecksum>true</SetChecksum>
-      <BaseAddress>0x10000</BaseAddress>
-      <RandomizedBaseAddress>
-      </RandomizedBaseAddress>
-      <FixedBaseAddress>false</FixedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
-      <SupportUnloadOfDelayLoadedDLL>false</SupportUnloadOfDelayLoadedDLL>
-      <ImportLibrary>
-      </ImportLibrary>
-      <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalDependencies>wdfdriverentry.lib;wdfldr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>HidEmulatorKmdf.def</ModuleDefinitionFile>
-      <CreateHotPatchableImage>X86Image</CreateHotPatchableImage>
       <ImageHasSafeExceptionHandlers>true</ImageHasSafeExceptionHandlers>
-      <MinimumRequiredVersion>5.01</MinimumRequiredVersion>
     </Link>
     <PostBuildEvent>
       <Message>Signing...</Message>
@@ -168,53 +124,12 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_WIN64;_AMD64_;AMD64;CONDITION_HANDLING=1;NT_INST=0;WIN32=100;_NT1X_=100;WINNT=1;_WIN32_WINNT=0x0502;WINVER=0x0502;_WIN32_IE=0x0603;WIN32_LEAN_AND_MEAN=1;DEVL=1;DBG=1;__BUILDMACHINE__=WinDDK;_DLL=1;NDEBUG;DEF_DATA_STRUCT_NAME=KEYBOARD_INPUT_DATA;DEF_KUIR_FLT_VERSION=KUIR_KBD_VERSION;DEF_KUIR_FLT_INTERFACE=KUIR_KBD_INTERFACE;DEF_KUIR_COUNTER_INTERFACE=KUIR_MOU_INTERFACE;DEF_KUIR_FLT_INTERFACE_GUID=KUIR_KBD_INTERFACE_GUID;DEF_KUIR_PREFIX=sc_wcszKFKbd;DEF_KUIR_KBD=1;DEPRECATE_DDK_FUNCTIONS=1;MSC_NOOPT;NTDDI_VERSION=0x05020100;KMDF_MAJOR_VERSION=01;KMDF_MINOR_VERSION=005;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <StringPooling>true</StringPooling>
-      <MinimalRebuild>false</MinimalRebuild>
-      <ExceptionHandling>
-      </ExceptionHandling>
-      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <StructMemberAlignment>8Bytes</StructMemberAlignment>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <TreatWarningAsError>true</TreatWarningAsError>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <CompileAs>Default</CompileAs>
-      <OmitDefaultLibName>true</OmitDefaultLibName>
-      <CallingConvention>StdCall</CallingConvention>
     </ClCompile>
     <Link>
-      <AdditionalOptions>/align:0x80 /stub:c:\winddk\7600.16385.1\lib\wxp\stub512.com /osversion:6.1 /SECTION:INIT,d /IGNORE:4198,4010,4037,4039,4065,4070,4078,4087,4089,4221 %(AdditionalOptions)</AdditionalOptions>
-      <OutputFile>$(OutDir)$(TargetName).sys</OutputFile>
-      <Version>6.0</Version>
-      <EnableUAC>false</EnableUAC>
-      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
-      <IgnoreEmbeddedIDL>true</IgnoreEmbeddedIDL>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Native</SubSystem>
-      <StackReserveSize>262144</StackReserveSize>
-      <StackCommitSize>4096</StackCommitSize>
-      <Driver>Driver</Driver>
-      <EntryPointSymbol>FxDriverEntry</EntryPointSymbol>
-      <SetChecksum>true</SetChecksum>
-      <BaseAddress>0x10000</BaseAddress>
-      <RandomizedBaseAddress>
-      </RandomizedBaseAddress>
-      <FixedBaseAddress>false</FixedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
-      <SupportUnloadOfDelayLoadedDLL>false</SupportUnloadOfDelayLoadedDLL>
-      <ImportLibrary>
-      </ImportLibrary>
-      <TargetMachine>MachineX64</TargetMachine>
-      <AdditionalDependencies>wdfdriverentry.lib;wdfldr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>HidEmulatorKmdf.def</ModuleDefinitionFile>
-      <CreateHotPatchableImage>X64Image</CreateHotPatchableImage>
-      <MinimumRequiredVersion>5.01</MinimumRequiredVersion>
     </Link>
     <PostBuildEvent>
       <Message>Signing...</Message>
@@ -231,57 +146,16 @@
       <Outputs>%(Outputs)</Outputs>
     </CustomBuildStep>
     <ClCompile>
-      <AdditionalOptions>/hotpatch %(AdditionalOptions)</AdditionalOptions>
-      <Optimization>Full</Optimization>
-      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <WholeProgramOptimization>true</WholeProgramOptimization>
-      <PreprocessorDefinitions>_X86_=1;i386=1;STD_CALL;_DLL=1;CONDITION_HANDLING=1;NT_INST=0;WIN32=100;_NT1X_=100;WINNT=1;WINVER=_WIN32_WINNT_WINXP;_WIN32_IE=0x0603;WIN32_LEAN_AND_MEAN=1;DEVL=1;__BUILDMACHINE__=WinDDK;FPO=0;KMDF_MAJOR_VERSION=1;KMDF_MINOR_VERSION=9;KMDF_MAJOR_VERSION_STRING=01;KMDF_MINOR_VERSION_STRING=009</PreprocessorDefinitions>
-      <StringPooling>true</StringPooling>
       <ExceptionHandling>
       </ExceptionHandling>
-      <StructMemberAlignment>8Bytes</StructMemberAlignment>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <TreatWarningAsError>true</TreatWarningAsError>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <CompileAs>Default</CompileAs>
-      <OmitDefaultLibName>true</OmitDefaultLibName>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <CallingConvention>StdCall</CallingConvention>
+      <WarningLevel>Level3</WarningLevel>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
     </ClCompile>
     <Link>
-      <AdditionalOptions>/align:0x80 /stub:c:\winddk\7600.16385.1\lib\wxp\stub512.com /osversion:6.1 /SECTION:INIT,d /IGNORE:4198,4010,4037,4039,4065,4070,4078,4087,4089,4221 %(AdditionalOptions)</AdditionalOptions>
-      <OutputFile>$(OutDir)$(TargetName).sys</OutputFile>
-      <EnableUAC>false</EnableUAC>
-      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Native</SubSystem>
-      <StackReserveSize>262144</StackReserveSize>
-      <StackCommitSize>4096</StackCommitSize>
-      <Driver>Driver</Driver>
-      <OptimizeReferences>true</OptimizeReferences>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
-      <EntryPointSymbol>FxDriverEntry</EntryPointSymbol>
-      <SetChecksum>true</SetChecksum>
-      <BaseAddress>0x10000</BaseAddress>
-      <RandomizedBaseAddress>
-      </RandomizedBaseAddress>
-      <FixedBaseAddress>false</FixedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
-      <ImportLibrary>
-      </ImportLibrary>
-      <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalDependencies>wdfdriverentry.lib;wdfldr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>HidEmulatorKmdf.def</ModuleDefinitionFile>
-      <CreateHotPatchableImage>X86Image</CreateHotPatchableImage>
-      <ImageHasSafeExceptionHandlers>true</ImageHasSafeExceptionHandlers>
-      <MinimumRequiredVersion>5.01</MinimumRequiredVersion>
     </Link>
     <PostBuildEvent>
       <Message>Signing...</Message>
@@ -302,53 +176,13 @@
     </Midl>
     <ClCompile>
       <Optimization>Full</Optimization>
-      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <WholeProgramOptimization>true</WholeProgramOptimization>
-      <PreprocessorDefinitions>_WIN64;_AMD64_;AMD64;CONDITION_HANDLING=1;NT_INST=0;WIN32=100;_NT1X_=100;WINNT=1;_WIN32_WINNT=0x0502;WINVER=0x0502;_WIN32_IE=0x0603;WIN32_LEAN_AND_MEAN=1;DEVL=1;DBG=0;__BUILDMACHINE__=WinDDK;_DLL=1;NDEBUG;DEF_DATA_STRUCT_NAME=KEYBOARD_INPUT_DATA;DEF_KUIR_FLT_VERSION=KUIR_KBD_VERSION;DEF_KUIR_FLT_INTERFACE=KUIR_KBD_INTERFACE;DEF_KUIR_COUNTER_INTERFACE=KUIR_MOU_INTERFACE;DEF_KUIR_FLT_INTERFACE_GUID=KUIR_KBD_INTERFACE_GUID;DEF_KUIR_PREFIX=sc_wcszKFKbd;DEF_KUIR_KBD=1;DEPRECATE_DDK_FUNCTIONS=1;MSC_NOOPT;NTDDI_VERSION=0x05020100;KMDF_MAJOR_VERSION=01;KMDF_MINOR_VERSION=005;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <StringPooling>true</StringPooling>
-      <ExceptionHandling>
-      </ExceptionHandling>
-      <StructMemberAlignment>8Bytes</StructMemberAlignment>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <CompileAs>Default</CompileAs>
-      <OmitDefaultLibName>true</OmitDefaultLibName>
-      <CallingConvention>StdCall</CallingConvention>
     </ClCompile>
     <Link>
-      <AdditionalOptions>/align:0x80 /stub:c:\winddk\7600.16385.1\lib\wxp\stub512.com /osversion:6.1 /SECTION:INIT,d /IGNORE:4198,4010,4037,4039,4065,4070,4078,4087,4089,4221 %(AdditionalOptions)</AdditionalOptions>
-      <OutputFile>$(OutDir)$(TargetName).sys</OutputFile>
-      <EnableUAC>false</EnableUAC>
-      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Native</SubSystem>
-      <StackReserveSize>262144</StackReserveSize>
-      <StackCommitSize>4096</StackCommitSize>
-      <Driver>Driver</Driver>
-      <EnableCOMDATFolding>
-      </EnableCOMDATFolding>
-      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
-      <EntryPointSymbol>FxDriverEntry</EntryPointSymbol>
-      <SetChecksum>true</SetChecksum>
-      <BaseAddress>0x10000</BaseAddress>
-      <RandomizedBaseAddress>
-      </RandomizedBaseAddress>
-      <FixedBaseAddress>false</FixedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
-      <ImportLibrary>
-      </ImportLibrary>
-      <TargetMachine>MachineX64</TargetMachine>
-      <AdditionalDependencies>wdfdriverentry.lib;wdfldr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>HidEmulatorKmdf.def</ModuleDefinitionFile>
-      <CreateHotPatchableImage>X64Image</CreateHotPatchableImage>
-      <MinimumRequiredVersion>5.01</MinimumRequiredVersion>
     </Link>
     <PostBuildEvent>
       <Message>Signing...</Message>
