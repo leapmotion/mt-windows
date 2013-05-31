@@ -1,8 +1,4 @@
-;/*++
-;
-;Copyright (c) 2012 OcuSpec All rights Reserved
-;
-;--*/
+; Copyright (c) 2012-2013 Leap Motion, Inc. All rights Reserved
 [Version]
 Signature="$WINDOWS NT$"
 Class=System
@@ -80,9 +76,9 @@ HKR,,EventMessageFile,0x00000000,%12%\HidEmulatorKmdf.sys
 HKR,,TypesSupported,0x00010001,7
 
 [Strings]
-MSFT = "OcuSpec"
-StdMfg = "OcuSpec"
-DiskId1 = "OcuSpec Installation Disk #1"
-HidEmulator_Device.DeviceDesc = "OcuSpec gesture emulation device driver"
-HidEmulator.SVCDESC = "HidEmulator OcuSpec Miniport"
+MSFT = "Leap Motion, Inc."
+StdMfg = "Leap Motion, Inc."
+DiskId1 = "Leap Motion Installation Disk #1"
+HidEmulator_Device.DeviceDesc = "Leap Motion gesture emulation device driver"
+HidEmulator.SVCDESC = "HidEmulator Leap Motion Miniport"
 HidEmulatorKmdf.SVCDESC = "HidEmulatorKmdf Lower Filter"

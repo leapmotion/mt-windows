@@ -23,6 +23,10 @@
       <Project>{aeff5461-5b72-4d7d-a01e-e4adf25f6472}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="inf\amd64\HidEmulator.inf" />
+    <None Include="inf\i386\HidEmulator.inf" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{726541F5-9127-400E-838E-90E0074450B4}</ProjectGuid>
     <RootNamespace>KuirSigner</RootNamespace>
