@@ -5,3 +5,6 @@
 *.sdf
 Release/
 Debug/
+
+*.suo
+ipch
