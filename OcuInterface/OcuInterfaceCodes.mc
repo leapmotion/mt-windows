@@ -41,7 +41,7 @@ Communication failed with the Hid emulator
 MessageId=
 SymbolicName=eHidIntrNotOcuHid
 Language=English
-This HID instance is a HID device, but not an OcuSpec HidEmulator
+This HID instance is a HID device, but not a Leap Motion HidEmulator
 .
 
 MessageId=
@@ -65,7 +65,7 @@ Failed to create a thread to wait on the completion port
 MessageId=
 SymbolicName=eHidIntrNotRespondingProperly
 Language=English
-The device appears to be an OcuSpec HidEmulator, but isn't responding to write reports correctly
+The device appears to be a Leap Motion HidEmulator, but isn't responding to write reports correctly
 .
 
 MessageId=

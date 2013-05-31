@@ -23,7 +23,7 @@ COcuInterface::COcuInterface(bool bAsynchronous):
 	m_bAsynchronous(bAsynchronous)
 {
 	// Recover the GUID of the HID device class.  This GUID identifies all HID-compliant devices on
-	// the system, and OcuSpec is among them.
+	// the system, and Leap Motion is among them.
 	GUID hidGuid;
 	HidD_GetHidGuid(&hidGuid);
 

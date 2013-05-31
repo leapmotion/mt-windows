@@ -27,7 +27,7 @@ private:
 	// The image currently in use with this icon
 	COcuImage* m_pImage;
 
-	// This is the window handle corresponding to this OcuSpec icon
+	// This is the window handle corresponding to this overlay icon
 	HWND m_hWnd;
 
 	// These parameters are used to decide where, on screen, to render the icon

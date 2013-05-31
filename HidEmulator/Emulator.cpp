@@ -219,13 +219,13 @@ void CEmulator::GetString(WDFREQUEST Request)
 	switch((int)(long long)loc.Parameters.DeviceIoControl.Type3InputBuffer & 0xFFFF)
 	{
 	case HID_STRING_ID_IMANUFACTURER:
-		RtlInitUnicodeString(&src, L"OcuSpec Manuf");
+		RtlInitUnicodeString(&src, L"Leap Motion Manuf");
 		break;
 	case HID_STRING_ID_IPRODUCT:
-		RtlInitUnicodeString(&src, L"OcuSpec Product");
+		RtlInitUnicodeString(&src, L"Leap Motion Product");
 		break;
 	case HID_STRING_ID_ISERIALNUMBER:
-		RtlInitUnicodeString(&src, L"OcuSpec Serial");
+		RtlInitUnicodeString(&src, L"Leap Motion Serial");
 		break;
 	default:
 		OcsDebugPrint("Unrecognized string requested");

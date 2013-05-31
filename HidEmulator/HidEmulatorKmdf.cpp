@@ -44,7 +44,7 @@ NTSTATUS __stdcall DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING Regi
 	}
 
 	// Done!
-	OcsDebugPrint("OcuSpec Kmdf HID lower filter loaded");
+	OcsDebugPrint("Leap Motion Kmdf HID lower filter loaded");
 	return STATUS_SUCCESS;
 }
 
@@ -154,10 +154,10 @@ NTSTATUS PreprocessMnQueryId(WDFDEVICE Device, PIRP Irp)
 
 void EvtDriverContextCleanup(WDFOBJECT Driver)
 {
-	OcsDebugPrint("OcuSpec Kmdf HID cleanup initiated");
+	OcsDebugPrint("Leap Motion Kmdf HID cleanup initiated");
 }
 
 void EvtDriverUnload(WDFDRIVER Driver)
 {
-	OcsDebugPrint("OcuSpec Kmdf HID lower filter unloaded");
+	OcsDebugPrint("Leap Motion Kmdf HID lower filter unloaded");
 }
