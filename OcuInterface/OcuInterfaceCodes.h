@@ -72,7 +72,7 @@ enum eHidStatus;
 //
 // MessageText:
 //
-// This HID instance is a HID device, but not an OcuSpec HidEmulator
+// This HID instance is a HID device, but not a Leap Motion HidEmulator
 //
 #define eHidIntrNotOcuHid                ((eHidStatus)0xE0020001L)
 
@@ -108,7 +108,7 @@ enum eHidStatus;
 //
 // MessageText:
 //
-// The device appears to be an OcuSpec HidEmulator, but isn't responding to write reports correctly
+// The device appears to be a Leap Motion HidEmulator, but isn't responding to write reports correctly
 //
 #define eHidIntrNotRespondingProperly    ((eHidStatus)0xE0020005L)
 
