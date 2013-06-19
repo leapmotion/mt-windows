@@ -18,7 +18,7 @@ public:
 	/// </summary>
 	/// <param name="bAsynchronous">Set to true if calls to input synthesis should be performed asynchronously</param>
 	/// <remarks>
-	/// Asynchronous IO is supported in OcuHID by using I/O completion ports and an additional dispatcher thread to handle
+	/// Asynchronous IO is supported in Leap Motion HID by using I/O completion ports and an additional dispatcher thread to handle
 	/// resource cleanup.
 	/// </remarks>
 	COcuInterface(bool bAsynchronous = false);

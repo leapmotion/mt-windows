@@ -90,7 +90,7 @@ int main(int argc, char* argv[])
 	{
 		COcuInterface ocu(true);
 
-		cout << "Detected " << ocu.size() << " OcuHID interfaces" << endl;
+		cout << "Detected " << ocu.size() << " Leap Motion HID interfaces" << endl;
 		if(!ocu.size())
 		{
 			_getch();

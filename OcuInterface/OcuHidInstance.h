@@ -105,7 +105,7 @@ public:
 	HANDLE GetHandle(void) const {return m_hDevice;}
 
 	/// <return>
-	/// True if the parent HID instance is an OcuHID instance
+	/// True if the parent HID instance is an Leap Motion HID instance
 	/// </return>
 	bool IsOcuHid(void) const {return m_bIsOcuHid;}
 	

@@ -94,7 +94,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>signtool sign -f "$(SolutionDir)Resource\Certificate\OcuSpec.pfx" /p "$(CertPass)" "$(TargetPath)"</Command>
+      <Command>signtool sign -n "Leap Motion Inc" "$(TargetPath)"</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Signing...</Message>
@@ -112,7 +112,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>signtool sign -f "$(SolutionDir)Resource\Certificate\OcuSpec.pfx" /p "$(CertPass)" "$(TargetPath)"</Command>
+      <Command>signtool sign -n "Leap Motion Inc" "$(TargetPath)"</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Signing...</Message>
@@ -134,7 +134,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>signtool sign -f "$(SolutionDir)Resource\Certificate\OcuSpec.pfx" /p "$(CertPass)" "$(TargetPath)"</Command>
+      <Command>signtool sign -n "Leap Motion Inc" "$(TargetPath)"</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Signing...</Message>
@@ -156,7 +156,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>signtool sign -f "$(SolutionDir)Resource\Certificate\OcuSpec.pfx" /p "$(CertPass)" "$(TargetPath)"</Command>
+      <Command>signtool sign -n "Leap Motion Inc" "$(TargetPath)"</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Signing...</Message>

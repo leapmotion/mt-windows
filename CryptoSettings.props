@@ -4,7 +4,7 @@
   <PropertyGroup Label="UserMacros">
     <CertPass>En1Fm1ksp;</CertPass>
     <XSCPath>$(SolutionDir)Resource\Certificate\VeriSign Class 3 Public Primary Certification Authority - G5.cer</XSCPath>
-    <CrossSign>1</CrossSign>
+    <CrossSign>0</CrossSign>
   </PropertyGroup>
   <PropertyGroup />
   <ItemDefinitionGroup />

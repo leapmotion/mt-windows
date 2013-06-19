@@ -3,7 +3,7 @@
 // HID vendor ID:
 #define OCUHID_VENDOR_ID				0xF182
 
-// OcuHID Product ID
+// Leap Motion HID Product ID
 #define OCUHID_EMULATED_DEVICE			0x1000
 
 // HID Interface

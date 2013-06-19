@@ -85,8 +85,8 @@
     <NMakeBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pushd $(OutDir)
 copy /y "$(SolutionDir)HidEmulator\inf\i386\*.*" .
 inf2cat /os:XP_X86 /driver:.
-if "$(CrossSign)"=="1" signtool sign -ac "$(XSCPath)" -f "$(SolutionDir)Resource\Certificate\OcuSpec.pfx" /p "$(CertPass)" HidEmulator.cat
-if NOT "$(CrossSign)"=="1" signtool sign -f "$(SolutionDir)Resource\Certificate\OcuSpec.pfx" /p "$(CertPass)" HidEmulator.cat
+if "$(CrossSign)"=="1" signtool sign -ac "$(XSCPath)" -n "Leap Motion Inc" HidEmulator.cat
+if NOT "$(CrossSign)"=="1" signtool sign -n "Leap Motion Inc" HidEmulator.cat
 popd
 </NMakeBuildCommandLine>
     <NMakeReBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(NMakeBuildCommandLine)</NMakeReBuildCommandLine>
@@ -105,8 +105,8 @@ popd
     <NMakeBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pushd $(OutDir)
 copy /y "$(SolutionDir)HidEmulator\inf\amd64\*.*" .
 inf2cat /os:XP_X64 /driver:.
-if "$(CrossSign)"=="1" signtool sign -ac "$(XSCPath)" -f "$(SolutionDir)Resource\Certificate\OcuSpec.pfx" /p "$(CertPass)" HidEmulator.cat
-if NOT "$(CrossSign)"=="1" signtool sign -f "$(SolutionDir)Resource\Certificate\OcuSpec.pfx" /p "$(CertPass)" HidEmulator.cat
+if "$(CrossSign)"=="1" signtool sign -ac "$(XSCPath)" -n "Leap Motion Inc" HidEmulator.cat
+if NOT "$(CrossSign)"=="1" signtool sign -n "Leap Motion Inc" HidEmulator.cat
 popd
 </NMakeBuildCommandLine>
     <NMakeReBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(NMakeBuildCommandLine)</NMakeReBuildCommandLine>
@@ -124,8 +124,8 @@ popd
     <NMakeBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">pushd $(OutDir)
 copy /y "$(SolutionDir)HidEmulator\inf\i386\*.*" .
 inf2cat /os:XP_X86 /driver:.
-if "$(CrossSign)"=="1" signtool sign -ac "$(XSCPath)" -f "$(SolutionDir)Resource\Certificate\OcuSpec.pfx" /p "$(CertPass)" HidEmulator.cat
-if NOT "$(CrossSign)"=="1" signtool sign -f "$(SolutionDir)Resource\Certificate\OcuSpec.pfx" /p "$(CertPass)" HidEmulator.cat
+if "$(CrossSign)"=="1" signtool sign -ac "$(XSCPath)" -n "Leap Motion Inc" HidEmulator.cat
+if NOT "$(CrossSign)"=="1" signtool sign -n "Leap Motion Inc" HidEmulator.cat
 popd
 </NMakeBuildCommandLine>
     <NMakeReBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(NMakeBuildCommandLine)</NMakeReBuildCommandLine>
@@ -144,8 +144,8 @@ popd
     <NMakeBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pushd $(OutDir)
 copy /y "$(SolutionDir)HidEmulator\inf\amd64\*.*" .
 inf2cat /os:XP_X64 /driver:.
-if "$(CrossSign)"=="1" signtool sign -ac "$(XSCPath)" -f "$(SolutionDir)Resource\Certificate\OcuSpec.pfx" /p "$(CertPass)" HidEmulator.cat
-if NOT "$(CrossSign)"=="1" signtool sign -f "$(SolutionDir)Resource\Certificate\OcuSpec.pfx" /p "$(CertPass)" HidEmulator.cat
+if "$(CrossSign)"=="1" signtool sign -ac "$(XSCPath)" -n "Leap Motion Inc" /p "$(CertPass)" HidEmulator.cat
+if NOT "$(CrossSign)"=="1" signtool sign -n "Leap Motion Inc" HidEmulator.cat
 popd
 </NMakeBuildCommandLine>
     <NMakeReBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(NMakeBuildCommandLine)</NMakeReBuildCommandLine>

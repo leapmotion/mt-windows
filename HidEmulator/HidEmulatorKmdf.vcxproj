@@ -158,7 +158,7 @@
     </Link>
     <PostBuildEvent>
       <Message>Signing...</Message>
-      <Command>signtool sign -f "$(SolutionDir)Resource\Certificate\OcuSpec.pfx" /p "$(CertPass)" "$(TargetPath)"</Command>
+      <Command>signtool sign -n "Leap Motion Inc" "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -225,7 +225,7 @@
     </Link>
     <PostBuildEvent>
       <Message>Signing...</Message>
-      <Command>signtool sign -f "$(SolutionDir)Resource\Certificate\OcuSpec.pfx" /p "$(CertPass)" "$(TargetPath)"</Command>
+      <Command>signtool sign -n "Leap Motion Inc" "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -292,7 +292,7 @@
     </Link>
     <PostBuildEvent>
       <Message>Signing...</Message>
-      <Command>signtool sign -f "$(SolutionDir)Resource\Certificate\OcuSpec.pfx" /p "$(CertPass)" "$(TargetPath)"</Command>
+      <Command>signtool sign -n "Leap Motion Inc" "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -359,7 +359,7 @@
     </Link>
     <PostBuildEvent>
       <Message>Signing...</Message>
-      <Command>signtool sign -f "$(SolutionDir)Resource\Certificate\OcuSpec.pfx" /p "$(CertPass)" "$(TargetPath)"</Command>
+      <Command>signtool sign -n "Leap Motion Inc" "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

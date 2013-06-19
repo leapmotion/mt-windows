@@ -10,7 +10,7 @@ void PrintUsage(const wchar_t* argv[])
 {
 	wcout << "Usage: " << argv[0] << " install | update | uninstall" << endl
 		  << endl
-		  << " This application installs the OcuHID legacy device.  It MUST be run in" << endl
+		  << " This application installs the Leap Motion HID legacy device.  It MUST be run in" << endl
 		  << " administrator mode, because it has to create a new device." << endl;
 }
 
