@@ -144,7 +144,7 @@ popd
     <NMakeBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pushd $(OutDir)
 copy /y "$(SolutionDir)HidEmulator\inf\amd64\*.*" .
 inf2cat /os:XP_X64 /driver:.
-if "$(CrossSign)"=="1" signtool sign -ac "$(XSCPath)" -n "Leap Motion Inc" /p "$(CertPass)" HidEmulator.cat
+if "$(CrossSign)"=="1" signtool sign -ac "$(XSCPath)" -n "Leap Motion Inc" HidEmulator.cat
 if NOT "$(CrossSign)"=="1" signtool sign -n "Leap Motion Inc" HidEmulator.cat
 popd
 </NMakeBuildCommandLine>

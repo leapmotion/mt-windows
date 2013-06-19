@@ -3,8 +3,8 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
     <CertPass>En1Fm1ksp;</CertPass>
-    <XSCPath>$(SolutionDir)Resource\Certificate\VeriSign Class 3 Public Primary Certification Authority - G5.cer</XSCPath>
-    <CrossSign>0</CrossSign>
+    <XSCPath>$(SolutionDir)Resource\Certificate\DigiCert Assured ID Root CA.crt</XSCPath>
+    <CrossSign>1</CrossSign>
   </PropertyGroup>
   <PropertyGroup />
   <ItemDefinitionGroup />
