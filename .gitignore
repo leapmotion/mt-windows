@@ -5,6 +5,7 @@
 *.sdf
 Release/
 Debug/
-
+*.CppClean.log
+*.unsuccessfulbuild
 *.suo
 ipch
