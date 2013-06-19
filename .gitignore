@@ -10,3 +10,9 @@ Debug/
 *.suo
 ipch
 MSG00001.bin
+HidEmulator/HidEmulatorKmdfCodes.h
+HidEmulator/HidEmulatorKmdfCodes.rc
+Installer/InstallerCodes.h
+Installer/InstallerCodes.rc
+OcuInterface/OcuInterfaceCodes.h
+OcuInterface/OcuInterfaceCodes.rc
