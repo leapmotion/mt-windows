@@ -5,7 +5,7 @@ static BYTE g_reportDesc[] = {
     0x85, REPORTID_FINGERS,        //   REPORT_ID (REPORTID_FINGERS)
     0x09, 0x22,                    //   USAGE (Finger)
     0xa1, 0x02,                    //   COLLECTION (Logical)
-    0x09, 0x42,                    //     USAGE (Tip Switch)
+    0x09, 0x33,                    //     USAGE (Tip Switch)
     0x15, 0x00,                    //     LOGICAL_MINIMUM (0)
     0x25, 0x01,                    //     LOGICAL_MAXIMUM (1)
     0x75, 0x01,                    //     REPORT_SIZE (1)
