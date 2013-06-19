@@ -8,22 +8,21 @@ using namespace std;
 
 void PrintUsage(const wchar_t* argv[])
 {
-	wcout << "Usage: " << argv[0] << " install | update | uninstall" << endl
-		  << endl
-		  << " This application installs the Leap Motion HID legacy device.  It MUST be run in" << endl
-		  << " administrator mode, because it has to create a new device." << endl;
+	wcout
+		<< "Usage: " << argv[0] << " [install | update | uninstall]" << endl
+		<< endl
+		<< " This application installs the Leap Motion HID legacy device.  It MUST be run in" << endl
+		<< " administrator mode, because it has to create a new device.  By default, if no" << endl
+		<< " option is specified, an installation will be attempted" << endl
+		<< endl
+		<< " The only difference between the install and update operations is that update" << endl
+		<< " will fail if the driver is not currently installed." << endl;
 }
 
 int wmain(int argc, const wchar_t* argv[])
 {
-	if(argc < 2)
-	{
-		PrintUsage(argv);
-		return -1;
-	}
-
 	eHidStatus rs;
-	auto op = argv[1];
+	auto op = argc < 2 ? L"install" : argv[1];
 	auto op2 = argc < 3 ? nullptr : argv[2];
 
 	// Switch based on the requested operation
