@@ -84,7 +84,10 @@ eHidStatus CInstallerBase::Install(void)
 	// Copy the INF to its destination in the system:
 #if !OCU_USE_UPDATEDRIVER
 	if(!SetupCopyOEMInf(m_infPath.c_str(), nullptr, SPOST_NONE, 0, nullptr, 0, nullptr, nullptr))
-		return eHidInstCopyOEMFail;
+		return 
+			PathFileExists(m_infPath.c_str()) ?
+			eHidInstINFDependencyMissing :
+			eHidInstCopyOEMFail;
 #endif
 
 	// The SYSTEM device class is where the device will be installed

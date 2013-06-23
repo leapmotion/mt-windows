@@ -137,7 +137,16 @@ Failed to build a list of compatible drivers for the created null device node.
 MessageId=
 SymbolicName=eHidInstCopyOEMFail
 Language=English
-Failed to copy the INF into the local machine's INF repository
+Failed to copy the INF into the local machine's INF repository, the INF file appears
+to be missing.
+.
+
+MessageId=
+SymbolicName=eHidInstINFDependencyMissing
+Language=English
+The INF file appears to be present, but one or more of its dependencies is missing.
+Cannot copy the INF unless all of its dependencies are present.  Check the inf's CAT
+file to verify that all files are present and available.
 .
 
 MessageId=
