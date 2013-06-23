@@ -16,3 +16,4 @@ Installer/InstallerCodes.h
 Installer/InstallerCodes.rc
 OcuInterface/OcuInterfaceCodes.h
 OcuInterface/OcuInterfaceCodes.rc
+*.user
