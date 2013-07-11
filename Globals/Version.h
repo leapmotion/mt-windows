@@ -7,4 +7,4 @@
 
 #define OCS_VER(maj, min, rev)	(((maj) << 28) | ((min) << 24) | rev)
 
-#define HIDEMULATOR_VERSION		OCS_VER(0, 0, 0)
+#define HIDEMULATOR_VERSION		OCS_VER(0, 8, 2)
