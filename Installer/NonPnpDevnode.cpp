@@ -6,6 +6,8 @@ NonPnpDevnode::NonPnpDevnode(void):
 	m_hInfo(nullptr),
 	released(false)
 {
+	memset(&m_driverInfo, 0, sizeof(m_driverInfo));
+	m_driverInfo.cbSize = sizeof(m_driverInfo);
 }
 
 NonPnpDevnode::NonPnpDevnode(std::shared_ptr<SystemInfoClass> hInfo):
@@ -48,18 +50,39 @@ void NonPnpDevnode::Associate(void) {
 	if(!SetupDiBuildDriverInfoList(*m_hInfo, this, SPDIT_COMPATDRIVER))
 		throw eHidInstInfoListBuildFail;
 
-	// Arbitrarily select the first driver.  There really should be only one driver anyway
-	SP_DRVINFO_DATA driverInfo;
-	memset(&driverInfo, 0, sizeof(driverInfo));
-	driverInfo.cbSize = sizeof(driverInfo);
-	if(!SetupDiEnumDriverInfo(*m_hInfo, this, SPDIT_COMPATDRIVER, 0, &driverInfo))
-		throw eHidInstCompatDriverFindFail;
+	// Select the best driver.  There really should be only one driver anyway
+  DWORD i = 0;
+
+  for(
+    auto driverInfo = m_driverInfo;
+    SetupDiEnumDriverInfo(*m_hInfo, this, SPDIT_COMPATDRIVER, i, &driverInfo);
+    i++
+  )
+    if(
+      !i ||
+
+      m_driverInfo.DriverVersion < driverInfo.DriverVersion ||
+
+      m_driverInfo.DriverVersion == driverInfo.DriverVersion &&
+      (long long&)m_driverInfo.DriverDate < (long long&)m_driverInfo.DriverDate
+    )
+    {
+      m_driverInfo = driverInfo;
+
+      if(i) {
+        // Uninstall the prior driver version:
+      }
+    }
+
+  if(!i)
+    throw eHidInstCompatDriverFindFail;
+
+  // Historical defect:
+  //0x0001000000000000
 
 	// Assign the selected driver to this device.
-	if(!SetupDiSetSelectedDriver(*m_hInfo, this, &driverInfo))
+	if(!SetupDiSetSelectedDriver(*m_hInfo, this, &m_driverInfo))
 		throw eHidInstDriverSelectFail;
-
-	DWORD bReboot = false;
 
 	// Now, even though we have been operating on devInfo for most of this function, we still need
 	// to indicate to the SetupAPI that we want to call some class installers on this device by making

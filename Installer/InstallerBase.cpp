@@ -3,6 +3,7 @@
 #include "InstanceEnumerator.h"
 #include "NonPnpDevnode.h"
 #include "ServiceControlManager.h"
+#include "SetupInfFile.h"
 #include "SystemInfoClass.h"
 #include <vector>
 #include <iostream>
@@ -62,13 +63,6 @@ CInstallerBase::~CInstallerBase(void)
 
 void CInstallerBase::Install(void)
 {
-	// Copy the INF to its destination in the system:
-	if(!SetupCopyOEMInf(m_infPath.c_str(), nullptr, SPOST_NONE, 0, nullptr, 0, nullptr, nullptr))
-		throw
-			PathFileExists(m_infPath.c_str()) ?
-			eHidInstINFDependencyMissing :
-			eHidInstCopyOEMFail;
-
 	// The SYSTEM device class is where the device will be installed
 	std::shared_ptr<SystemInfoClass> hInfo(new SystemInfoClass);
 
@@ -91,9 +85,19 @@ void CInstallerBase::Install(void)
     if(ie.IsRestartRequired())
       RequireRestart();
   }
+  
+	// Copy the new INF to its destination in the system:
+	if(!SetupCopyOEMInf(m_infPath.c_str(), nullptr, SPOST_NONE, 0, nullptr, 0, nullptr, nullptr))
+		throw
+			PathFileExists(m_infPath.c_str()) ?
+			eHidInstINFDependencyMissing :
+			eHidInstCopyOEMFail;
 
   // Associate the new driver with the PNP devnode:
   devInfo.Associate();
+
+  // Version comparison:
+  //SetupInfFile infFile(m_infPath.c_str());
 
   // Now we'll select the device:
   if(devInfo.InstallDriver())

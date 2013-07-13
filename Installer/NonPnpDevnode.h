@@ -16,7 +16,13 @@ private:
 	std::shared_ptr<SystemInfoClass> m_hInfo;
 	bool released;
 
+  // The driver that will be installed, valid after Associate is called
+	SP_DRVINFO_DATA m_driverInfo;
+
 public:
+  // Accessor methods:
+  SP_DRVINFO_DATA& GetDriverInfo(void) {return m_driverInfo;}
+
 	/// <summary>
 	/// Attempts to associate this non-PNP DevNode with the HidEmulator device driver
 	/// </summary>

@@ -175,3 +175,15 @@ SymbolicName=eHidInstDeviceRegistrationFailed
 Language=English
 Failed to register a device after successfully creating it
 .
+
+MessageId=
+SymbolicName=eHidInstDriverInfOpenFailed
+Language=English
+Failed to open the driver INF file, it could be corrupted or damaged
+.
+
+MessageId=
+SymbolicName=eHidInstInfInformationUnavailable
+Language=English
+Failed to obtain information from the driver INF
+.
