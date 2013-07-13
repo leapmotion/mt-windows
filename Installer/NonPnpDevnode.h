@@ -29,6 +29,7 @@ public:
   bool InstallDriver(void);
 
   void operator=(NonPnpDevnode&& rhs) {
+    *(PSP_DEVINFO_DATA)this = rhs;
     m_hInfo = rhs.m_hInfo;
     released = rhs.released;
     rhs.released = true;
