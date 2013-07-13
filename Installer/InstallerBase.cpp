@@ -71,17 +71,24 @@ void CInstallerBase::Install(void)
 			eHidInstCopyOEMFail;
 
 	// The SYSTEM device class is where the device will be installed
-	SystemInfoClass hInfo;
+	std::shared_ptr<SystemInfoClass> hInfo(new SystemInfoClass);
 
-	// See if we can find an already-extant hardware node.  If so, we'll just use that one.
+  NonPnpDevnode devInfo;
 
-	// We next create an empty devnode where the ocuhid legacy device may be attached.
-	// This empty devnode will then be characterized with a PNPID (by us) and then we let PNP
-	// find and load the driver from there.  This is basically what the add/remove hardware wizard
-	// does when you add legacy hardware.
-	NonPnpDevnode devInfo(hInfo);
+  {
+    InstanceEnumerator ie;
+    if(ie.Next())
+      // Just use the already-existing devnode
+      devInfo = NonPnpDevnode(ie, ie.Current());
+    else
+	    // We next create an empty devnode where the ocuhid legacy device may be attached.
+	    // This empty devnode will then be characterized with a PNPID (by us) and then we let PNP
+	    // find and load the driver from there.  This is basically what the add/remove hardware wizard
+	    // does when you add legacy hardware.
+      devInfo = NonPnpDevnode(ie);
+  }
 
-  // First associate the driver with the new PNP devnode:
+  // Associate the new driver with the PNP devnode:
   devInfo.Associate();
 
   // Now we'll select the device:

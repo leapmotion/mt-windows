@@ -25,6 +25,7 @@ public:
   /// </summary>
   bool Next(void);
 
+  operator std::shared_ptr<SystemInfoClass>(void) const {return m_hInfo;}
   operator HDEVINFO(void) const {return *m_hInfo;}
 };
 

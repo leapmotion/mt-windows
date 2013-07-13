@@ -1,14 +1,19 @@
 #pragma once
+#include <memory>
+
+class SystemInfoClass;
 
 class NonPnpDevnode:
 	public SP_DEVINFO_DATA
 {
 public:
-	NonPnpDevnode(HDEVINFO hInfo);
+	NonPnpDevnode(void);
+	NonPnpDevnode(std::shared_ptr<SystemInfoClass> hInfo);
+  NonPnpDevnode(std::shared_ptr<SystemInfoClass> hInfo, const SP_DEVINFO_DATA& data);
 	~NonPnpDevnode(void);
 
 private:
-	HDEVINFO m_hInfo;
+	std::shared_ptr<SystemInfoClass> m_hInfo;
 	bool released;
 
 public:
@@ -22,5 +27,11 @@ public:
   /// </remarks>
   /// <returns>True if a reboot is required</returns>
   bool InstallDriver(void);
+
+  void operator=(NonPnpDevnode&& rhs) {
+    m_hInfo = rhs.m_hInfo;
+    released = rhs.released;
+    rhs.released = true;
+  }
 };
 
