@@ -43,6 +43,10 @@ COcuHidInstance::~COcuHidInstance(void)
 	CloseHandle(m_hDevice);
 }
 
+DWORD COcuHidInstance::GetVersion(void) const {
+	return 0;
+}
+
 eHidStatus COcuHidInstance::Initialize(void)
 {
 	if(m_bAsynchronous)

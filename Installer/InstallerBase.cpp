@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "InstallerBase.h"
-#include "InstallerCodes.h"
-#include <devguid.h>
+#include "NonPnpDevnode.h"
+#include "SystemInfoClass.h"
 #include <vector>
 #include <iostream>
 
@@ -91,19 +91,15 @@ eHidStatus CInstallerBase::Install(void)
 #endif
 
 	// The SYSTEM device class is where the device will be installed
-	hInfo = SetupDiCreateDeviceInfoListExW(&GUID_DEVCLASS_SYSTEM, nullptr, nullptr, nullptr);
-	if(hInfo == INVALID_HANDLE_VALUE)
-		return eHidInstSysClassNotFound;
+	SystemInfoClass hInfo;
+
+	// See if we can find an already-extant hardware node:
 
 	// We next create an empty devnode where the ocuhid legacy device may be attached.
 	// This empty devnode will then be characterized with a PNPID (by us) and then we let PNP
 	// find and load the driver from there.  This is basically what the add/remove hardware wizard
 	// does when you add legacy hardware.
-	SP_DEVINFO_DATA devInfo;
-	memset(&devInfo, 0, sizeof(devInfo));
-	devInfo.cbSize = sizeof(devInfo);
-	if(!SetupDiCreateDeviceInfoW(hInfo, L"SYSTEM", &GUID_DEVCLASS_SYSTEM, nullptr, nullptr, DICD_GENERATE_ID, &devInfo))
-		return eHidInstDevCreateFail;
+	NonPnpDevnode devInfo(hInfo);
 
 	// Here's where the HWID is assigned.  This is how PNP knows what to attach to the newly created
 	// devnode.

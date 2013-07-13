@@ -42,6 +42,12 @@
     <ClInclude Include="PreprocFlags.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NonPnpDevnode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemInfoClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -54,6 +60,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LastErrorPreserver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NonPnpDevnode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemInfoClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

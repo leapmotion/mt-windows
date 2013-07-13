@@ -40,4 +40,3 @@ eHidStatus OcuHidUninstall(const wchar_t* pInfPath)
 {
 	return PerformOperation(pInfPath, &CInstallerBase::Uninstall);
 }
-

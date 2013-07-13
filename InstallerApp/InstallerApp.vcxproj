@@ -187,6 +187,9 @@
     <ProjectReference Include="..\Installer\Installer.vcxproj">
       <Project>{ba33edc3-8280-4c6d-9722-9378abd4d781}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\OcuInterface\OcuInterface.vcxproj">
+      <Project>{2e84469f-aca4-4fd8-a09f-a0e0a5832bdd}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="InstallerApp.rc" />

@@ -1,6 +1,10 @@
 #pragma once
 #include "InstallerCodes.h"
 
+struct OcuHidInfo {
+	DWORD version;
+};
+
 /// <summary>
 /// Installs the HidEmulator nondevice driver
 /// </summary>

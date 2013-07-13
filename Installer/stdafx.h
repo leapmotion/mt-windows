@@ -7,5 +7,7 @@
 #include <Shlwapi.h>
 #include "../newdev/newdev.h"
 #include "PreprocFlags.h"
+#include <devguid.h>
+#include "InstallerCodes.h"
 
 #define NUMBER_OF(x) (sizeof(x) / sizeof((x)[0]))
