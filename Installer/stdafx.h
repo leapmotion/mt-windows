@@ -11,3 +11,6 @@
 #include "InstallerCodes.h"
 
 #define NUMBER_OF(x) (sizeof(x) / sizeof((x)[0]))
+
+// The PNP ID that the HIDEmulator uses:
+extern const wchar_t gc_pnpID[];

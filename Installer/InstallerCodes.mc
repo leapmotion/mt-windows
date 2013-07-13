@@ -163,3 +163,9 @@ Language=English
 Cannot install the specified driver; it is on a network share.  Move the driver to
 a local directory and try again.
 .
+
+MessageId=
+SymbolicName=eHidInstFailedToSelectDevice
+Language=English
+Failed to select a located device driver to a created HidEmulator devnode
+.

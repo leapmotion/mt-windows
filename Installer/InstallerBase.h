@@ -33,6 +33,9 @@ private:
 	// Service manager handles:
 	SC_HANDLE hMngr;
 
+  // Set to true if restart is required
+  bool m_restartRequired;
+
 	// Set if the INF path is in a directory that PNP cannot install from, such as a network drive.
 	bool m_bMustCopy;
 
@@ -51,7 +54,10 @@ private:
 	eHidStatus ForEach(function<int (SP_DEVINFO_DATA&)> op);
 
 public:
-	// Mutator methods:
+  // Accessor methods:
+  bool IsRestartRequired(void) const {return m_restartRequired;}
+
+  // Mutator methods:
 	void SetInfPath(const wchar_t* pwcsInfPath);
 
 	/// <summary>
@@ -62,16 +68,16 @@ public:
 	/// <summary>
 	/// Installs the HidEmulator nondevice driver
 	/// </summary>
-	eHidStatus Install(void);
+	void Install(void);
 	
 	/// <summary>
 	/// Updates the HidEmulator nondevice driver
 	/// </summary>
-	eHidStatus Update(void);
+	void Update(void);
 	
 	/// <summary>
 	/// Uninstalls the HidEmulator nondevice driver
 	/// </summary>
-	eHidStatus Uninstall(void);
+	void Uninstall(void);
 };
 

@@ -7,11 +7,10 @@
 
 using namespace std;
 
-const wchar_t CInstallerBase::sc_pnpID[] = L"HID\\OcsEmulator";
-
 CInstallerBase::CInstallerBase(const wchar_t* pInfPath):
 	hInfo(nullptr),
 	hMngr(nullptr),
+  m_restartRequired(false),
 	m_infPath(pInfPath ? pInfPath : L"HidEmulator.inf"),
 	m_bMustCopy(false)
 {
@@ -79,12 +78,12 @@ eHidStatus CInstallerBase::Init(void)
 	return eHidInstSuccess;
 }
 
-eHidStatus CInstallerBase::Install(void)
+void CInstallerBase::Install(void)
 {
 	// Copy the INF to its destination in the system:
 #if !OCU_USE_UPDATEDRIVER
 	if(!SetupCopyOEMInf(m_infPath.c_str(), nullptr, SPOST_NONE, 0, nullptr, 0, nullptr, nullptr))
-		return 
+		throw
 			PathFileExists(m_infPath.c_str()) ?
 			eHidInstINFDependencyMissing :
 			eHidInstCopyOEMFail;
@@ -93,7 +92,7 @@ eHidStatus CInstallerBase::Install(void)
 	// The SYSTEM device class is where the device will be installed
 	SystemInfoClass hInfo;
 
-	// See if we can find an already-extant hardware node:
+	// See if we can find an already-extant hardware node.  If so, we'll just use that one.
 
 	// We next create an empty devnode where the ocuhid legacy device may be attached.
 	// This empty devnode will then be characterized with a PNPID (by us) and then we let PNP
@@ -101,53 +100,11 @@ eHidStatus CInstallerBase::Install(void)
 	// does when you add legacy hardware.
 	NonPnpDevnode devInfo(hInfo);
 
-	// Here's where the HWID is assigned.  This is how PNP knows what to attach to the newly created
-	// devnode.
-	if(!SetupDiSetDeviceRegistryPropertyW(hInfo, &devInfo, SPDRP_HARDWAREID, (LPCBYTE)sc_pnpID, sizeof(sc_pnpID)))
-		return eHidInstDevIDAssignFail;
+  // First associate the driver with the new PNP devnode:
+  devInfo.Associate();
 
-	// Now, we need to let PNP know that this is a device, so that it will actually try to find drivers
-	SetupDiCallClassInstaller(DIF_REGISTERDEVICE, hInfo, &devInfo);
-
-	// Construct a set of supported drivers.  This list will include the driver that we installed earlier with
-	// the earlier call to SetupCopyOEMInf.
-	if(!SetupDiBuildDriverInfoList(hInfo, &devInfo, SPDIT_COMPATDRIVER))
-		return eHidInstInfoListBuildFail;
-
-	// Arbitrarily select the first driver.  There really should be only one driver anyway
-	SP_DRVINFO_DATA driverInfo;
-	memset(&driverInfo, 0, sizeof(driverInfo));
-	driverInfo.cbSize = sizeof(driverInfo);
-	if(!SetupDiEnumDriverInfo(hInfo, &devInfo, SPDIT_COMPATDRIVER, 0, &driverInfo))
-		return eHidInstCompatDriverFindFail;
-
-	// Assign the selected driver to this device.
-	if(!SetupDiSetSelectedDriver(hInfo, &devInfo, &driverInfo))
-		return eHidInstDriverSelectFail;
-
-	DWORD bReboot = false;
-#if OCU_USE_UPDATEDRIVER
-	// Everything else is laid in.  Now, we just have to tell PNP to find the drivers for the device given
-	// the INF that we supplied, and then let PNP do the rest.
-	if(!UpdateDriverForPlugAndPlayDevices(nullptr, sc_pnpID, m_infPath.c_str(), INSTALLFLAG_FORCE, &bReboot))
-		return eHidInstUserCancel;
-#else
-
-	// Now, even though we have been operating on devInfo for most of this function, we still need
-	// to indicate to the SetupAPI that we want to call some class installers on this device by making
-	// this call.  That's what this call does--it tells SetupAPI about our intent.
-	SetupDiSetSelectedDevice(hInfo, &devInfo);
-
-	// Install the driver we selected into the device we just selected.
-	DWORD dwReboot = 0;
-	if(!InstallSelectedDriver(nullptr, hInfo, nullptr, true, &dwReboot))
-		return eHidInstInstallSelectionFailed;
-
-	// Reboot necessity is based on the value of the reboot operation.
-	bReboot = dwReboot == DI_NEEDREBOOT;
-#endif
-
-	return bReboot ? eHidInstRestartRequired : eHidInstSuccess;
+  // Now we'll select the device:
+  m_restartRequired = devInfo.InstallDriver();
 }
 
 eHidStatus CInstallerBase::ForEach(function<int (SP_DEVINFO_DATA&)> op)
@@ -191,7 +148,7 @@ eHidStatus CInstallerBase::ForEach(function<int (SP_DEVINFO_DATA&)> op)
 	return eHidInstNoDevsToUpdate;
 }
 
-eHidStatus CInstallerBase::Update(void)
+void CInstallerBase::Update(void)
 {
 	// Update all detected devices.
 	return ForEach(
@@ -215,7 +172,7 @@ eHidStatus CInstallerBase::Update(void)
 	);
 }
 
-eHidStatus CInstallerBase::DeleteOcuHidService(const wchar_t* lpwcsName)
+void CInstallerBase::DeleteOcuHidService(const wchar_t* lpwcsName)
 {
 	eHidStatus rs = eHidInstSuccess;
 	SC_HANDLE hSrv;
@@ -274,7 +231,7 @@ eHidStatus CInstallerBase::DeleteOcuHidService(const wchar_t* lpwcsName)
 	return rs;
 }
 
-eHidStatus CInstallerBase::Uninstall(void)
+void CInstallerBase::Uninstall(void)
 {
 	// Delete all OcuHid devnodes first
 	eHidStatus rs = ForEach(

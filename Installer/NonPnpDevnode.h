@@ -16,5 +16,11 @@ public:
 	/// Attempts to associate this non-PNP DevNode with the HidEmulator device driver
 	/// </summary>
 	void Associate(void);
+
+  /// <summary>
+  /// Attempts to update the driver associated with this devnode
+  /// </remarks>
+  /// <returns>True if a reboot is required</returns>
+  bool InstallDriver(void);
 };
 
