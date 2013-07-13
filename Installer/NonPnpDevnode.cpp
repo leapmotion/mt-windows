@@ -15,8 +15,17 @@ NonPnpDevnode::NonPnpDevnode(std::shared_ptr<SystemInfoClass> hInfo):
 	memset((PSP_DEVINFO_DATA)this, 0, sizeof(SP_DEVINFO_DATA));
 	cbSize = sizeof(SP_DEVINFO_DATA);
 
+  // Create an infoset to hold our single device:
 	if(!SetupDiCreateDeviceInfoW(*hInfo, L"SYSTEM", &GUID_DEVCLASS_SYSTEM, nullptr, nullptr, DICD_GENERATE_ID, this))
 		throw eHidInstDevCreateFail;
+
+	// Here's where the HWID is assigned.  This is how PNP knows what to attach to the newly created devnode.
+	if(!SetupDiSetDeviceRegistryPropertyW(*m_hInfo, this, SPDRP_HARDWAREID, (LPCBYTE)gc_pnpID, gc_pnpIDLen))
+		throw eHidInstDevIDAssignFail;
+
+	// Now, we need to let PNP know that this is a device, so that it will actually try to find drivers
+	if(!SetupDiCallClassInstaller(DIF_REGISTERDEVICE, *m_hInfo, this))
+    throw eHidInstDeviceRegistrationFailed;
 }
 
 NonPnpDevnode::NonPnpDevnode(std::shared_ptr<SystemInfoClass> hInfo, const SP_DEVINFO_DATA& data):
@@ -34,14 +43,6 @@ NonPnpDevnode::~NonPnpDevnode(void)
 }
 
 void NonPnpDevnode::Associate(void) {
-	// Here's where the HWID is assigned.  This is how PNP knows what to attach to the newly created
-	// devnode.
-	if(!SetupDiSetDeviceRegistryPropertyW(*m_hInfo, this, SPDRP_HARDWAREID, (LPCBYTE)gc_pnpID, gc_pnpIDLen))
-		throw eHidInstDevIDAssignFail;
-
-	// Now, we need to let PNP know that this is a device, so that it will actually try to find drivers
-	SetupDiCallClassInstaller(DIF_REGISTERDEVICE, *m_hInfo, this);
-
 	// Construct a set of supported drivers.  This list will include the driver that we installed earlier with
 	// the earlier call to SetupCopyOEMInf.
 	if(!SetupDiBuildDriverInfoList(*m_hInfo, this, SPDIT_COMPATDRIVER))

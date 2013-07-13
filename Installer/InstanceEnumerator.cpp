@@ -16,7 +16,7 @@ InstanceEnumerator::~InstanceEnumerator(void)
 
 bool InstanceEnumerator::Next(void) {
 	// Enumerate to the devnode matching our device ID:
-	for(; SetupDiEnumDeviceInfo(*m_hInfo, m_i, &m_info); m_i++)
+	while(SetupDiEnumDeviceInfo(*m_hInfo, m_i++, &m_info))
 	{
 		wchar_t buf[MAX_PATH];
 		DWORD dwType = REG_SZ;

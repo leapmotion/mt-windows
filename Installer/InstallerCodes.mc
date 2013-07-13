@@ -169,3 +169,9 @@ SymbolicName=eHidInstFailedToSelectDevice
 Language=English
 Failed to select a located device driver to a created HidEmulator devnode
 .
+
+MessageId=
+SymbolicName=eHidInstDeviceRegistrationFailed
+Language=English
+Failed to register a device after successfully creating it
+.
