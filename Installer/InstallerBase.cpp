@@ -73,12 +73,11 @@ void CInstallerBase::Install(void)
 	std::shared_ptr<SystemInfoClass> hInfo(new SystemInfoClass);
 
   NonPnpDevnode devInfo;
-
   {
     InstanceEnumerator ie;
     if(ie.Next())
       // Just use the already-existing devnode
-      devInfo = NonPnpDevnode(hInfo, ie.Current());
+      devInfo = NonPnpDevnode(ie, ie.Current());
     else
 	    // We next create an empty devnode where the ocuhid legacy device may be attached.
 	    // This empty devnode will then be characterized with a PNPID (by us) and then we let PNP
