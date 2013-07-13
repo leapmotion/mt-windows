@@ -15,9 +15,6 @@ eHidStatus PerformOperation(const wchar_t* pInfPath, void (CInstallerBase::*pMem
 	  // Installer base initialization:
 	  CInstallerBase base(pInfPath);
 
-	  // Initialize the installer base as needed:
-	  base.Init();
-
 	  // Perform the operation proper
 	  (base.*pMember)();
 

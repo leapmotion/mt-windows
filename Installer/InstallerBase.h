@@ -17,11 +17,6 @@ public:
 	CInstallerBase(const wchar_t* pInfPath);
 	~CInstallerBase(void);
 
-	/// <summary>
-	/// Construction routine, used to set up internal pointers
-	/// </summary>
-	eHidStatus Init(void);
-
 private:
   // Set to true if restart is required
   bool m_restartRequired;

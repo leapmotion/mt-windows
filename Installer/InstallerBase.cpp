@@ -61,18 +61,6 @@ CInstallerBase::~CInstallerBase(void)
 {
 }
 
-eHidStatus CInstallerBase::Init(void)
-{
-#if OCU_USE_UPDATEDRIVER
-	// The UpdateDriver routine cannot support an install operation from a network path.
-	// Thus, if the bMustCopy flag is cleared, we don't allow an installation to proceed.
-	if(m_bMustCopy)
-		return eHidInstUpdateFailFromNetwork;
-#endif
-
-	return eHidInstSuccess;
-}
-
 void CInstallerBase::Install(void)
 {
 	// Copy the INF to its destination in the system:
