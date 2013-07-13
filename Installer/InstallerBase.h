@@ -17,22 +17,12 @@ public:
 	CInstallerBase(const wchar_t* pInfPath);
 	~CInstallerBase(void);
 
-	// In a production driver, this would actually contain a real PNPID.  In our
-	// case, however, this contains a root-enumerated PNP device.
-	static const wchar_t sc_pnpID[];
-	
 	/// <summary>
 	/// Construction routine, used to set up internal pointers
 	/// </summary>
 	eHidStatus Init(void);
 
 private:
-	// Device info, for enumeration:
-	HDEVINFO hInfo;
-
-	// Service manager handles:
-	SC_HANDLE hMngr;
-
   // Set to true if restart is required
   bool m_restartRequired;
 
@@ -46,7 +36,7 @@ private:
 	/// <summary>
 	/// Utility routine for deleting services
 	/// </summary>
-	eHidStatus DeleteOcuHidService(const wchar_t* lpwcsName);
+	void DeleteOcuHidService(const wchar_t* lpwcsName);
 
 public:
   // Accessor methods:

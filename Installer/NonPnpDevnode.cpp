@@ -21,7 +21,7 @@ NonPnpDevnode::~NonPnpDevnode(void)
 void NonPnpDevnode::Associate(void) {
 	// Here's where the HWID is assigned.  This is how PNP knows what to attach to the newly created
 	// devnode.
-	if(!SetupDiSetDeviceRegistryPropertyW(m_hInfo, this, SPDRP_HARDWAREID, (LPCBYTE)gc_pnpID, sizeof(gc_pnpID)))
+	if(!SetupDiSetDeviceRegistryPropertyW(m_hInfo, this, SPDRP_HARDWAREID, (LPCBYTE)gc_pnpID, gc_pnpIDLen))
 		throw eHidInstDevIDAssignFail;
 
 	// Now, we need to let PNP know that this is a device, so that it will actually try to find drivers
@@ -57,7 +57,7 @@ bool NonPnpDevnode::InstallDriver(void) {
 	// Install the driver we selected into the device we just selected.
 	DWORD dwReboot = 0;
 	if(!InstallSelectedDriver(nullptr, m_hInfo, nullptr, true, &dwReboot))
-		return eHidInstInstallSelectionFailed;
+		throw eHidInstInstallSelectionFailed;
 
 	// Reboot necessity is based on the value of the reboot operation.
   released = true;

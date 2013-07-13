@@ -14,3 +14,4 @@
 
 // The PNP ID that the HIDEmulator uses:
 extern const wchar_t gc_pnpID[];
+extern const DWORD gc_pnpIDLen;

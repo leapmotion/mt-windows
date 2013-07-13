@@ -3,6 +3,9 @@
 #include "InstallerBase.h"
 #include "LastErrorPreserver.h"
 
+enum eHidStatus {
+};
+
 eHidStatus PerformOperation(const wchar_t* pInfPath, void (CInstallerBase::*pMember)())
 {
 	// This class is declared first to ensure that its destructor is called last
@@ -20,7 +23,7 @@ eHidStatus PerformOperation(const wchar_t* pInfPath, void (CInstallerBase::*pMem
 
     // If restart is required we'll return here to indicate that:
     if(base.IsRestartRequired())
-      return eHidInstRestartRequired;
+      throw eHidInstRestartRequired;
   } catch(eHidStatus rs) {
 	  // Done, capture the last error so it's restored after the CInstallerBase destructor
 	  // call is made and then return here.

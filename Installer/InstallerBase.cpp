@@ -2,6 +2,7 @@
 #include "InstallerBase.h"
 #include "InstanceEnumerator.h"
 #include "NonPnpDevnode.h"
+#include "ServiceControlManager.h"
 #include "SystemInfoClass.h"
 #include <vector>
 #include <iostream>
@@ -9,8 +10,6 @@
 using namespace std;
 
 CInstallerBase::CInstallerBase(const wchar_t* pInfPath):
-	hInfo(nullptr),
-	hMngr(nullptr),
   m_restartRequired(false),
 	m_infPath(pInfPath ? pInfPath : L"HidEmulator.inf"),
 	m_bMustCopy(false)
@@ -60,11 +59,6 @@ CInstallerBase::CInstallerBase(const wchar_t* pInfPath):
 
 CInstallerBase::~CInstallerBase(void)
 {
-	// Clean up the info list and service manager handles, if they are non-null
-	if(hInfo)
-		SetupDiDestroyDeviceInfoList(hInfo);
-	if(hMngr)
-		CloseServiceHandle(hMngr);
 }
 
 eHidStatus CInstallerBase::Init(void)
@@ -118,7 +112,7 @@ void CInstallerBase::Update(void)
   BOOL bReboot;
 	if(!UpdateDriverForPlugAndPlayDevices(
 			nullptr,
-			sc_pnpID,
+			gc_pnpID,
 			m_infPath.c_str(),
 			0,
 			&bReboot
@@ -135,90 +129,33 @@ void CInstallerBase::Update(void)
   }
 }
 
-eHidStatus CInstallerBase::DeleteOcuHidService(const wchar_t* lpwcsName)
-{
-	eHidStatus rs = eHidInstSuccess;
-	SC_HANDLE hSrv;
-
-	// Open a handle to the HidEmulator service proper.
-	hSrv = OpenServiceW(hMngr, L"HidEmulator", GENERIC_ALL);
-	if(!hSrv)
-		throw eHidInstServiceOpenFailed;
-
-	// Determine how many bytes will be needed to our service binaries.
-	DWORD cbNeeded;
-	QueryServiceConfigW(hSrv, NULL, 0, &cbNeeded);
-	if(!cbNeeded)
-		rs = eHidInstServiceConfQueryFail;
-
-	// Path length acquired, query the service configuration, which will get us
-	// the path to service binaries.
-	vector<BYTE> configBuf(cbNeeded + 1);
-	auto& config = (QUERY_SERVICE_CONFIGW&)configBuf[0];
-	if(cbNeeded && !QueryServiceConfigW(hSrv, &config, cbNeeded, &cbNeeded))
-		rs = eHidInstServiceConfQueryFail;
-
-	// Attempt to delete the service:
-	if(!DeleteService(hSrv))
-		switch(GetLastError())
-		{
-		case ERROR_SERVICE_MARKED_FOR_DELETE:
-			// Service already marked for deletion:
-			break;
-		default:
-			rs = eHidInstServiceDeleteFailed;
-		}
-
-	// Done deleting the service, close the handle we don't need.
-	CloseServiceHandle(hSrv);
-
-	// Delete the service binaries from the system:
-	{
-		TCHAR wcSysRoot[MAX_PATH];
-		TCHAR wcFullPath[MAX_PATH];
-
-		// Recover system root
-		GetWindowsDirectoryW(wcSysRoot, MAX_PATH);
-
-		// Create the full path:
-		swprintf_s(wcFullPath, ARRAYSIZE(wcFullPath), L"%s\\%s", wcSysRoot, config.lpBinaryPathName);
-
-		// Verify that the full path exists before we try to delete it.
-		if(PathFileExistsW(wcFullPath))
-			// Delete the file now if we can
-			if(!DeleteFileW(wcFullPath))
-				// File in use.  Delay deletion until reboot.
-				MoveFileEx(wcFullPath, NULL, MOVEFILE_DELAY_UNTIL_REBOOT);
-	}
-
-	return rs;
-}
-
 void CInstallerBase::Uninstall(void)
 {
-	// Delete all OcuHid devnodes first
-	eHidStatus rs = ForEach(
-		[this] (SP_DEVINFO_DATA& data) -> int {
-			SetupDiCallClassInstaller(DIF_REMOVE, hInfo, &data);
-			return eHidInstSuccess;
-		}
-	);
+  // Removal of all detected devices:
+  {
+    InstanceEnumerator ie;
+    while(ie.Next()) {
+      SetupDiCallClassInstaller(DIF_REMOVE, ie, &ie.Current());
 
-	if(!SUCCEEDED(rs))
-		// Devnode removal failed; do not attempt to remove the service.
-		return rs;
+      // Do we need to restart now?
+      SP_DEVINSTALL_PARAMS params;
+      params.cbSize = sizeof(params);
+      SetupDiGetDeviceInstallParams(ie, &ie.Current(), &params);
 
-	// Once the devnodes are gone, the OcuHid service must also be removed
+      if(params.Flags & (DI_NEEDREBOOT | DI_NEEDRESTART))
+        m_restartRequired = true;
+    }
+  }
 
-	// Get a manager handle with all-access so deletion is possible
-	hMngr = OpenSCManagerW(nullptr, SERVICES_ACTIVE_DATABASEW, SC_MANAGER_ALL_ACCESS);
-	if(!hMngr)
-		return eHidInstSCManOpenFailed;
+  {
+	  // Service destruction:
+    ServiceControlManager scm;
 
-	// Now the services proper may be deleted:
-	DeleteOcuHidService(L"HidEmulator");
-	DeleteOcuHidService(L"HidEmulatorKmdf");
+	  // Now the services proper may be deleted:
+	  scm.DeleteOcuHidService(L"HidEmulator");
+	  scm.DeleteOcuHidService(L"HidEmulatorKmdf");
 
-	// Destructor will handle final cleanup
-	return eHidInstSuccess;
+    // Propagate the restart flag out:
+    m_restartRequired = scm.IsRestartRequired();
+  }
 }

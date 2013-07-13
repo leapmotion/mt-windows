@@ -18,11 +18,13 @@ private:
 
 public:
   // Accessor methods:
-  const SP_DEVINFO_DATA& Current(void) const {return m_info;}
+  SP_DEVINFO_DATA& Current(void) {return m_info;}
 
   /// <summary>
   /// Finds the next matching Leap ID
   /// </summary>
   bool Next(void);
+
+  operator HDEVINFO(void) const {return *m_hInfo;}
 };
 
