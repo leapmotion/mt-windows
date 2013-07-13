@@ -78,13 +78,13 @@ void CInstallerBase::Install(void)
     InstanceEnumerator ie;
     if(ie.Next())
       // Just use the already-existing devnode
-      devInfo = NonPnpDevnode(ie, ie.Current());
+      devInfo = NonPnpDevnode(hInfo, ie.Current());
     else
 	    // We next create an empty devnode where the ocuhid legacy device may be attached.
 	    // This empty devnode will then be characterized with a PNPID (by us) and then we let PNP
 	    // find and load the driver from there.  This is basically what the add/remove hardware wizard
 	    // does when you add legacy hardware.
-      devInfo = NonPnpDevnode(ie);
+      devInfo = NonPnpDevnode(hInfo);
 
     // Destory any other detected device--ensure a maximum of one is ever installed:
     while(ie.Next())
