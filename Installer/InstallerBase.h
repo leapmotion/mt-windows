@@ -1,4 +1,5 @@
 #pragma once
+#include "RestartRequiredTracker.h"
 #include <functional>
 #include <string>
 
@@ -7,7 +8,8 @@ using namespace std::tr1;
 
 enum eHidStatus;
 
-class CInstallerBase
+class CInstallerBase:
+  public RestartRequiredTracker
 {
 public:
 	/// <summary>
@@ -18,9 +20,6 @@ public:
 	~CInstallerBase(void);
 
 private:
-  // Set to true if restart is required
-  bool m_restartRequired;
-
 	// Set if the INF path is in a directory that PNP cannot install from, such as a network drive.
 	bool m_bMustCopy;
 
@@ -34,9 +33,6 @@ private:
 	void DeleteOcuHidService(const wchar_t* lpwcsName);
 
 public:
-  // Accessor methods:
-  bool IsRestartRequired(void) const {return m_restartRequired;}
-
   // Mutator methods:
 	void SetInfPath(const wchar_t* pwcsInfPath);
 

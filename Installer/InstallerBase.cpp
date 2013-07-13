@@ -10,7 +10,6 @@
 using namespace std;
 
 CInstallerBase::CInstallerBase(const wchar_t* pInfPath):
-  m_restartRequired(false),
 	m_infPath(pInfPath ? pInfPath : L"HidEmulator.inf"),
 	m_bMustCopy(false)
 {
@@ -86,13 +85,20 @@ void CInstallerBase::Install(void)
 	    // find and load the driver from there.  This is basically what the add/remove hardware wizard
 	    // does when you add legacy hardware.
       devInfo = NonPnpDevnode(ie);
+
+    // Destory any other detected device--ensure a maximum of one is ever installed:
+    while(ie.Next())
+      ie.DestroyCurrent();
+    if(ie.IsRestartRequired())
+      RequireRestart();
   }
 
   // Associate the new driver with the PNP devnode:
   devInfo.Associate();
 
   // Now we'll select the device:
-  m_restartRequired = devInfo.InstallDriver();
+  if(devInfo.InstallDriver())
+    RequireRestart();
 }
 
 void CInstallerBase::Update(void)
@@ -115,13 +121,13 @@ void CInstallerBase::Update(void)
 	)
 		throw eHidInstUserCancel;
 
-  // Set our flag according to restart disposition
-  m_restartRequired = !!bReboot;
-	
   // Destroy all other detected devices:
-  while(ie.Next()) {
-    ;
-  }
+  while(ie.Next())
+    ie.DestroyCurrent();
+  
+  // Update o restart disposition
+  if(bReboot || ie.IsRestartRequired())
+    RequireRestart();
 }
 
 void CInstallerBase::Uninstall(void)
@@ -129,17 +135,10 @@ void CInstallerBase::Uninstall(void)
   // Removal of all detected devices:
   {
     InstanceEnumerator ie;
-    while(ie.Next()) {
-      SetupDiCallClassInstaller(DIF_REMOVE, ie, &ie.Current());
-
-      // Do we need to restart now?
-      SP_DEVINSTALL_PARAMS params;
-      params.cbSize = sizeof(params);
-      SetupDiGetDeviceInstallParams(ie, &ie.Current(), &params);
-
-      if(params.Flags & (DI_NEEDREBOOT | DI_NEEDRESTART))
-        m_restartRequired = true;
-    }
+    while(ie.Next())
+      ie.DestroyCurrent();
+    if(ie.IsRestartRequired())
+      RequireRestart();
   }
 
   {
@@ -151,6 +150,7 @@ void CInstallerBase::Uninstall(void)
 	  scm.DeleteOcuHidService(L"HidEmulatorKmdf");
 
     // Propagate the restart flag out:
-    m_restartRequired = scm.IsRestartRequired();
+    if(scm.IsRestartRequired())
+      RequireRestart();
   }
 }

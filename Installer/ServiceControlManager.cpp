@@ -6,8 +6,7 @@
 using namespace std;
 
 ServiceControlManager::ServiceControlManager(void):
-  m_hMngr(OpenSCManagerW(nullptr, SERVICES_ACTIVE_DATABASEW, SC_MANAGER_ALL_ACCESS)),
-  m_restartRequired(false)
+  m_hMngr(OpenSCManagerW(nullptr, SERVICES_ACTIVE_DATABASEW, SC_MANAGER_ALL_ACCESS))
 {
   if(!m_hMngr)
     throw eHidInstSCManOpenFailed;

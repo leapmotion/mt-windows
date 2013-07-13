@@ -1,8 +1,10 @@
 #pragma once
 #include <memory>
+#include "RestartRequiredTracker.h"
 #include "SystemInfoClass.h"
 
-class InstanceEnumerator
+class InstanceEnumerator:
+  public RestartRequiredTracker
 {
 public:
   InstanceEnumerator(std::shared_ptr<SystemInfoClass> hInfo = std::shared_ptr<SystemInfoClass>(new SystemInfoClass(L"root\\system")));
@@ -24,6 +26,11 @@ public:
   /// Finds the next matching Leap ID
   /// </summary>
   bool Next(void);
+
+  /// <summary>
+  /// Destroyes the currently enumerated device
+  /// </summary>
+  void DestroyCurrent(void);
 
   operator std::shared_ptr<SystemInfoClass>(void) const {return m_hInfo;}
   operator HDEVINFO(void) const {return *m_hInfo;}

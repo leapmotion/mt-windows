@@ -44,3 +44,15 @@ bool InstanceEnumerator::Next(void) {
 	}
   return false;
 }
+
+void InstanceEnumerator::DestroyCurrent(void) {
+  SetupDiCallClassInstaller(DIF_REMOVE, *this, &Current());
+
+  // Do we need to restart now?
+  SP_DEVINSTALL_PARAMS params;
+  params.cbSize = sizeof(params);
+  SetupDiGetDeviceInstallParams(*this, &Current(), &params);
+
+  if(params.Flags & (DI_NEEDREBOOT | DI_NEEDRESTART))
+    RequireRestart();
+}

@@ -175,6 +175,7 @@
     <ClInclude Include="LastErrorPreserver.h" />
     <ClInclude Include="NonPnpDevnode.h" />
     <ClInclude Include="PreprocFlags.h" />
+    <ClInclude Include="RestartRequiredTracker.h" />
     <ClInclude Include="ServiceControlManager.h" />
     <ClInclude Include="ServiceHandle.h" />
     <ClInclude Include="stdafx.h" />
