@@ -63,6 +63,41 @@ CInstallerBase::~CInstallerBase(void)
 
 void CInstallerBase::Install(void)
 {
+  // Obtain a current list of all known INFs:
+  vector<wchar_t> infFiles(0x8000);
+  DWORD reqSize = (DWORD)infFiles.size();
+
+  if(!SetupGetInfFileList(nullptr, INF_STYLE_WIN4, &infFiles[0], reqSize, &reqSize)) {
+    if(GetLastError() != ERROR_INSUFFICIENT_BUFFER)
+      throw eHidInstInfCannotEnumerate;
+
+    // Insufficient buffer, size up
+    infFiles.resize(reqSize);
+    SetupGetInfFileList(nullptr, INF_STYLE_WIN4, &infFiles[0], reqSize, &reqSize);
+  }
+
+  // Load our own INF file:
+  SetupInfFile leapInf(m_infPath.c_str());
+  if(!leapInf.IsLeap())
+    throw eHidInstInfApparentlyNotLeap;
+
+  // Latest-known version:
+  auto& ver = leapInf.GetVersion();
+
+  // Enumerate INFs, scanning for older versions of ourself:
+  for(wchar_t* pCur = &infFiles[0]; *pCur; pCur += wcslen(pCur) + 1) {
+    SetupInfFile curInfFile(pCur);
+    if(!curInfFile.IsLeap())
+      continue;
+
+    // Version comparison:
+    if(ver < curInfFile.GetVersion())
+    {
+      // Uninstall this one.
+      SetupUninstallOEMInf(pCur, 0, nullptr);
+    }
+  }
+
 	// The SYSTEM device class is where the device will be installed
 	std::shared_ptr<SystemInfoClass> hInfo(new SystemInfoClass);
 
@@ -95,9 +130,6 @@ void CInstallerBase::Install(void)
 
   // Associate the new driver with the PNP devnode:
   devInfo.Associate();
-
-  // Version comparison:
-  //SetupInfFile infFile(m_infPath.c_str());
 
   // Now we'll select the device:
   if(devInfo.InstallDriver())

@@ -187,3 +187,15 @@ SymbolicName=eHidInstInfInformationUnavailable
 Language=English
 Failed to obtain information from the driver INF
 .
+
+MessageId=
+SymbolicName=eHidInstInfCannotEnumerate
+Language=English
+Failed to enumerate the list of already-installed INFs
+.
+
+MessageId=
+SymbolicName=eHidInstInfApparentlyNotLeap
+Language=English
+INF file requested for installation is apparently not a Leap INF
+.

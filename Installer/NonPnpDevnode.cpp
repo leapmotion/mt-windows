@@ -1,6 +1,10 @@
 #include "stdafx.h"
 #include "NonPnpDevnode.h"
 #include "SystemInfoClass.h"
+#include <iostream>
+#include <vector>
+
+using namespace std;
 
 NonPnpDevnode::NonPnpDevnode(void):
 	m_hInfo(nullptr),
@@ -37,7 +41,6 @@ NonPnpDevnode::NonPnpDevnode(std::shared_ptr<SystemInfoClass> hInfo, const SP_DE
 {
 }
 
-
 NonPnpDevnode::~NonPnpDevnode(void)
 {
 	if(!released)
@@ -53,6 +56,7 @@ void NonPnpDevnode::Associate(void) {
 	// Select the best driver.  There really should be only one driver anyway
   DWORD i = 0;
 
+  vector<char> buf;
   for(
     auto driverInfo = m_driverInfo;
     SetupDiEnumDriverInfo(*m_hInfo, this, SPDIT_COMPATDRIVER, i, &driverInfo);
@@ -67,11 +71,24 @@ void NonPnpDevnode::Associate(void) {
       (long long&)m_driverInfo.DriverDate < (long long&)m_driverInfo.DriverDate
     )
     {
-      m_driverInfo = driverInfo;
-
       if(i) {
-        // Uninstall the prior driver version:
+        // Obtain driver information detail:
+        DWORD sz;
+        SetupDiGetDriverInfoDetailW(*m_hInfo, this, &driverInfo, nullptr, 0, &sz);
+        buf.resize(sz);
+        
+        // Obtain the full data:
+        auto& data = (SP_DRVINFO_DETAIL_DATA_W&)buf[0];
+        memset(&data, 0, sz);
+        data.cbSize = sz;
+        if(SetupDiGetDriverInfoDetailW(*m_hInfo, this, &driverInfo, &data, sz, &sz))
+          // Uninstall the driver:
+          SetupUninstallOEMInf(data.InfFileName, 0, nullptr);
+        
+        cout << "Ex2" << endl;
       }
+
+      m_driverInfo = driverInfo;
     }
 
   if(!i)
