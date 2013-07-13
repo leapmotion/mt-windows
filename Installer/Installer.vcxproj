@@ -77,8 +77,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LibraryPath>$(LibraryPath);$(WINDDK)lib\wlh\amd64</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LibraryPath>$(LibraryPath);$(WINDDK)wlh\amd64</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -90,7 +94,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ModuleDefinitionFile>Installer.def</ModuleDefinitionFile>
-      <AdditionalDependencies>Setupapi.lib;Shlwapi.lib;newdev.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Setupapi.lib;Shlwapi.lib;difxapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>signtool sign -n "Leap Motion Inc" "$(TargetPath)"</Command>
@@ -110,7 +114,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ModuleDefinitionFile>Installer.def</ModuleDefinitionFile>
-      <AdditionalDependencies>Setupapi.lib;Shlwapi.lib;newdev.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Setupapi.lib;Shlwapi.lib;difxapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>signtool sign -n "Leap Motion Inc" "$(TargetPath)"</Command>
@@ -134,7 +138,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <ModuleDefinitionFile>Installer.def</ModuleDefinitionFile>
-      <AdditionalDependencies>Setupapi.lib;Shlwapi.lib;newdev.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Setupapi.lib;Shlwapi.lib;difxapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>signtool sign -n "Leap Motion Inc" "$(TargetPath)"</Command>
@@ -158,7 +162,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <ModuleDefinitionFile>Installer.def</ModuleDefinitionFile>
-      <AdditionalDependencies>Setupapi.lib;Shlwapi.lib;newdev.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Setupapi.lib;Shlwapi.lib;difxapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>signtool sign -n "Leap Motion Inc" "$(TargetPath)"</Command>
@@ -224,6 +228,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Globals\Globals.vcxproj">
       <Project>{ec3ca5d5-6e6a-4ee3-82d1-0776b6027b4b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\newdev\newdev.vcxproj">
+      <Project>{5959e53b-c989-4548-bf96-b470cee7a5ee}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

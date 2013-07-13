@@ -99,11 +99,13 @@ void CInstallerBase::Update(void)
   InstanceEnumerator ie;
   if(!ie.Next())
     throw eHidInstNoDevsToUpdate;
+  
+  BOOL bReboot = false;
 
+  /*
 	// This is an omnibus routine that will update a device if you provide its PNP ID
 	// Though we don't strictly need to put this in a ForEach call, it is done anyway
 	// to ensure that the routine isn't called when there isn't a need for it.
-  BOOL bReboot;
 	if(!UpdateDriverForPlugAndPlayDevices(
 			nullptr,
 			gc_pnpID,
@@ -112,7 +114,7 @@ void CInstallerBase::Update(void)
 			&bReboot
 		)
 	)
-		throw eHidInstUserCancel;
+		throw eHidInstUserCancel; */
 
   // Destroy all other detected devices:
   while(ie.Next())
