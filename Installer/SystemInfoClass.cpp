@@ -10,6 +10,15 @@ SystemInfoClass::SystemInfoClass(void):
 		throw eHidInstSysClassNotFound;
 }
 
+SystemInfoClass::SystemInfoClass(const wchar_t* enumerator):
+	m_hInfo(INVALID_HANDLE_VALUE)
+{
+	// Enumerate the root tree to find the one that must be updated
+	m_hInfo = SetupDiGetClassDevsW(&GUID_DEVCLASS_SYSTEM, L"root\\system", nullptr, 0);
+	if(m_hInfo == INVALID_HANDLE_VALUE)
+		throw eHidInstSysClassNotFound;
+}
+
 SystemInfoClass::~SystemInfoClass(void)
 {
 	if(m_hInfo != INVALID_HANDLE_VALUE)

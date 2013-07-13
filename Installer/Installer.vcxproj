@@ -171,6 +171,7 @@
     <ClInclude Include="Installer.h" />
     <ClInclude Include="InstallerBase.h" />
     <ClInclude Include="InstallerCodes.h" />
+    <ClInclude Include="InstanceEnumerator.h" />
     <ClInclude Include="LastErrorPreserver.h" />
     <ClInclude Include="NonPnpDevnode.h" />
     <ClInclude Include="PreprocFlags.h" />
@@ -181,6 +182,7 @@
   <ItemGroup>
     <ClCompile Include="Installer.cpp" />
     <ClCompile Include="InstallerBase.cpp" />
+    <ClCompile Include="InstanceEnumerator.cpp" />
     <ClCompile Include="LastErrorPreserver.cpp" />
     <ClCompile Include="NonPnpDevnode.cpp" />
     <ClCompile Include="stdafx.cpp">

@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "InstallerBase.h"
+#include "InstanceEnumerator.h"
 #include "NonPnpDevnode.h"
 #include "SystemInfoClass.h"
 #include <vector>
@@ -81,13 +82,11 @@ eHidStatus CInstallerBase::Init(void)
 void CInstallerBase::Install(void)
 {
 	// Copy the INF to its destination in the system:
-#if !OCU_USE_UPDATEDRIVER
 	if(!SetupCopyOEMInf(m_infPath.c_str(), nullptr, SPOST_NONE, 0, nullptr, 0, nullptr, nullptr))
 		throw
 			PathFileExists(m_infPath.c_str()) ?
 			eHidInstINFDependencyMissing :
 			eHidInstCopyOEMFail;
-#endif
 
 	// The SYSTEM device class is where the device will be installed
 	SystemInfoClass hInfo;
@@ -107,72 +106,36 @@ void CInstallerBase::Install(void)
   m_restartRequired = devInfo.InstallDriver();
 }
 
-eHidStatus CInstallerBase::ForEach(function<int (SP_DEVINFO_DATA&)> op)
-{
-	// Enumerate the root tree to find the one that must be updated
-	hInfo = SetupDiGetClassDevsW(&GUID_DEVCLASS_SYSTEM, L"root\\system", nullptr, 0);
-
-	// Set up the info structure that we will use to query for information
-	SP_DEVINFO_DATA info;
-	memset(&info, 0, sizeof(info));
-	info.cbSize = sizeof(info);
-
-	// Enumerate to the devnode matching our device ID:
-	for(DWORD i = 0; SetupDiEnumDeviceInfo(hInfo, i, &info); i++)
-	{
-		wchar_t buf[MAX_PATH];
-		DWORD dwType = REG_SZ;
-		DWORD reqSize;
-
-		// This is a routine that gets a requested device property.  The device
-		// property we're interested in for this call is the hardware identifier,
-		// because we'd like to match the hardware identifier to the hardware ID
-		// that the Hid emulator uses
-		if(!SetupDiGetDeviceRegistryPropertyW(
-				hInfo,
-				&info,
-				SPDRP_HARDWAREID,
-				&dwType,
-				(LPBYTE)buf,
-				sizeof(buf),
-				&reqSize
-			)
-		)
-			// Failed to get this HWID, try the next one.
-			continue;
-
-		if(!wcscmp(buf, sc_pnpID))
-			return (eHidStatus)op(info);
-	}
-
-	return eHidInstNoDevsToUpdate;
-}
-
 void CInstallerBase::Update(void)
 {
-	// Update all detected devices.
-	return ForEach(
-		[this] (const SP_DEVINFO_DATA& data) -> int {
-			BOOL bReboot;
-			
-			// This is an omnibus routine that will update a device if you provide its PNP ID
-			// Though we don't strictly need to put this in a ForEach call, it is done anyway
-			// to ensure that the routine isn't called when there isn't a need for it.
-			if(!UpdateDriverForPlugAndPlayDevices(
-					nullptr,
-					sc_pnpID,
-					m_infPath.c_str(),
-					0,
-					&bReboot
-				)
-			)
-				return eHidInstUserCancel;
-			return eHidInstSuccess;
-		}
-	);
+  InstanceEnumerator ie;
+  if(!ie.Next())
+    throw eHidInstNoDevsToUpdate;
+
+	// This is an omnibus routine that will update a device if you provide its PNP ID
+	// Though we don't strictly need to put this in a ForEach call, it is done anyway
+	// to ensure that the routine isn't called when there isn't a need for it.
+  BOOL bReboot;
+	if(!UpdateDriverForPlugAndPlayDevices(
+			nullptr,
+			sc_pnpID,
+			m_infPath.c_str(),
+			0,
+			&bReboot
+		)
+	)
+		throw eHidInstUserCancel;
+
+  // Set our flag according to restart disposition
+  m_restartRequired = !!bReboot;
+	
+  // Destroy all other detected devices:
+  while(ie.Next()) {
+    ;
+  }
 }
 
-void CInstallerBase::DeleteOcuHidService(const wchar_t* lpwcsName)
+eHidStatus CInstallerBase::DeleteOcuHidService(const wchar_t* lpwcsName)
 {
 	eHidStatus rs = eHidInstSuccess;
 	SC_HANDLE hSrv;
@@ -180,7 +143,7 @@ void CInstallerBase::DeleteOcuHidService(const wchar_t* lpwcsName)
 	// Open a handle to the HidEmulator service proper.
 	hSrv = OpenServiceW(hMngr, L"HidEmulator", GENERIC_ALL);
 	if(!hSrv)
-		return eHidInstServiceOpenFailed;
+		throw eHidInstServiceOpenFailed;
 
 	// Determine how many bytes will be needed to our service binaries.
 	DWORD cbNeeded;

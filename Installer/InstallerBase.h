@@ -48,11 +48,6 @@ private:
 	/// </summary>
 	eHidStatus DeleteOcuHidService(const wchar_t* lpwcsName);
 
-	/// <summary>
-	/// Calls the specified function on the first identified HID devnode
-	/// </summary>
-	eHidStatus ForEach(function<int (SP_DEVINFO_DATA&)> op);
-
 public:
   // Accessor methods:
   bool IsRestartRequired(void) const {return m_restartRequired;}
