@@ -86,6 +86,9 @@ void CInstallerBase::Install(void)
       RequireRestart();
   }
 
+  BOOL needReboot;
+  DoInstallPackage(m_infPath.c_str(), needReboot);
+
   // Now we'll select the device:
   if(needReboot || devInfo.InstallDriver())
     RequireRestart();
