@@ -4,7 +4,6 @@
 
 #include <initguid.h>
 #include <ntifs.h>
-#include <kbdmou.h>
 #include <windef.h>
 
 // WDF stuff:
