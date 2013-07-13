@@ -85,16 +85,26 @@ void CInstallerBase::Install(void)
   auto& ver = leapInf.GetVersion();
 
   // Enumerate INFs, scanning for older versions of ourself:
+  int nInfs = 0;
+  int nRemoved = 0;
   for(wchar_t* pCur = &infFiles[0]; *pCur; pCur += wcslen(pCur) + 1) {
     SetupInfFile curInfFile(pCur);
     if(!curInfFile.IsLeap())
       continue;
 
     // Version comparison:
+    nInfs++;
     if(ver < curInfFile.GetVersion())
     {
       // Uninstall this one.
-      SetupUninstallOEMInf(pCur, 0, nullptr);
+      if(SetupUninstallOEMInf(pCur, 0, nullptr))
+        nRemoved++;
+      else
+      {
+        // Might currently be in use, abort if so:
+        if(GetLastError() == ERROR_INF_IN_USE_BY_DEVICES)
+          cout << "INF in use";
+      }
     }
   }
 

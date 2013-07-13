@@ -94,9 +94,6 @@ void NonPnpDevnode::Associate(void) {
   if(!i)
     throw eHidInstCompatDriverFindFail;
 
-  // Historical defect:
-  //0x0001000000000000
-
 	// Assign the selected driver to this device.
 	if(!SetupDiSetSelectedDriver(*m_hInfo, this, &m_driverInfo))
 		throw eHidInstDriverSelectFail;
