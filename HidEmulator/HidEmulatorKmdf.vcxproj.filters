@@ -13,12 +13,6 @@
     <Filter Include="HID">
       <UniqueIdentifier>{a7e18323-5f56-48ba-b204-a45de42f3ea9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\amd64">
-      <UniqueIdentifier>{13bbfb3a-d332-438f-b147-ab141d0ecfe5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\i386">
-      <UniqueIdentifier>{c9cc363d-0bf8-4714-8253-bb0f67d53715}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HidEmulatorKmdfCodes.rc">
@@ -109,12 +103,6 @@
   <ItemGroup>
     <None Include="HidEmulatorKmdf.def">
       <Filter>Resource Files</Filter>
-    </None>
-    <None Include="inf\amd64\HidEmulator.inf">
-      <Filter>Resource Files\amd64</Filter>
-    </None>
-    <None Include="inf\i386\HidEmulator.inf">
-      <Filter>Resource Files\i386</Filter>
     </None>
   </ItemGroup>
 </Project>
