@@ -95,10 +95,12 @@ int wmain(int argc, const wchar_t* argv[])
 		}
 		else
 			cout << "No GetLastError information" << endl;
-		cout << "Press any key to continue..." << endl;
+
+    //Disabled this as it was preventing embedding it silently (user is unable to press any key, so it freezes.)
+		//cout << "Press any key to continue..." << endl;
 
 		// Wait for the user to dismiss
-		_getch();
+		//_getch();
 	}
 
 	return rs;
