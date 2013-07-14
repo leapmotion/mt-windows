@@ -90,6 +90,13 @@ int main(int argc, char* argv[])
 	{
 		COcuInterface ocu(true);
 
+    // Eliminate anything that isn't an ocuHID interface:
+    for(auto q = ocu.begin(); q != ocu.end();)
+      if(FAILED((*q)->Initialize()))
+        q = ocu.erase(q);
+      else
+        q++;
+
 		cout << "Detected " << ocu.size() << " Leap Motion HID interfaces" << endl;
 		if(!ocu.size())
 		{
@@ -97,23 +104,14 @@ int main(int argc, char* argv[])
 			return -1;
 		}
 
-		eHidStatus rs;
-		for(size_t i = 0; i < ocu.size(); i++)
-		{
-			ocuhid = ocu[i];
-			if(SUCCEEDED(rs = ocuhid->Initialize()))
-			{
-				ocu.erase(ocu.begin() + i);
-				break;
-			}
-			else
-				PrintErrorText(rs);
-		}
-		if(!ocuhid)
-		{
+    ocuhid = ocu[0];
+    auto rs = ocuhid->Initialize();
+    if(FAILED(rs))
+    {
+			PrintErrorText(rs);
 			_getch();
 			return -1;
-		}
+    }
 	}
 
 	auto type = PrintMenu();
