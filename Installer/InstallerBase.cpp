@@ -63,7 +63,7 @@ CInstallerBase::~CInstallerBase(void)
 
 void CInstallerBase::Install(void)
 {
-
+  if(false)
   {
     InstanceEnumerator ie;
 
@@ -82,15 +82,31 @@ void CInstallerBase::Install(void)
 	// This empty devnode will then be characterized with a PNPID (by us) and then we let PNP
 	// find and load the driver from there.  This is basically what the add/remove hardware wizard
 	// does when you add legacy hardware.
-  NonPnpDevnode devInfo = NonPnpDevnode(hInfo);
+  NonPnpDevnode devNode(hInfo);
 
   // Perform the actual installation:
   BOOL needReboot;
-  if(!DoInstallPackage(m_infPath.c_str(), needReboot))
-    throw eHidInstDriverPackageRejected;
+  DWORD rs = DoInstallPackage(m_infPath.c_str(), needReboot);
+  switch(rs)
+  {
+  case ERROR_NO_SUCH_DEVINST:
+    break;
+  default:
+    if(FAILED(rs))
+    {
+      SetLastError(rs);
+      throw eHidInstDriverPackageRejected;
+    }
+  }
+
+  // This associates the devnode with the most-recent version of the driver on the system:
+  devNode.Associate();
+
+  // Now we can release the devnode:
+  devNode.Release();
 
   // Now we'll select the device:
-  if(needReboot || devInfo.InstallDriver())
+  if(needReboot)
     RequireRestart();
 }
 
@@ -100,29 +116,8 @@ void CInstallerBase::Update(void)
   if(!ie.Next())
     throw eHidInstNoDevsToUpdate;
   
-  BOOL bReboot = false;
-
-  /*
-	// This is an omnibus routine that will update a device if you provide its PNP ID
-	// Though we don't strictly need to put this in a ForEach call, it is done anyway
-	// to ensure that the routine isn't called when there isn't a need for it.
-	if(!UpdateDriverForPlugAndPlayDevices(
-			nullptr,
-			gc_pnpID,
-			m_infPath.c_str(),
-			0,
-			&bReboot
-		)
-	)
-		throw eHidInstUserCancel; */
-
-  // Destroy all other detected devices:
-  while(ie.Next())
-    ie.DestroyCurrent();
-  
-  // Update o restart disposition
-  if(bReboot || ie.IsRestartRequired())
-    RequireRestart();
+  // Now we just perform an installation:
+  Install();
 }
 
 void CInstallerBase::Uninstall(void)
@@ -135,6 +130,18 @@ void CInstallerBase::Uninstall(void)
     if(ie.IsRestartRequired())
       RequireRestart();
   }
+
+  // Package uninstallation:
+  BOOL needReboot;
+  DWORD rs = DoUninstallPackage(m_infPath.c_str(), needReboot);
+  if(FAILED(rs))
+  {
+    SetLastError(rs);
+    throw eHidInstFailedToRemovePackage;
+  }
+
+  if(needReboot)
+    RequireRestart();
 
   {
 	  // Service destruction:

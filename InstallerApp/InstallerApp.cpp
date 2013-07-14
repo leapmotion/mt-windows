@@ -41,6 +41,13 @@ int wmain(int argc, const wchar_t* argv[])
 		cout << "Uninstalling, this could take a few minutes and may require a reboot...";
 		rs = OcuHidUninstall(op2);
 	}
+  else if(!wcscmp(op, L"toggle"))
+  {
+    cout << "Installing, and then immediately uninstalling...";
+    rs = OcuHidInstall(op2);
+    if(SUCCEEDED(rs))
+      rs = OcuHidUninstall(op2);
+  }
 	else
 	{
 		PrintUsage(argv);

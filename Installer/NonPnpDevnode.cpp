@@ -54,7 +54,7 @@ void NonPnpDevnode::Associate(void) {
 	driverInfo.cbSize = sizeof(driverInfo);
 
   DWORD i = 0;
-  for(; SetupDiEnumDriverInfo(*m_hInfo, this, SPDIT_COMPATDRIVER, 0, &driverInfo); i++) {
+  for(; SetupDiEnumDriverInfo(*m_hInfo, this, SPDIT_COMPATDRIVER, i, &driverInfo); i++) {
   }
 
   if(!i)

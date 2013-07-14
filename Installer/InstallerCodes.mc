@@ -182,3 +182,10 @@ Language=English
 The DIFxAPI rejected our request to install the driver package.  Manual installation will
 be necessary.
 .
+
+
+MessageId=
+SymbolicName=eHidInstFailedToRemovePackage
+Language=English
+The DIFxAPI refused to uninstall the driver package
+.
