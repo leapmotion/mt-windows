@@ -87,9 +87,8 @@ int main(int argc, char* argv[])
 		wcout << info;
 	}
 
+	COcuInterface ocu(true);
 	{
-		COcuInterface ocu(true);
-
     // Eliminate anything that isn't an ocuHID interface:
     for(auto q = ocu.begin(); q != ocu.end();)
       if(FAILED((*q)->Initialize()))
@@ -105,13 +104,6 @@ int main(int argc, char* argv[])
 		}
 
     ocuhid = ocu[0];
-    auto rs = ocuhid->Initialize();
-    if(FAILED(rs))
-    {
-			PrintErrorText(rs);
-			_getch();
-			return -1;
-    }
 	}
 
 	auto type = PrintMenu();
