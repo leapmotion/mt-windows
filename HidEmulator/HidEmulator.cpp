@@ -36,8 +36,8 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
 	// Invoke the minidriver registration routine.  The reason we don't implement this
 	// whole driver with the KMDF is because of this call:  The HID port driver wants
 	// ownership of the device extension, and KMDF wants the same thing, so the two
-	// contend.  Resolution of this contention is had by installing this driver as an
-	// upper filter on the KMDF driver.
+	// contend.  Resolution of this contention is had by installing the KMDF driver as
+  // a lower filter to this driver.
 	status = HidRegisterMinidriver(&reg);
 	if(!NT_SUCCESS(status))
 	{
