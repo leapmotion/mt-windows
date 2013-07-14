@@ -63,11 +63,10 @@ CInstallerBase::~CInstallerBase(void)
 
 void CInstallerBase::Install(void)
 {
-  if(false)
+  // Destroy all existing devices.  This triggers an unload of our driver and enables us to tinker
+  // directly with the device.
   {
     InstanceEnumerator ie;
-
-    // Destroy all existing devices:
     while(ie.Next())
       ie.DestroyCurrent();
 
@@ -99,9 +98,6 @@ void CInstallerBase::Install(void)
     }
   }
 
-  // This associates the devnode with the most-recent version of the driver on the system:
-  devNode.Associate();
-
   // Now we can release the devnode:
   devNode.Release();
 
@@ -131,6 +127,24 @@ void CInstallerBase::Uninstall(void)
       RequireRestart();
   }
 
+  {
+	  // Service destruction:
+    ServiceControlManager scm;
+
+	  // Now the services proper may be deleted--we don't care if this operation fails:
+    try {
+	    scm.DeleteOcuHidService(L"HidEmulator");
+    } catch(...) {}
+
+    try {
+	    scm.DeleteOcuHidService(L"HidEmulatorKmdf");
+    } catch(...) {}
+
+    // Propagate the restart flag out:
+    if(scm.IsRestartRequired())
+      RequireRestart();
+  }
+
   // Package uninstallation:
   BOOL needReboot;
   DWORD rs = DoUninstallPackage(m_infPath.c_str(), needReboot);
@@ -142,17 +156,4 @@ void CInstallerBase::Uninstall(void)
 
   if(needReboot)
     RequireRestart();
-
-  {
-	  // Service destruction:
-    ServiceControlManager scm;
-
-	  // Now the services proper may be deleted:
-	  scm.DeleteOcuHidService(L"HidEmulator");
-	  scm.DeleteOcuHidService(L"HidEmulatorKmdf");
-
-    // Propagate the restart flag out:
-    if(scm.IsRestartRequired())
-      RequireRestart();
-  }
 }
