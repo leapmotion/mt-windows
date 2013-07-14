@@ -15,15 +15,16 @@ ServiceControlManager::ServiceControlManager(void):
 ServiceControlManager::~ServiceControlManager(void)
 {
   if(m_hMngr)
-    CloseHandle(m_hMngr);
+    CloseServiceHandle(m_hMngr);
 }
 
 void ServiceControlManager::DeleteOcuHidService(const wchar_t* lpwcsName)
 {
+	vector<BYTE> configBuf;
   QUERY_SERVICE_CONFIGW config;
   {
 	  // Open a handle to the HidEmulator service proper.
-    ServiceHandle hSrv(*this, L"HidEmulator");
+    ServiceHandle hSrv(*this, lpwcsName);
 
 	  // Determine how many bytes will be needed to our service binaries.
 	  DWORD cbNeeded;
@@ -33,10 +34,18 @@ void ServiceControlManager::DeleteOcuHidService(const wchar_t* lpwcsName)
 
 	  // Path length acquired, query the service configuration, which will get us
 	  // the path to service binaries.
-	  vector<BYTE> configBuf(cbNeeded + 1);
-	  config = (QUERY_SERVICE_CONFIGW&)configBuf[0];
-	  if(cbNeeded && !QueryServiceConfigW(hSrv, &config, cbNeeded, &cbNeeded))
+    configBuf.resize(cbNeeded + 1);
+	  if(
+      cbNeeded &&
+      !QueryServiceConfigW(
+        hSrv,
+        (LPQUERY_SERVICE_CONFIG)&configBuf[0],
+        cbNeeded,
+        &cbNeeded
+      )
+    )
 		  throw eHidInstServiceConfQueryFail;
+	  config = (QUERY_SERVICE_CONFIGW&)configBuf[0];
 
 	  // Attempt to delete the service:
 	  if(!DeleteService(hSrv))
