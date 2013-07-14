@@ -26,7 +26,7 @@ public:
   /// Attempts to update the driver associated with this devnode
   /// </remarks>
   /// <returns>True if a reboot is required</returns>
-  bool InstallDriver(void);
+  bool InstallDriver(void) {return false;}
 
   void operator=(NonPnpDevnode&& rhs) {
     *(PSP_DEVINFO_DATA)this = rhs;

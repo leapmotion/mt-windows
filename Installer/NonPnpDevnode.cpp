@@ -52,7 +52,12 @@ void NonPnpDevnode::Associate(void) {
 	SP_DRVINFO_DATA driverInfo;
 	memset(&driverInfo, 0, sizeof(driverInfo));
 	driverInfo.cbSize = sizeof(driverInfo);
-	if(!SetupDiEnumDriverInfo(*m_hInfo, this, SPDIT_COMPATDRIVER, 0, &driverInfo))
+
+  DWORD i = 0;
+  for(; SetupDiEnumDriverInfo(*m_hInfo, this, SPDIT_COMPATDRIVER, 0, &driverInfo); i++) {
+  }
+
+  if(!i)
 		throw eHidInstCompatDriverFindFail;
 
 	// Assign the selected driver to this device.
@@ -66,16 +71,4 @@ void NonPnpDevnode::Associate(void) {
 	// this call.  That's what this call does--it tells SetupAPI about our intent.
 	if(!SetupDiSetSelectedDevice(*m_hInfo, this))
     throw eHidInstFailedToSelectDevice;
-}
-
-
-bool NonPnpDevnode::InstallDriver(void) {
-	// Install the driver we selected into the device we just selected.
-	DWORD dwReboot = 0;
-	if(!InstallSelectedDriver(nullptr, *m_hInfo, nullptr, true, &dwReboot))
-		throw eHidInstInstallSelectionFailed;
-
-	// Reboot necessity is based on the value of the reboot operation.
-  released = true;
-	return dwReboot == DI_NEEDREBOOT;
 }

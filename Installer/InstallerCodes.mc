@@ -175,3 +175,10 @@ SymbolicName=eHidInstDeviceRegistrationFailed
 Language=English
 Failed to register a device after successfully creating it
 .
+
+MessageId=
+SymbolicName=eHidInstDriverPackageRejected
+Language=English
+The DIFxAPI rejected our request to install the driver package.  Manual installation will
+be necessary.
+.

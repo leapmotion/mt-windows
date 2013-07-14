@@ -63,31 +63,31 @@ CInstallerBase::~CInstallerBase(void)
 
 void CInstallerBase::Install(void)
 {
-	// The SYSTEM device class is where the device will be installed
-	std::shared_ptr<SystemInfoClass> hInfo(new SystemInfoClass);
 
-  NonPnpDevnode devInfo;
   {
     InstanceEnumerator ie;
-    if(ie.Next())
-      // Just use the already-existing devnode
-      devInfo = NonPnpDevnode(ie, ie.Current());
-    else
-	    // We next create an empty devnode where the ocuhid legacy device may be attached.
-	    // This empty devnode will then be characterized with a PNPID (by us) and then we let PNP
-	    // find and load the driver from there.  This is basically what the add/remove hardware wizard
-	    // does when you add legacy hardware.
-      devInfo = NonPnpDevnode(hInfo);
 
-    // Destory any other detected device--ensure a maximum of one is ever installed:
+    // Destroy all existing devices:
     while(ie.Next())
       ie.DestroyCurrent();
+
     if(ie.IsRestartRequired())
       RequireRestart();
   }
+  
+	// The SYSTEM device class is where the device will be installed
+	std::shared_ptr<SystemInfoClass> hInfo(new SystemInfoClass);
 
+	// We next create an empty devnode where the ocuhid legacy device may be attached.
+	// This empty devnode will then be characterized with a PNPID (by us) and then we let PNP
+	// find and load the driver from there.  This is basically what the add/remove hardware wizard
+	// does when you add legacy hardware.
+  NonPnpDevnode devInfo = NonPnpDevnode(hInfo);
+
+  // Perform the actual installation:
   BOOL needReboot;
-  DoInstallPackage(m_infPath.c_str(), needReboot);
+  if(!DoInstallPackage(m_infPath.c_str(), needReboot))
+    throw eHidInstDriverPackageRejected;
 
   // Now we'll select the device:
   if(needReboot || devInfo.InstallDriver())
