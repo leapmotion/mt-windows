@@ -38,13 +38,14 @@ AddReg=LowerFilter_AddReg
 HidEmulator.sys
 HidEmulatorKmdf.sys
 
-;-------------- Lower filter installation for the Kmdf
+;--------------
+; Kmdf is installed as a lower filter to the HidEmulator driver
 [LowerFilter_AddReg]
 HKR,,LowerFilters,0x00010000,HidEmulatorKmdf
 
 ;-------------- Service installation
 [HidEmulator_Device.NT.Services]
-AddService = HidEmulator,3,HidEmulator_Service_Inst
+AddService = HidEmulator,803,HidEmulator_Service_Inst				; SPSVCINST_TAGTOFRONT | SPSVCINST_ASSOCSERVICE | SPSVCSINST_STARTSERVICE
 AddService = HidEmulatorKmdf,0,HidEmulatorKmdf_Service_Inst
 
 ; -------------- HID Emulator driver service install sections
@@ -65,7 +66,7 @@ HKR,,TypesSupported,0x00010001,7
 [HidEmulatorKmdf_Service_Inst]
 DisplayName    = %HidEmulatorKmdf.SVCDESC%
 ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
-StartType      = 1               ; SERVICE_SYSTEM_START
+StartType      = 3               ; SERVICE_DEMAND_START
 ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
 ServiceBinary  = %12%\HidEmulatorKmdf.sys
 AddReg         = HidEmulatorKmdf_Service_Inst.Reg
