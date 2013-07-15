@@ -123,7 +123,7 @@ NTSTATUS PreprocessMnQueryId(WDFDEVICE Device, PIRP Irp)
 		// HIDClass is asking for child deviceid and hardwareids.
 		{
 			// Create arbitrary ID:
-			auto buffer = (PWCHAR)ExAllocatePoolWithTag(NonPagedPool, VMULTI_HARDWARE_IDS_LENGTH, VMULTI_POOL_TAG);
+			auto buffer = (PWCHAR)ExAllocatePoolWithTag(PagedPool, VMULTI_HARDWARE_IDS_LENGTH, VMULTI_POOL_TAG);
 			if(buffer)
 			{
 				// Do the copy, store the buffer in the Irp
