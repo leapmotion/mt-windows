@@ -52,7 +52,7 @@ AddService = HidEmulatorKmdf,0,HidEmulatorKmdf_Service_Inst
 [HidEmulator_Service_Inst]
 DisplayName    = %HidEmulator.SVCDESC%
 ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
-StartType      = 1               ; SERVICE_SYSTEM_START
+StartType      = 3               ; SERVICE_DEMAND_START
 ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
 ServiceBinary  = %12%\HidEmulator.sys
 AddReg         = HidEmulator_Service_Inst.Reg
