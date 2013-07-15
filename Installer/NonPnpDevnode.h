@@ -23,10 +23,11 @@ public:
 	void Associate(void);
 
   /// <summary>
-  /// Attempts to update the driver associated with this devnode
-  /// </remarks>
-  /// <returns>True if a reboot is required</returns>
-  bool InstallDriver(void);
+  /// Prevents the destructor from attempting to delete this devnode
+  /// </summary>
+  void Release(void) {
+    released = true;
+  }
 
   void operator=(NonPnpDevnode&& rhs) {
     *(PSP_DEVINFO_DATA)this = rhs;

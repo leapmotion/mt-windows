@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "InstallerBase.h"
+#include "DriverPackage.h"
 #include "InstanceEnumerator.h"
 #include "NonPnpDevnode.h"
 #include "ServiceControlManager.h"
@@ -62,41 +63,46 @@ CInstallerBase::~CInstallerBase(void)
 
 void CInstallerBase::Install(void)
 {
-	// Copy the INF to its destination in the system:
-	if(!SetupCopyOEMInf(m_infPath.c_str(), nullptr, SPOST_NONE, 0, nullptr, 0, nullptr, nullptr))
-		throw
-			PathFileExists(m_infPath.c_str()) ?
-			eHidInstINFDependencyMissing :
-			eHidInstCopyOEMFail;
-
-	// The SYSTEM device class is where the device will be installed
-	std::shared_ptr<SystemInfoClass> hInfo(new SystemInfoClass);
-
-  NonPnpDevnode devInfo;
+  // Destroy all existing devices.  This triggers an unload of our driver and enables us to tinker
+  // safely with the device configuration.
   {
     InstanceEnumerator ie;
-    if(ie.Next())
-      // Just use the already-existing devnode
-      devInfo = NonPnpDevnode(ie, ie.Current());
-    else
-	    // We next create an empty devnode where the ocuhid legacy device may be attached.
-	    // This empty devnode will then be characterized with a PNPID (by us) and then we let PNP
-	    // find and load the driver from there.  This is basically what the add/remove hardware wizard
-	    // does when you add legacy hardware.
-      devInfo = NonPnpDevnode(hInfo);
-
-    // Destory any other detected device--ensure a maximum of one is ever installed:
     while(ie.Next())
       ie.DestroyCurrent();
+
     if(ie.IsRestartRequired())
       RequireRestart();
   }
+  
+	// The SYSTEM device class is where the device will be installed
+	std::shared_ptr<SystemInfoClass> hInfo(new SystemInfoClass);
 
-  // Associate the new driver with the PNP devnode:
-  devInfo.Associate();
+	// We next create an empty devnode where the ocuhid legacy device may be attached.
+	// This empty devnode will then be characterized with a PNPID (by us) and then we let PNP
+	// find and load the driver from there.  This is basically what the add/remove hardware wizard
+	// does when you add legacy hardware.
+  NonPnpDevnode devNode(hInfo);
+
+  // Perform the actual installation:
+  BOOL needReboot;
+  DWORD rs = DoInstallPackage(m_infPath.c_str(), needReboot);
+  switch(rs)
+  {
+  case ERROR_NO_SUCH_DEVINST:
+    break;
+  default:
+    if(FAILED(rs))
+    {
+      SetLastError(rs);
+      throw eHidInstDriverPackageRejected;
+    }
+  }
+
+  // Now we can release the devnode:
+  devNode.Release();
 
   // Now we'll select the device:
-  if(devInfo.InstallDriver())
+  if(needReboot)
     RequireRestart();
 }
 
@@ -105,28 +111,9 @@ void CInstallerBase::Update(void)
   InstanceEnumerator ie;
   if(!ie.Next())
     throw eHidInstNoDevsToUpdate;
-
-	// This is an omnibus routine that will update a device if you provide its PNP ID
-	// Though we don't strictly need to put this in a ForEach call, it is done anyway
-	// to ensure that the routine isn't called when there isn't a need for it.
-  BOOL bReboot;
-	if(!UpdateDriverForPlugAndPlayDevices(
-			nullptr,
-			gc_pnpID,
-			m_infPath.c_str(),
-			0,
-			&bReboot
-		)
-	)
-		throw eHidInstUserCancel;
-
-  // Destroy all other detected devices:
-  while(ie.Next())
-    ie.DestroyCurrent();
   
-  // Update o restart disposition
-  if(bReboot || ie.IsRestartRequired())
-    RequireRestart();
+  // Now we just perform an installation:
+  Install();
 }
 
 void CInstallerBase::Uninstall(void)
@@ -144,12 +131,29 @@ void CInstallerBase::Uninstall(void)
 	  // Service destruction:
     ServiceControlManager scm;
 
-	  // Now the services proper may be deleted:
-	  scm.DeleteOcuHidService(L"HidEmulator");
-	  scm.DeleteOcuHidService(L"HidEmulatorKmdf");
+	  // Now the services proper may be deleted--we don't care if this operation fails:
+    try {
+	    scm.DeleteOcuHidService(L"HidEmulator");
+    } catch(...) {}
+
+    try {
+	    scm.DeleteOcuHidService(L"HidEmulatorKmdf");
+    } catch(...) {}
 
     // Propagate the restart flag out:
     if(scm.IsRestartRequired())
       RequireRestart();
   }
+
+  // Package uninstallation:
+  BOOL needReboot;
+  DWORD rs = DoUninstallPackage(m_infPath.c_str(), needReboot);
+  if(FAILED(rs))
+  {
+    SetLastError(rs);
+    throw eHidInstFailedToRemovePackage;
+  }
+
+  if(needReboot)
+    RequireRestart();
 }

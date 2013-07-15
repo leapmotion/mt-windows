@@ -103,7 +103,6 @@ public:
 public:
 	// Accessor methods:
 	HANDLE GetHandle(void) const {return m_hDevice;}
-	DWORD GetVersion(void) const;
 
 	/// <return>
 	/// True if the parent HID instance is an Leap Motion HID instance

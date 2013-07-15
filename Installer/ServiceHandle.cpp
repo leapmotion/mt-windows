@@ -11,6 +11,6 @@ ServiceHandle::ServiceHandle(ServiceControlManager& scm, const wchar_t* name):
 
 ServiceHandle::~ServiceHandle(void)
 {
-  if(!m_hSrv)
+  if(m_hSrv)
     CloseServiceHandle(m_hSrv);
 }

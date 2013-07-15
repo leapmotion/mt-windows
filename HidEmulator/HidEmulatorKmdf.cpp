@@ -101,30 +101,30 @@ NTSTATUS PreprocessMnQueryId(WDFDEVICE Device, PIRP Irp)
 {
 	NTSTATUS status;
 
-    // Get a pointer to the current location in the Irp
-    auto IrpStack = IoGetCurrentIrpStackLocation(Irp);
+	// Get a pointer to the current location in the Irp
+	auto IrpStack = IoGetCurrentIrpStackLocation(Irp);
 
-    // Get the device object
-    auto DeviceObject = WdfDeviceWdmGetDeviceObject(Device); 
+	// Get the device object
+	auto DeviceObject = WdfDeviceWdmGetDeviceObject(Device); 
 
-    // This check is required to filter out QUERY_IDs forwarded
-    // by the HIDCLASS for the parent FDO. These IDs are sent
-    // by PNP manager for the parent FDO if you root-enumerate this driver.
-    auto previousSp = IrpStack + 1;
+	// This check is required to filter out QUERY_IDs forwarded
+	// by the HIDCLASS for the parent FDO. These IDs are sent
+	// by PNP manager for the parent FDO if you root-enumerate this driver.
+	auto previousSp = IrpStack + 1;
 
-    if (previousSp->DeviceObject == DeviceObject) 
-        // Filtering out this basically prevents the Found New Hardware
-        // popup for the root-enumerated VMulti on reboot.
-        status = Irp->IoStatus.Status;
-    else switch(IrpStack->Parameters.QueryId.IdType)
+	if (previousSp->DeviceObject == DeviceObject) 
+		// Filtering out this basically prevents the Found New Hardware
+		// popup for the root-enumerated VMulti on reboot.
+		status = Irp->IoStatus.Status;
+	else switch(IrpStack->Parameters.QueryId.IdType)
 	{
-    case BusQueryDeviceID:
-    case BusQueryHardwareIDs:
-        // HIDClass is asking for child deviceid and hardwareids.
+	case BusQueryDeviceID:
+	case BusQueryHardwareIDs:
+		// HIDClass is asking for child deviceid and hardwareids.
 		{
 			// Create arbitrary ID:
-			auto buffer = (PWCHAR)ExAllocatePoolWithTag(NonPagedPool, VMULTI_HARDWARE_IDS_LENGTH, VMULTI_POOL_TAG);
-			if(buffer) 
+			auto buffer = (PWCHAR)ExAllocatePoolWithTag(PagedPool, VMULTI_HARDWARE_IDS_LENGTH, VMULTI_POOL_TAG);
+			if(buffer)
 			{
 				// Do the copy, store the buffer in the Irp
 				RtlCopyMemory(buffer, VMULTI_HARDWARE_IDS, VMULTI_HARDWARE_IDS_LENGTH);
@@ -134,22 +134,22 @@ NTSTATUS PreprocessMnQueryId(WDFDEVICE Device, PIRP Irp)
 			else 
 				//  No memory
 				status = STATUS_INSUFFICIENT_RESOURCES;
-			
+
 			// We don't need to forward this to our bus. This query is for our
 			// child so we should complete it right here.
 			Irp->IoStatus.Status = status;
 			IoCompleteRequest(Irp, IO_NO_INCREMENT);
 		}
-        break;
+		break;
 
-    default:
+	default:
 		// Default handling, just complete the request and return.
-        status = Irp->IoStatus.Status;
-        IoCompleteRequest(Irp, IO_NO_INCREMENT);
-        break;
-    }
+		status = Irp->IoStatus.Status;
+		IoCompleteRequest(Irp, IO_NO_INCREMENT);
+		break;
+	}
 
-    return status;
+	return status;
 }
 
 void EvtDriverContextCleanup(WDFOBJECT Driver)

@@ -4,7 +4,7 @@ Signature="$WINDOWS NT$"
 Class=System
 ClassGuid={4D36E97D-E325-11CE-BFC1-08002BE10318}
 Provider=%MSFT%
-DriverVer=02/20/2012,1.0.0.0
+DriverVer=07/15/2013,1.0.1.4
 CatalogFile=HidEmulator.cat
 
 [DestinationDirs]
@@ -38,20 +38,21 @@ AddReg=LowerFilter_AddReg
 HidEmulator.sys
 HidEmulatorKmdf.sys
 
-;-------------- Lower filter installation for the Kmdf
+;--------------
+; Kmdf is installed as a lower filter to the HidEmulator driver
 [LowerFilter_AddReg]
 HKR,,LowerFilters,0x00010000,HidEmulatorKmdf
 
 ;-------------- Service installation
 [HidEmulator_Device.NT.Services]
-AddService = HidEmulator,3,HidEmulator_Service_Inst
+AddService = HidEmulator,803,HidEmulator_Service_Inst				; SPSVCINST_TAGTOFRONT | SPSVCINST_ASSOCSERVICE | SPSVCSINST_STARTSERVICE
 AddService = HidEmulatorKmdf,0,HidEmulatorKmdf_Service_Inst
 
 ; -------------- HID Emulator driver service install sections
 [HidEmulator_Service_Inst]
 DisplayName    = %HidEmulator.SVCDESC%
 ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
-StartType      = 1               ; SERVICE_SYSTEM_START
+StartType      = 3               ; SERVICE_DEMAND_START
 ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
 ServiceBinary  = %12%\HidEmulator.sys
 AddReg         = HidEmulator_Service_Inst.Reg
@@ -65,7 +66,7 @@ HKR,,TypesSupported,0x00010001,7
 [HidEmulatorKmdf_Service_Inst]
 DisplayName    = %HidEmulatorKmdf.SVCDESC%
 ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
-StartType      = 1               ; SERVICE_SYSTEM_START
+StartType      = 3               ; SERVICE_DEMAND_START
 ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
 ServiceBinary  = %12%\HidEmulatorKmdf.sys
 AddReg         = HidEmulatorKmdf_Service_Inst.Reg
