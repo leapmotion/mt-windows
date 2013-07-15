@@ -64,7 +64,7 @@ CInstallerBase::~CInstallerBase(void)
 void CInstallerBase::Install(void)
 {
   // Destroy all existing devices.  This triggers an unload of our driver and enables us to tinker
-  // directly with the device.
+  // safely with the device configuration.
   {
     InstanceEnumerator ie;
     while(ie.Next())
