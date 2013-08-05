@@ -114,14 +114,14 @@ void DisableMIC(void) {
   startupinfo.lpDesktop = L"WinSta0\\Default";
 
   // Append argument:
-  self += L" -k";
+  wchar_t arg[] = L"Testbed.exe -k";
 
   // Try to regenerate with this new token:
   auto val = CreateProcessWithTokenW(
     hImpersonation,
     0,
-    nullptr,
-    &self[0],
+    self.c_str(),
+    arg,
     CREATE_NEW_PROCESS_GROUP,
     nullptr,
     nullptr,
@@ -165,6 +165,8 @@ void __stdcall Run(DWORD dwNumServicesArgs, LPWSTR *lpServiceArgVectors) {
 }
 
 int main(int argc, char* argv[]) {
+  __debugbreak();
+
   if(!procAddr)
     throw std::runtime_error("Cannot find touch input entrypoint");
 
@@ -173,7 +175,6 @@ int main(int argc, char* argv[]) {
   
   // Decide whether to run as the master or the slave:
   if(argc >= 2) {
-    __debugbreak();
     TestFireSingleTouchInput();
     return 155;
   }
