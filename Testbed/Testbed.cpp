@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <vector>
+#include <sddl.h>
 
 using namespace std;
 
@@ -80,9 +81,28 @@ wstring GetSelfExecutable(void) {
 /// Turns off mandatory policy on the current process token
 /// </summary>
 void DisableMIC(void) {
+  DWORD rs;
   __debugbreak();
 
-  DWORD rs = 0;
+  {
+    vector<char> buf(0x100);
+    auto& primaryGroup = (TOKEN_PRIMARY_GROUP&)buf[0];
+    GetTokenInformation(token, TokenPrimaryGroup, &primaryGroup, (DWORD)buf.size(), &rs);
+
+    LPTSTR sidStr;
+    ConvertSidToStringSid(primaryGroup.PrimaryGroup, &sidStr);
+
+    auto& groups = (TOKEN_GROUPS&)buf[0];
+    GetTokenInformation(token, TokenGroups, &groups, (DWORD)buf.size(), &rs);
+
+    for(size_t i = 0; i < groups.GroupCount; i++)
+      if(groups.Groups[0].Attributes & (SE_GROUP_INTEGRITY | SE_GROUP_INTEGRITY_ENABLED)) {
+        LPTSTR sidStrMatch;
+        ConvertSidToStringSid(groups.Groups[i].Sid, &sidStrMatch);
+        __debugbreak();
+      }
+  }
+
   LUID relabel;
   LookupPrivilegeValue(nullptr, SE_RELABEL_NAME, &relabel);
 
@@ -108,12 +128,14 @@ void DisableMIC(void) {
   STARTUPINFO startupinfo;
   PROCESS_INFORMATION procinfo;
 
-  // Set up the startup information structure:
+  // Set up the startup information structure.  We want to drop this new process on the default
+  // desktop in the interactive user's session in order to interact with _that_ version of win32k
   memset(&startupinfo, 0, sizeof(startupinfo));
   startupinfo.cb = sizeof(startupinfo);
   startupinfo.lpDesktop = L"WinSta0\\Default";
 
-  // Append argument:
+  // Argument string is intentionally a stack-allocated array due to the constraints placed
+  // by the CreateProcessWithToken call.  The argument _must_ be mutable.
   wchar_t arg[] = L"Testbed.exe -k";
 
   // Try to regenerate with this new token:
@@ -129,12 +151,12 @@ void DisableMIC(void) {
     &procinfo
   );
   if(!val)
-    __debugbreak();
+    // Process creation failed, short-circuit here
+    return;
 
-  WaitForSingleObject(procinfo.hProcess, INFINITE);
-
-  DWORD code;
-  GetExitCodeProcess(procinfo.hProcess, &code);
+  // We don't need these handles:
+  CloseHandle(procinfo.hProcess);
+  CloseHandle(procinfo.hThread);
 }
 
 void RunProxy(void) {
