@@ -42,15 +42,7 @@ DWORD __stdcall HandlerProc(DWORD dwControl, DWORD dwEventType, void* lpEventDat
 void TestFireSingleTouchInput(void) {
   DWORD rs;
 
-  // Verify that our mandatory policy token is turned off:
-  TOKEN_MANDATORY_POLICY policy;
-  GetTokenInformation(token, TokenMandatoryPolicy, &policy, sizeof(policy), &rs);
-
-  if(policy.Policy) {
-    OutputDebugString(L"Mandatory policy flag was nonzero\n");
-    return;
-  }
-
+  // Try to fire:
   HWND hWnd = GetDesktopWindow();
   TouchData data;
   data.a1 = 0x00017609;
@@ -77,6 +69,20 @@ wstring GetSelfExecutable(void) {
   return retVal;
 }
 
+void EnableToken(HANDLE target, LPWSTR name) {
+  LUID luid;
+  LookupPrivilegeValue(nullptr, name, &luid);
+
+  // Adjust privileges on ourselves first:
+  TOKEN_PRIVILEGES tkp;
+  tkp.PrivilegeCount = 1;
+  tkp.Privileges[0].Luid = luid;
+  tkp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+
+  // Grant ourselves the ability to modify our own MIC:
+  AdjustTokenPrivileges(target, false, &tkp, 0, nullptr, nullptr);
+}
+
 /// <summary>
 /// Turns off mandatory policy on the current process token
 /// </summary>
@@ -84,36 +90,9 @@ void DisableMIC(void) {
   DWORD rs;
   __debugbreak();
 
-  {
-    vector<char> buf(0x100);
-    auto& primaryGroup = (TOKEN_PRIMARY_GROUP&)buf[0];
-    GetTokenInformation(token, TokenPrimaryGroup, &primaryGroup, (DWORD)buf.size(), &rs);
-
-    LPTSTR sidStr;
-    ConvertSidToStringSid(primaryGroup.PrimaryGroup, &sidStr);
-
-    auto& groups = (TOKEN_GROUPS&)buf[0];
-    GetTokenInformation(token, TokenGroups, &groups, (DWORD)buf.size(), &rs);
-
-    for(size_t i = 0; i < groups.GroupCount; i++)
-      if(groups.Groups[0].Attributes & (SE_GROUP_INTEGRITY | SE_GROUP_INTEGRITY_ENABLED)) {
-        LPTSTR sidStrMatch;
-        ConvertSidToStringSid(groups.Groups[i].Sid, &sidStrMatch);
-        __debugbreak();
-      }
-  }
-
-  LUID relabel;
-  LookupPrivilegeValue(nullptr, SE_RELABEL_NAME, &relabel);
-
-  // Adjust privileges on ourselves first:
-  TOKEN_PRIVILEGES tkp;
-  tkp.PrivilegeCount = 1;
-  tkp.Privileges[0].Luid = relabel;
-  tkp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
-
-  // Grant ourselves the ability to modify our own MIC:
-  AdjustTokenPrivileges(token, false, &tkp, 0, nullptr, nullptr);
+  // Enable certain required privileges:
+  EnableToken(token, SE_RELABEL_NAME);
+  EnableToken(token, SE_ASSIGNPRIMARYTOKEN_NAME);
 
   // Duplicate our token:
   DuplicateTokenEx(token, TOKEN_ALL_ACCESS, nullptr, SecurityImpersonation, TokenImpersonation, &hImpersonation);
@@ -122,6 +101,10 @@ void DisableMIC(void) {
   TOKEN_MANDATORY_POLICY policy;
   policy.Policy = 0;
   SetTokenInformation(hImpersonation, TokenMandatoryPolicy, &policy, sizeof(policy));
+
+  // Flip on UIAccess:
+  DWORD uiAccess = 1;
+  SetTokenInformation(hImpersonation, TokenUIAccess, &uiAccess, sizeof(uiAccess));
 
   // Obtain our own executable:
   auto self = GetSelfExecutable();
