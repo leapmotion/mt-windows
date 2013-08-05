@@ -39,6 +39,17 @@ DWORD __stdcall HandlerProc(DWORD dwControl, DWORD dwEventType, void* lpEventDat
 }
 
 void TestFireSingleTouchInput(void) {
+  DWORD rs;
+
+  // Verify that our mandatory policy token is turned off:
+  TOKEN_MANDATORY_POLICY policy;
+  GetTokenInformation(token, TokenMandatoryPolicy, &policy, sizeof(policy), &rs);
+
+  if(policy.Policy) {
+    OutputDebugString(L"Mandatory policy flag was nonzero\n");
+    return;
+  }
+
   HWND hWnd = GetDesktopWindow();
   TouchData data;
   data.a1 = 0x00017609;
@@ -58,15 +69,18 @@ void TestFireSingleTouchInput(void) {
        << GetLastError() << endl;
 }
 
+wstring GetSelfExecutable(void) {
+  wstring retVal;
+  retVal.resize(MAX_PATH);
+  GetModuleFileName(GetModuleHandle(nullptr), &retVal[0], (DWORD)retVal.size());
+  return retVal;
+}
+
 /// <summary>
 /// Turns off mandatory policy on the current process token
 /// </summary>
 void DisableMIC(void) {
   __debugbreak();
-  ImpersonateSelf(SecurityImpersonation);
-
-  HANDLE hThreadToken;
-  OpenThreadToken(GetCurrentThread(), MAXIMUM_ALLOWED, true, &hThreadToken);
 
   DWORD rs = 0;
   LUID relabel;
@@ -79,34 +93,53 @@ void DisableMIC(void) {
   tkp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
 
   // Grant ourselves the ability to modify our own MIC:
-  AdjustTokenPrivileges(hThreadToken, false, &tkp, 0, nullptr, nullptr);
+  AdjustTokenPrivileges(token, false, &tkp, 0, nullptr, nullptr);
 
   // Duplicate our token:
-  DuplicateTokenEx(hThreadToken, TOKEN_ALL_ACCESS, nullptr, SecurityImpersonation, TokenImpersonation, &hImpersonation);
+  DuplicateTokenEx(token, TOKEN_ALL_ACCESS, nullptr, SecurityImpersonation, TokenImpersonation, &hImpersonation);
 
   // Switch off mandatory policy:
   TOKEN_MANDATORY_POLICY policy;
   policy.Policy = 0;
   SetTokenInformation(hImpersonation, TokenMandatoryPolicy, &policy, sizeof(policy));
 
-  // Flip over to our impersonation token:
-  SetThreadToken(nullptr, hImpersonation);
+  // Obtain our own executable:
+  auto self = GetSelfExecutable();
+  STARTUPINFO startupinfo;
+  PROCESS_INFORMATION procinfo;
+
+  // Set up the startup information structure:
+  memset(&startupinfo, 0, sizeof(startupinfo));
+  startupinfo.cb = sizeof(startupinfo);
+  startupinfo.lpDesktop = L"WinSta0\\Default";
+
+  // Append argument:
+  self += L" -k";
+
+  // Try to regenerate with this new token:
+  auto val = CreateProcessWithTokenW(
+    hImpersonation,
+    0,
+    nullptr,
+    &self[0],
+    CREATE_NEW_PROCESS_GROUP,
+    nullptr,
+    nullptr,
+    &startupinfo,
+    &procinfo
+  );
+  if(!val)
+    __debugbreak();
+
+  WaitForSingleObject(procinfo.hProcess, INFINITE);
+
+  DWORD code;
+  GetExitCodeProcess(procinfo.hProcess, &code);
 }
 
 void RunProxy(void) {
-  DWORD rs;
-
   // Disable MIC first:
   DisableMIC();
-
-  // Verify that our mandatory policy token is turned off:
-  TOKEN_MANDATORY_POLICY policy;
-  GetTokenInformation(token, TokenMandatoryPolicy, &policy, sizeof(policy), &rs);
-
-  if(policy.Policy) {
-    OutputDebugString(L"Mandatory policy flag was nonzero\n");
-    return;
-  }
 }
 
 void __stdcall Run(DWORD dwNumServicesArgs, LPWSTR *lpServiceArgVectors) {
@@ -137,6 +170,13 @@ int main(int argc, char* argv[]) {
 
   if(!OpenProcessToken(GetCurrentProcess(), TOKEN_ALL_ACCESS, &token))
     throw std::runtime_error("Could not open process token");
+  
+  // Decide whether to run as the master or the slave:
+  if(argc >= 2) {
+    __debugbreak();
+    TestFireSingleTouchInput();
+    return 155;
+  }
 
   // Decide whether to run in service mode or interactive mode:
   DWORD sessionID;
@@ -149,6 +189,6 @@ int main(int argc, char* argv[]) {
   }
 
   CloseHandle(token);
-	return 0;
+	return 222;
 }
 
