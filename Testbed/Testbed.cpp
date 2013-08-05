@@ -88,7 +88,6 @@ void EnableToken(HANDLE target, LPWSTR name) {
 /// </summary>
 void DisableMIC(void) {
   DWORD rs;
-  __debugbreak();
 
   // Enable certain required privileges:
   EnableToken(token, SE_RELABEL_NAME);
@@ -170,8 +169,6 @@ void __stdcall Run(DWORD dwNumServicesArgs, LPWSTR *lpServiceArgVectors) {
 }
 
 int main(int argc, char* argv[]) {
-  __debugbreak();
-
   if(!procAddr)
     throw std::runtime_error("Cannot find touch input entrypoint");
 
