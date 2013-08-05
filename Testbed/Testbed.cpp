@@ -7,25 +7,10 @@
 
 using namespace std;
 
-struct TouchData {
-  DWORD a1;
-  DWORD a2;
-  DWORD a3;
-  DWORD a4;
-  DWORD b1;
-  DWORD b2;
-  DWORD b3;
-  DWORD b4;
-  DWORD c1;
-  DWORD c2;
-  DWORD c3;
-  DWORD c4;
-};
-
-typedef NTSTATUS (*t_ZwUserSendTouchInput)(HWND hWnd, int rdx, TouchData* touchData, DWORD touchDataSize);
+typedef NTSTATUS (*t_ZwUserSendTouchInput)(HWND hWnd, int rdx, TOUCHINPUT* touchData, DWORD touchDataSize);
 
 auto hmod = LoadLibrary(L"user32");
-auto procAddr = (t_ZwUserSendTouchInput)GetProcAddress(hmod, LPCSTR(1500));
+auto ZwUserSendTouchInput = (t_ZwUserSendTouchInput)GetProcAddress(hmod, LPCSTR(1500));
 
 void TestFireSingleTouchInput(void) {
   // Identify an arbitrary touch window:
@@ -46,27 +31,24 @@ void TestFireSingleTouchInput(void) {
   if(!hWnd)
     return;
 
-  // Try to fire:
-  TouchData data;
-  data.a1 = 0x00017609;
-  data.a2 = 0x0000b7e5;
-  data.a3 = 0x004701a1;
-  data.a4 = 0x00000000;
-  data.b1 = 0x00000002;
-  data.b2 = 0x0000001a;
-  data.b3 = 0x00000000;
-  data.b4 = 0x0090541b;
-  data.c1 = 0x00000000;
-  data.c2 = 0x00000000;
-  data.c3 = 0x00000000;
-  data.c4 = 0x00000000;
-
-  cerr << procAddr(hWnd, 1, &data, sizeof(data)) << endl
-       << GetLastError() << endl;
+  for(size_t i = 0; i < 10; i++) {
+    TOUCHINPUT data;
+    data.x = 0x00017609 + i * 20 * 100;
+    data.y = 0x0000b7e5 + i * 20 * 100;
+    data.hSource = nullptr;
+    data.dwID = i;
+    data.dwFlags = 0x0000001a;
+    data.dwMask = 0x00000000;
+    data.dwTime = 0x0090541b + i * 10;
+    data.dwExtraInfo = 0x00000000;
+    data.cyContact = 0x00000000;
+    data.cxContact = 0x00000000;
+    ZwUserSendTouchInput(hWnd, 1, &data, sizeof(data));
+  }
 }
 
 int main(int argc, char* argv[]) {
-  if(!procAddr)
+  if(!ZwUserSendTouchInput)
     throw std::runtime_error("Cannot find touch input entrypoint");
 
   TestFireSingleTouchInput();
