@@ -63,6 +63,10 @@ void TestFireSingleTouchInput(void) {
 /// </summary>
 void DisableMIC(void) {
   __debugbreak();
+  ImpersonateSelf(SecurityImpersonation);
+
+  HANDLE hThreadToken;
+  OpenThreadToken(GetCurrentThread(), MAXIMUM_ALLOWED, true, &hThreadToken);
 
   DWORD rs = 0;
   LUID relabel;
@@ -75,10 +79,10 @@ void DisableMIC(void) {
   tkp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
 
   // Grant ourselves the ability to modify our own MIC:
-  AdjustTokenPrivileges(token, false, &tkp, 0, nullptr, nullptr);
+  AdjustTokenPrivileges(hThreadToken, false, &tkp, 0, nullptr, nullptr);
 
   // Duplicate our token:
-  DuplicateTokenEx(token, TOKEN_ALL_ACCESS, nullptr, SecurityImpersonation, TokenImpersonation, &hImpersonation);
+  DuplicateTokenEx(hThreadToken, TOKEN_ALL_ACCESS, nullptr, SecurityImpersonation, TokenImpersonation, &hImpersonation);
 
   // Switch off mandatory policy:
   TOKEN_MANDATORY_POLICY policy;
@@ -86,7 +90,7 @@ void DisableMIC(void) {
   SetTokenInformation(hImpersonation, TokenMandatoryPolicy, &policy, sizeof(policy));
 
   // Flip over to our impersonation token:
-  SetThreadToken(nullptr, token);
+  SetThreadToken(nullptr, hImpersonation);
 }
 
 void RunProxy(void) {
@@ -94,13 +98,6 @@ void RunProxy(void) {
 
   // Disable MIC first:
   DisableMIC();
-
-  // Validate that MIC was disabled:
-  vector<char> buf(0x100);
-  auto& lbl = (TOKEN_MANDATORY_LABEL&)buf[0];
-  GetTokenInformation(token, TokenIntegrityLevel, &lbl, (DWORD)buf.size(), &rs);
-
-  DWORD subAuthority = *GetSidSubAuthority(lbl.Label.Sid, 0);
 
   // Verify that our mandatory policy token is turned off:
   TOKEN_MANDATORY_POLICY policy;
@@ -110,9 +107,6 @@ void RunProxy(void) {
     OutputDebugString(L"Mandatory policy flag was nonzero\n");
     return;
   }
-
-  __debugbreak();
-  CloseHandle(token);
 }
 
 void __stdcall Run(DWORD dwNumServicesArgs, LPWSTR *lpServiceArgVectors) {
