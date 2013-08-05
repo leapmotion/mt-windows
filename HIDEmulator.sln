@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Globals", "Globals\Globals.vcxproj", "{EC3CA5D5-6E6A-4EE3-82D1-0776B6027B4B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HidEmulator", "HidEmulator\HidEmulator.vcxproj", "{AEFF5461-5B72-4D7D-A01E-E4ADF25F6472}"
@@ -40,6 +40,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "newdev", "newdev\newdev.vcxproj", "{5959E53B-C989-4548-BF96-B470CEE7A5EE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OverlayHarness", "OverlayHarness\OverlayHarness.vcxproj", "{A1A0E24C-CB38-402B-9B6A-DD6900C8E3E9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Testbed", "Testbed\Testbed.vcxproj", "{3C597626-AC6C-4E02-B505-BFA6AF6BEF4A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -137,6 +139,16 @@ Global
 		{A1A0E24C-CB38-402B-9B6A-DD6900C8E3E9}.Release|Win32.Build.0 = Release|Win32
 		{A1A0E24C-CB38-402B-9B6A-DD6900C8E3E9}.Release|x64.ActiveCfg = Release|x64
 		{A1A0E24C-CB38-402B-9B6A-DD6900C8E3E9}.Release|x64.Build.0 = Release|x64
+		{3C597626-AC6C-4E02-B505-BFA6AF6BEF4A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3C597626-AC6C-4E02-B505-BFA6AF6BEF4A}.Debug|Win32.Build.0 = Debug|Win32
+		{3C597626-AC6C-4E02-B505-BFA6AF6BEF4A}.Debug|Win32.Deploy.0 = Debug|Win32
+		{3C597626-AC6C-4E02-B505-BFA6AF6BEF4A}.Debug|x64.ActiveCfg = Debug|x64
+		{3C597626-AC6C-4E02-B505-BFA6AF6BEF4A}.Debug|x64.Build.0 = Debug|x64
+		{3C597626-AC6C-4E02-B505-BFA6AF6BEF4A}.Release|Win32.ActiveCfg = Release|Win32
+		{3C597626-AC6C-4E02-B505-BFA6AF6BEF4A}.Release|Win32.Build.0 = Release|Win32
+		{3C597626-AC6C-4E02-B505-BFA6AF6BEF4A}.Release|Win32.Deploy.0 = Release|Win32
+		{3C597626-AC6C-4E02-B505-BFA6AF6BEF4A}.Release|x64.ActiveCfg = Release|x64
+		{3C597626-AC6C-4E02-B505-BFA6AF6BEF4A}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -152,5 +164,6 @@ Global
 		{C3E69CA7-D2FB-49FD-843F-FE5DE6B71A3D} = {8679BF83-9C3C-47CE-9F85-0892E33A40A5}
 		{D38D3AF0-7DDB-4237-AEC8-6FBE76137E15} = {8679BF83-9C3C-47CE-9F85-0892E33A40A5}
 		{A1A0E24C-CB38-402B-9B6A-DD6900C8E3E9} = {8679BF83-9C3C-47CE-9F85-0892E33A40A5}
+		{3C597626-AC6C-4E02-B505-BFA6AF6BEF4A} = {8679BF83-9C3C-47CE-9F85-0892E33A40A5}
 	EndGlobalSection
 EndGlobal

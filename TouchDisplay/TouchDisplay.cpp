@@ -153,6 +153,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 		case ID_EDIT_CLEAR:
 			touches.clear();
+      clicks.clear();
 			InvalidateRect(hWnd, nullptr, true);
 			break;
 		default:
