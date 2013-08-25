@@ -36,7 +36,16 @@
     <ClInclude Include="TouchDisplay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TouchRepresentation.h">
+    <ClInclude Include="TouchRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawableItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawableMouseClick.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawableTouchInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -47,7 +56,13 @@
     <ClCompile Include="TouchDisplay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TouchRepresentation.cpp">
+    <ClCompile Include="TouchRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawableMouseClick.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawableTouchInput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

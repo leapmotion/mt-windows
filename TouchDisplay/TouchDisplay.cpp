@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "TouchDisplay.h"
-#include "TouchRepresentation.h"
+#include "TouchRenderer.h"
 #include <vector>
 #include <utility>
 
@@ -12,8 +12,8 @@ using namespace std;
 HINSTANCE hInst;								// current instance
 TCHAR szTitle[MAX_LOADSTRING];					// The title bar text
 TCHAR szWindowClass[MAX_LOADSTRING];			// the main window class name
-vector<TouchRepresentation> touches;
-vector<TouchRepresentation> clicks;
+
+TouchRenderer renderer;
 
 // Forward declarations of functions included in this code module:
 ATOM MyRegisterClass(HINSTANCE hInstance);
@@ -31,6 +31,7 @@ HBRUSH g_hBrush[] =
 	CreateSolidBrush(RGB(0x00, 0xFF, 0x00)),
 	CreateSolidBrush(RGB(0xFF, 0x00, 0xFF))
 };
+size_t g_hBrushCount = ARRAYSIZE(g_hBrush);
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char* lpCmdLine, int nCmdShow)
 {
@@ -100,36 +101,6 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	return true;
 }
 
-void DoDraw(HDC hdc)
-{
-	for(size_t i = touches.size(); i--;)
-	{
-		auto& touch = touches[i];
-		ASSERT(!touch.IsMouseClick());
-
-		RECT rc = {0, 0, 1, 1};
-		InflateRect(&rc, 2, 2);
-		OffsetRect(&rc, touch.GetX(), touch.GetY());
-		InflateRect(&rc, 5, 5);
-		FillRect(
-			hdc,
-			&rc,
-			g_hBrush[touch.GetID() % ARRAYSIZE(g_hBrush)]
-		);
-	}
-	
-	for(size_t i = clicks.size(); i--;)
-	{
-		auto& click = clicks[i];
-		ASSERT(click.IsMouseClick());
-
-		RECT rc = {0, 0, 1, 1};
-		InflateRect(&rc, 1, 1);
-		OffsetRect(&rc, click.GetX(), click.GetY());
-		FillRect(hdc, &rc, (HBRUSH)GetStockObject(GRAY_BRUSH));
-	}
-}
-
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	int wmId, wmEvent;
@@ -152,8 +123,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			DestroyWindow(hWnd);
 			break;
 		case ID_EDIT_CLEAR:
-			touches.clear();
-      clicks.clear();
+			renderer.clear();
 			InvalidateRect(hWnd, nullptr, true);
 			break;
 		default:
@@ -161,24 +131,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 	case WM_LBUTTONUP:
-		{
-			POINT pt = {(LONG)(lParam & 0xFFFF), (LONG)(lParam >> 16)};
-			clicks.push_back(TouchRepresentation(pt));
-			InvalidateRect(hWnd, nullptr, true);
-		}
+    renderer.AddMouseClick(hWnd, wParam, lParam);
 		break;
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
-		DoDraw(hdc);
+    renderer.Draw(hdc);
 		EndPaint(hWnd, &ps);
 		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
 	case WM_TOUCH:
-		TouchRepresentation::Translate(touches, hWnd, wParam, lParam);
+    renderer.AddTouchInputs(hWnd, wParam, lParam);
 		CloseTouchInputHandle((HTOUCHINPUT)lParam);
-		InvalidateRect(hWnd, nullptr, true);
 		break;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);

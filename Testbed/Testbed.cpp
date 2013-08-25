@@ -13,23 +13,21 @@ auto hmod = LoadLibrary(L"user32");
 auto ZwUserSendTouchInput = (t_ZwUserSendTouchInput)GetProcAddress(hmod, LPCSTR(1500));
 
 void TestFireSingleTouchInput(void) {
-  // Identify an arbitrary touch window:
-  HWND hWnd = nullptr;
-  EnumWindows(
-    [] (HWND hWnd, LPARAM lParam) -> BOOL {
-      wchar_t text[0x20];
-      GetWindowText(hWnd, text, 0x20);
+  POINT pt;
 
-      if(!IsTouchWindow(hWnd, 0))
-        return true;
+  // Identify a touch window located at the user's cursor coordinates:
+  GetCursorPos(&pt);
+  HWND hWnd = WindowFromPhysicalPoint(pt);
+  cout << "Window is " << hWnd << endl;
 
-      *(HWND*)lParam = hWnd;
-      return false;
-    },
-    (LPARAM)&hWnd
-  );
-  if(!hWnd)
+  // Verify the window is a touch window:
+  ULONG flags;
+  if(!IsTouchWindow(hWnd, &flags)) {
+    cout << "Not a touch window" << endl;
     return;
+  }
+
+  cout << "Top window is " << hWnd << endl;
 
   for(size_t i = 0; i < 10; i++) {
     TOUCHINPUT data;
@@ -37,7 +35,7 @@ void TestFireSingleTouchInput(void) {
     data.y = 0x0000b7e5 + i * 20 * 100;
     data.hSource = nullptr;
     data.dwID = i;
-    data.dwFlags = 0x0000001a;
+    data.dwFlags = TOUCHEVENTF_PRIMARY | TOUCHEVENTF_DOWN | TOUCHEVENTF_INRANGE;
     data.dwMask = 0x00000000;
     data.dwTime = 0x0090541b + i * 10;
     data.dwExtraInfo = 0x00000000;
@@ -48,10 +46,22 @@ void TestFireSingleTouchInput(void) {
 }
 
 int main(int argc, char* argv[]) {
+  HWND hwnd = (HWND)0xC2AB6;
+  ULONG flags;
+
+  if(IsTouchWindow(hwnd, &flags))
+    cout << "Is touch!";
+
   if(!ZwUserSendTouchInput)
     throw std::runtime_error("Cannot find touch input entrypoint");
 
+  MessageBoxW(nullptr, L"Delaying while attachment", nullptr, 0);
+  Sleep(1500);
+
   TestFireSingleTouchInput();
+
+  cout << "Done." << endl;
+  _getch();
 	return 222;
 }
 
