@@ -75,7 +75,7 @@ void CInstallerBase::Install(void)
   }
   
 	// The SYSTEM device class is where the device will be installed
-	std::shared_ptr<SystemInfoClass> hInfo(new SystemInfoClass);
+	std::shared_ptr<SystemInfoClassBase> hInfo(new SystemInfoClass<SystemSetupClass>);
 
 	// We next create an empty devnode where the ocuhid legacy device may be attached.
 	// This empty devnode will then be characterized with a PNPID (by us) and then we let PNP

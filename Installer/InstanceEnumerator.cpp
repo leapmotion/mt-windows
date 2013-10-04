@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "InstanceEnumerator.h"
 
-InstanceEnumerator::InstanceEnumerator(std::shared_ptr<SystemInfoClass> hInfo):
+InstanceEnumerator::InstanceEnumerator(std::shared_ptr<SystemInfoClassBase> hInfo):
   m_hInfo(hInfo),
   m_i(0)
 {

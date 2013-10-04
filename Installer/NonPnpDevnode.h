@@ -1,19 +1,19 @@
 #pragma once
 #include <memory>
 
-class SystemInfoClass;
+class SystemInfoClassBase;
 
 class NonPnpDevnode:
 	public SP_DEVINFO_DATA
 {
 public:
 	NonPnpDevnode(void);
-	NonPnpDevnode(std::shared_ptr<SystemInfoClass> hInfo);
-  NonPnpDevnode(std::shared_ptr<SystemInfoClass> hInfo, const SP_DEVINFO_DATA& data);
+	NonPnpDevnode(std::shared_ptr<SystemInfoClassBase> hInfo);
+  NonPnpDevnode(std::shared_ptr<SystemInfoClassBase> hInfo, const SP_DEVINFO_DATA& data);
 	~NonPnpDevnode(void);
 
 private:
-	std::shared_ptr<SystemInfoClass> m_hInfo;
+	std::shared_ptr<SystemInfoClassBase> m_hInfo;
 	bool released;
 
 public:

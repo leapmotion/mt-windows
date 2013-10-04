@@ -8,7 +8,7 @@ NonPnpDevnode::NonPnpDevnode(void):
 {
 }
 
-NonPnpDevnode::NonPnpDevnode(std::shared_ptr<SystemInfoClass> hInfo):
+NonPnpDevnode::NonPnpDevnode(std::shared_ptr<SystemInfoClassBase> hInfo):
 	m_hInfo(hInfo),
 	released(false)
 {
@@ -28,7 +28,7 @@ NonPnpDevnode::NonPnpDevnode(std::shared_ptr<SystemInfoClass> hInfo):
     throw eHidInstDeviceRegistrationFailed;
 }
 
-NonPnpDevnode::NonPnpDevnode(std::shared_ptr<SystemInfoClass> hInfo, const SP_DEVINFO_DATA& data):
+NonPnpDevnode::NonPnpDevnode(std::shared_ptr<SystemInfoClassBase> hInfo, const SP_DEVINFO_DATA& data):
   SP_DEVINFO_DATA(data),
 	m_hInfo(hInfo),
   released(false)

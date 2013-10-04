@@ -7,12 +7,12 @@ class InstanceEnumerator:
   public RestartRequiredTracker
 {
 public:
-  InstanceEnumerator(std::shared_ptr<SystemInfoClass> hInfo = std::shared_ptr<SystemInfoClass>(new SystemInfoClass(L"root\\system")));
+  InstanceEnumerator(std::shared_ptr<SystemInfoClassBase> hInfo = std::shared_ptr<SystemInfoClassBase>(new SystemInfoClass<SystemSetupClass>(L"root\\system")));
   ~InstanceEnumerator(void);
 
 private:
   // Infoclass, used during enumeration
-  std::shared_ptr<SystemInfoClass> m_hInfo;
+  std::shared_ptr<SystemInfoClassBase> m_hInfo;
 
   // The index, and the last-recovered SP_DEVINFO_DATA
   DWORD m_i;
@@ -32,7 +32,7 @@ public:
   /// </summary>
   void DestroyCurrent(void);
 
-  operator std::shared_ptr<SystemInfoClass>(void) const {return m_hInfo;}
+  operator std::shared_ptr<SystemInfoClassBase>(void) const {return m_hInfo;}
   operator HDEVINFO(void) const {return *m_hInfo;}
 };
 
