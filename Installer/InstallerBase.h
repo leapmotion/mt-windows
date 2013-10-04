@@ -37,7 +37,7 @@ public:
 	void SetInfPath(const wchar_t* pwcsInfPath);
 
 	/// <summary>
-	/// Obtains the version number of the currently installed HID emulator, or zero if one could not be ofund
+	/// Obtains the version number of the currently installed HID emulator, or zero if one could not be found
 	/// </summary>
 	DWORD GetDriverVersion(void);
 
