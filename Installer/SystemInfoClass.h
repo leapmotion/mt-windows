@@ -1,6 +1,7 @@
 #pragma once
 
 class __declspec(uuid("4d36e97d-e325-11ce-bfc1-08002be10318")) SystemSetupClass;
+class __declspec(uuid("88bae032-5a81-49f0-bc3d-a4ff138216d6")) UsbSetupClass;
 
 class SystemInfoClassBase {
 protected:
