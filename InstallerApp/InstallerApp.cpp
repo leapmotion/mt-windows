@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void PrintUsage(const wchar_t* argv[])
+void PrintUsage(size_t argc, const wchar_t* argv[])
 {
 	wcout
     << "Usage: " << argv[0] << " [{install | update | uninstall | show} [infname]]" << endl
@@ -50,7 +50,7 @@ int wmain(int argc, const wchar_t* argv[])
   }
 	else
 	{
-		PrintUsage(argv);
+		PrintUsage(argc, argv);
 		return -1;
 	}
 
